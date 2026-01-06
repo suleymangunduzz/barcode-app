@@ -1,0 +1,27 @@
+{
+  "name": "barcode-app",
+  "version": "0.1.0",
+  "main": "electron/main.ts",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "vite",
+    "dev:electron": "electron .",
+    "build": "vite build",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "view:db": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.0",
+    "electron": "^28.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.0",
+    "typescript": "^5.3.0",
+    "ts-node": "^10.9.2",
+    "concurrently": "^8.2.0",
+    "vite": "^5.0.0",
+    "@types/node": "^20.10.0"
+  }
+}
