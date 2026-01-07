@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { registerItemHandlers } from "./ipcHandlers/items";
 import { registerStockHandlers } from "./ipcHandlers/stock";
 import { registerSaleHandlers } from "./ipcHandlers/sales";
+import { registerCategoryHandlers } from "./ipcHandlers/categories";
 
 let mainWindow: BrowserWindow | null = null;
 const prisma = new PrismaClient();
@@ -27,6 +28,7 @@ function createWindow() {
 registerItemHandlers(prisma);
 registerStockHandlers(prisma);
 registerSaleHandlers(prisma);
+registerCategoryHandlers(prisma);
 
 app.whenReady().then(createWindow);
 
