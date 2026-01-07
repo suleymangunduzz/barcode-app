@@ -1,10 +1,12 @@
-import { app, BrowserWindow, ipcMain } from "electron";
-const path = require("path");
+import { app, BrowserWindow } from "electron";
+import path from "path";
 import { PrismaClient } from "@prisma/client";
 
-let mainWindow: BrowserWindow | null = null;
+import { registerItemHandlers } from "./ipcHandlers/items";
+import { registerStockHandlers } from "./ipcHandlers/stock";
+import { registerSaleHandlers } from "./ipcHandlers/sales";
 
-// ✅ Prisma lives in MAIN
+let mainWindow: BrowserWindow | null = null;
 const prisma = new PrismaClient();
 
 function createWindow() {
@@ -12,7 +14,7 @@ function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      preload: path.join(__dirname, "electron/preload.js"),
+      preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
       nodeIntegration: false,
     },
@@ -21,21 +23,10 @@ function createWindow() {
   mainWindow.loadURL("http://localhost:5173");
 }
 
-// ---- IPC HANDLERS ----
-
-// Fetch all items
-ipcMain.handle("items:getAll", async () => {
-  return prisma.item.findMany({
-    include: {
-      category: true,
-    },
-  });
-});
-
-// Fetch categories
-ipcMain.handle("categories:getAll", async () => {
-  return prisma.category.findMany();
-});
+// Register all IPC handlers
+registerItemHandlers(prisma);
+registerStockHandlers(prisma);
+registerSaleHandlers(prisma);
 
 app.whenReady().then(createWindow);
 
