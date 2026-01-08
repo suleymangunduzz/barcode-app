@@ -1,3 +1,14 @@
 {
-  "text": "Bu, Türkçe bir örnek çeviridir."
+  "LoginModal": {
+    "title": "Yönetici Girişi",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Parola",
+    "loginButton": "Giriş Yap",
+    "closeButton": "Kapat",
+    "errors": {
+      "unknownError": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+      "invalidCredentials": "Geçersiz e-posta veya parola.",
+      "missingFields": "Lütfen tüm alanları doldurun."
+    }
+  }
 }

@@ -1,3 +1,14 @@
 {
-  "text": "This is an example translation in English."
+  "LoginModal": {
+    "title": "Admin Login",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "loginButton": "Login",
+    "closeButton": "Close",
+    "errors": {
+      "unknownError": "An unexpected error occurred. Please try again.",
+      "invalidCredentials": "Invalid email or password.",
+      "missingFields": "Please fill in all fields."
+    }
+  }
 }

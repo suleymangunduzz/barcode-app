@@ -1,29 +1,61 @@
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import AdminLogin from "./components/LoginModal";
 
 function App() {
-  useEffect(() => {
-    window.api.getItems().then((items) => {
-      console.log("ITEMS FROM DB:", items);
-    });
+  const [role, setRole] = useState<"staff" | "admin">("staff");
+  const [showLogin, setShowLogin] = useState(false);
 
-    window.api.getCategories().then((categories) => {
-      console.log("CATEGORIES FROM DB:", categories);
-    });
+  useEffect(() => {
+    async function fetchSession() {
+      const session = await window.api.getSession();
+      setRole(session.role);
+    }
+    fetchSession();
   }, []);
 
-  const { t, i18n } = useTranslation();
+  const handleAdminLogin = async () => {
+    setShowLogin(true);
+  };
 
-  console.log("Current language:", i18n.language);
+  const onLoginSuccess = () => {
+    setRole("admin");
+    setShowLogin(false);
+  };
 
   return (
-    <div className="h-[300px] flex items-center justify-center bg-slate-900">
-      <h1 className="text-4xl font-bold text-red-100">Barcode System</h1>
-      <div className="h-screen bg-slate-900 flex items-center justify-center">
-        <h1 className="text-white text-4xl font-bold">Tailwind is WORKING</h1>
-        <div className="bg-red-500">test</div>
-        <h1>{t("text")}</h1>
-      </div>
+    <div className="h-screen bg-slate-900 text-white p-4">
+      {showLogin && (
+        <AdminLogin
+          onLogin={onLoginSuccess}
+          onClose={() => setShowLogin(false)}
+        />
+      )}
+
+      <header className="mb-4">
+        <h1 className="text-2xl font-bold">Barcode System</h1>
+        <p>Current role: {role}</p>
+      </header>
+
+      <main>
+        {role === "staff" && (
+          <div>
+            <button
+              className="bg-blue-500 px-3 py-1 rounded"
+              onClick={handleAdminLogin}
+            >
+              Admin Login
+            </button>
+
+            <p>Staff can create sales and search products here.</p>
+          </div>
+        )}
+
+        {role === "admin" && (
+          <div>
+            <p>Admin can edit stock, categories, prices, etc.</p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
