@@ -7,9 +7,7 @@ node_modules/
 # SQLite database
 db/*.db
 db/*.db-journal
-
-# Prisma
-prisma/dev.db
+electron/prisma/db/*.db
 
 # Electron / Vite builds
 dist/
