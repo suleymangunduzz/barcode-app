@@ -1,4 +1,12 @@
 {
+  "Common": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "close": "Kapat",
+    "confirm": "Onayla",
+    "loading": "Yükleniyor...",
+    "search": "Ara"
+  },
   "UserRole": {
     "staff": "Personel",
     "admin": "Yönetici"
@@ -58,10 +66,29 @@
       "headerBarcode": "Barkod",
       "headerPrice": "Fiyat",
       "headerStock": "Stok",
+      "headerActions": "İşlemler",
       "headerCategory": "Kategori",
       "stockSoldOut": "Tükendi",
       "stockLow": "Az Stok ({{stock}})",
       "stockAvailable": "Stokta Var ({{stock}})"
+    },
+    "Actions": {
+      "updateStock": "Stok Güncelle"
+    },
+    "Modal": {
+      "title": "Stok Güncelle",
+      "currentStock": "Mevcut Stok",
+      "changeQuantity": "Miktar Değişimi",
+      "reason": "Sebep",
+      "selectReason": "Sebep seçin"
+    },
+    "Reasons": {
+      "restock": "Stok Ekleme",
+      "manualAdjustment": "Manuel Düzeltme"
+    },
+    "Errors": {
+      "missingFields": "Tüm alanlar zorunludur",
+      "updateFailed": "Stok güncellenemedi"
     }
   }
 }

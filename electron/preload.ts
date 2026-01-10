@@ -5,6 +5,12 @@ contextBridge.exposeInMainWorld("api", {
   getAllItems: () => ipcRenderer.invoke("items:getAll"),
   getItemByBarcode: (barcode: string) =>
     ipcRenderer.invoke("items:getByBarcode", barcode),
+  updateItemStock: (itemId: number, changeQuantity: number, reason: string) =>
+    ipcRenderer.invoke("items:updateStock", {
+      itemId,
+      changeQuantity,
+      reason,
+    }),
 
   // Categories related handlers
   getCategories: () => ipcRenderer.invoke("categories:getAll"),

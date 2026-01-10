@@ -53,7 +53,7 @@ function App() {
         )}
         <main className="flex-1 p-4">
           {page === "dashboard" && <Dashboard />}
-          {page === "products" && <ItemsPage />}
+          {page === "products" && <ItemsPage isAdmin={role === "admin"} />}
         </main>
       </div>
     </div>

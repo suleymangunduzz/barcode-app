@@ -4,9 +4,11 @@ import StockBadge from "./StockBadge";
 
 type Props = {
   items: Item[];
+  isAdmin: boolean;
+  onUpdateStock: (item: Item) => void;
 };
 
-export default function ItemsTable({ items }: Props) {
+export default function ItemsTable({ items, isAdmin, onUpdateStock }: Props) {
   const { t } = useTranslation();
 
   if (items.length === 0) {
@@ -40,6 +42,11 @@ export default function ItemsTable({ items }: Props) {
             <th className="px-3 py-2 text-center">
               {t("ItemsPage.Table.headerStock")}
             </th>
+            {isAdmin && (
+              <th className="px-3 py-2 text-center">
+                {t("ItemsPage.Table.headerActions")}
+              </th>
+            )}
           </tr>
         </thead>
 
@@ -62,6 +69,16 @@ export default function ItemsTable({ items }: Props) {
                   min={item.minStockThreshold}
                 />
               </td>
+              {isAdmin && (
+                <td className="px-3 py-2 text-center">
+                  <button
+                    onClick={() => onUpdateStock(item)}
+                    className="px-2 py-1 text-xs rounded bg-blue-600 hover:bg-blue-500"
+                  >
+                    {t("ItemsPage.Actions.updateStock")}
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

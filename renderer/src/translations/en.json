@@ -1,4 +1,12 @@
 {
+  "Common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "search": "Search"
+  },
   "UserRole": {
     "staff": "Staff",
     "admin": "Admin"
@@ -59,9 +67,28 @@
       "headerPrice": "Price",
       "headerStock": "Stock",
       "headerCategory": "Category",
+      "headerActions": "Actions",
       "stockSoldOut": "Sold Out",
       "stockLow": "Low Stock ({{stock}})",
-      "stockAvailable": "In Stock ({{stock}})"
+      "stockAvailable": "In Stock ({{stock}})",
+      "Actions": {
+        "updateStock": "Update Stock"
+      },
+      "Modal": {
+        "title": "Update Stock",
+        "currentStock": "Current Stock",
+        "changeQuantity": "Change Quantity",
+        "reason": "Reason",
+        "selectReason": "Select Reason"
+      },
+      "Reasons": {
+        "restock": "Restock",
+        "manualAdjustment": "Manual Adjustment"
+      },
+      "Errors": {
+        "missingFields": "Please fill in all fields.",
+        "updateFailed": "Failed to update stock. Please try again."
+      }
     }
   }
 }

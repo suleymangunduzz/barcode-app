@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 
 import ItemsToolbar from "./ItemsToolbar";
 import ItemsTable from "./ItemsTable";
+import UpdateStockModal from "./UpdateStockModal";
 import { Item } from "../types";
 
-export default function ItemsPage() {
+export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
 
@@ -55,7 +57,23 @@ export default function ItemsPage() {
         }}
       />
 
-      <ItemsTable items={filteredItems} />
+      <ItemsTable
+        items={filteredItems}
+        isAdmin={isAdmin}
+        onUpdateStock={(item) => setSelectedItem(item)}
+      />
+
+      {selectedItem && (
+        <UpdateStockModal
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+          onSuccess={async () => {
+            const data = await window.api.getAllItems();
+            setItems(data);
+            setFilteredItems(data);
+          }}
+        />
+      )}
     </div>
   );
 }
