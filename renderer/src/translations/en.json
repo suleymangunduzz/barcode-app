@@ -50,6 +50,7 @@
   },
   "ItemsPage": {
     "searchPlaceholder": "Scan barcode or search product...",
+    "clearSearch": "Clear",
     "noItems": "No registered products found.",
     "Table": {
       "headerName": "Product Name",
@@ -57,7 +58,10 @@
       "headerBarcode": "Barcode",
       "headerPrice": "Price",
       "headerStock": "Stock",
-      "headerCategory": "Category"
+      "headerCategory": "Category",
+      "stockSoldOut": "Sold Out",
+      "stockLow": "Low Stock ({{stock}})",
+      "stockAvailable": "In Stock ({{stock}})"
     }
   }
 }

@@ -17,8 +17,6 @@ export default function ItemsTable({ items }: Props) {
     );
   }
 
-  console.log({ items });
-
   return (
     <div className="overflow-auto rounded border border-slate-700">
       <table className="w-full text-sm">

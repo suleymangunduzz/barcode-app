@@ -50,6 +50,7 @@
   },
   "ItemsPage": {
     "searchPlaceholder": "Barkot okut veya ürün ara...",
+    "clearSearch": "Temizle",
     "noItems": "Kayıtlı ürün bulunamadı.",
     "Table": {
       "headerName": "Ürün Adı",
@@ -57,7 +58,10 @@
       "headerBarcode": "Barkod",
       "headerPrice": "Fiyat",
       "headerStock": "Stok",
-      "headerCategory": "Kategori"
+      "headerCategory": "Kategori",
+      "stockSoldOut": "Tükendi",
+      "stockLow": "Az Stok ({{stock}})",
+      "stockAvailable": "Stokta Var ({{stock}})"
     }
   }
 }
