@@ -2,6 +2,8 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("api", {
   getItems: () => ipcRenderer.invoke("items:getAll"),
+  getItemByBarcode: (barcode: string) =>
+    ipcRenderer.invoke("items:getByBarcode", barcode),
   getCategories: () => ipcRenderer.invoke("categories:getAll"),
   login: (email: string, password: string) =>
     ipcRenderer.invoke("auth:login", { email, password }),

@@ -28,5 +28,14 @@
     "loginAsAdmin": "Yönetici Girişi",
     "logout": "Çıkış Yap",
     "language": "Dil"
+  },
+  "Dashboard": {
+    "title": "Satış Ekranı",
+    "barcodePlaceholder": "Barkod okutun veya yazın",
+    "cart": "Sepet",
+    "emptyCart": "Sepet boş",
+    "total": "Toplam",
+    "completeSale": "Satışı Tamamla",
+    "clearCart": "Sepeti Temizle"
   }
 }

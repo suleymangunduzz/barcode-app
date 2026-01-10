@@ -28,5 +28,14 @@
     "loginAsAdmin": "Admin Login",
     "logout": "Logout",
     "language": "Language"
+  },
+  "Dashboard": {
+    "title": "Sale Screen",
+    "barcodePlaceholder": "Scan or enter barcode",
+    "cart": "Cart",
+    "emptyCart": "Cart is empty",
+    "total": "Total",
+    "completeSale": "Complete Sale",
+    "clearCart": "Clear Cart"
   }
 }
