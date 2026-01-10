@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Item } from "../../types";
+import { Item } from "../types";
 import StockBadge from "./StockBadge";
 
 type Props = {

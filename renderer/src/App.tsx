@@ -5,7 +5,7 @@ import Sidebar from "./components/SideBar";
 import Header from "./components/Header";
 import { PageType, UserRole } from "./types";
 import Dashboard from "./components/Dashboard";
-import ItemsPage from "./components/ItemsPage";
+import ItemsPage from "./ItemsPage";
 
 function App() {
   const [role, setRole] = useState<UserRole>("staff");

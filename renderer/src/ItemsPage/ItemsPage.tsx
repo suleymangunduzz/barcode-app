@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import ItemsToolbar from "./ItemsToolbar";
 import ItemsTable from "./ItemsTable";
-import { Item } from "../../types";
+import { Item } from "../types";
 
 export default function ItemsPage() {
   const [items, setItems] = useState<Item[]>([]);
