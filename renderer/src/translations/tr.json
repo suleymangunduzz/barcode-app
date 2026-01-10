@@ -47,5 +47,17 @@
       "total": "Toplam",
       "action": "İşlem"
     }
+  },
+  "ItemsPage": {
+    "searchPlaceholder": "Barkot okut veya ürün ara...",
+    "noItems": "Kayıtlı ürün bulunamadı.",
+    "Table": {
+      "headerName": "Ürün Adı",
+      "headerBrand": "Marka",
+      "headerBarcode": "Barkod",
+      "headerPrice": "Fiyat",
+      "headerStock": "Stok",
+      "headerCategory": "Kategori"
+    }
   }
 }

@@ -9,3 +9,16 @@ export type CartItem = {
   quantity: number;
   totalPrice: number;
 };
+
+export type Item = {
+  id: number;
+  barcode: string;
+  name: string;
+  currentPrice: number;
+  stockQuantity: number;
+  minStockThreshold: number;
+  brand: string;
+  category?: {
+    name: string;
+  };
+};

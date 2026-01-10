@@ -47,5 +47,17 @@
       "total": "Total",
       "action": "Action"
     }
+  },
+  "ItemsPage": {
+    "searchPlaceholder": "Scan barcode or search product...",
+    "noItems": "No registered products found.",
+    "Table": {
+      "headerName": "Product Name",
+      "headerBrand": "Brand",
+      "headerBarcode": "Barcode",
+      "headerPrice": "Price",
+      "headerStock": "Stock",
+      "headerCategory": "Category"
+    }
   }
 }

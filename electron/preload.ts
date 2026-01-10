@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("api", {
   // Items related handlers
-  getItems: () => ipcRenderer.invoke("items:getAll"),
+  getAllItems: () => ipcRenderer.invoke("items:getAll"),
   getItemByBarcode: (barcode: string) =>
     ipcRenderer.invoke("items:getByBarcode", barcode),
 

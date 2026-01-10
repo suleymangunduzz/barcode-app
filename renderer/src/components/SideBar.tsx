@@ -27,7 +27,7 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       key: "products",
       label: t("SideBar.products"),
       icon: Package,
-      roles: ["admin"],
+      roles: ["staff", "admin"],
     },
     {
       key: "categories",
