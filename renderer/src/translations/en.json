@@ -36,6 +36,15 @@
     "emptyCart": "Cart is empty",
     "total": "Total",
     "completeSale": "Complete Sale",
-    "clearCart": "Clear Cart"
+    "clearCart": "Clear Cart",
+    "saleSuccess": "✅ Sale recorded successfully!",
+    "saleError": "❌ An error occurred while recording the sale. Please try again.",
+    "SaleTable": {
+      "product": "Product",
+      "quantity": "Quantity",
+      "price": "Price",
+      "total": "Total",
+      "action": "Action"
+    }
   }
 }

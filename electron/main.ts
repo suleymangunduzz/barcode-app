@@ -7,6 +7,7 @@ import { registerStockHandlers } from "./ipcHandlers/stock";
 import { registerSaleHandlers } from "./ipcHandlers/sales";
 import { registerCategoryHandlers } from "./ipcHandlers/categories";
 import { registerAuthHandlers } from "./auth/auth.handlers";
+import { registerUserHandlers } from "./ipcHandlers/user";
 
 let mainWindow: BrowserWindow | null = null;
 const prisma = new PrismaClient();
@@ -31,6 +32,7 @@ registerStockHandlers(prisma);
 registerSaleHandlers(prisma);
 registerCategoryHandlers(prisma);
 registerAuthHandlers(prisma);
+registerUserHandlers(prisma);
 
 app.whenReady().then(createWindow);
 

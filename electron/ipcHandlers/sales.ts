@@ -2,56 +2,58 @@ import { ipcMain } from "electron";
 import { PrismaClient } from "@prisma/client";
 
 export function registerSaleHandlers(prisma: PrismaClient) {
-  ipcMain.handle(
-    "sale:create",
-    async (
-      event,
-      saleItems: { itemId: number; quantity: number }[],
-      soldById?: number
-    ) => {
-      let totalAmount = 0;
+  ipcMain.handle("sale:create", async (_event, { items, soldById }) => {
+    if (!items || items.length === 0) {
+      return { success: false, error: "NO_ITEMS" };
+    }
 
-      const sale = await prisma.sale.create({
-        data: { soldById, totalAmount: 0 },
+    return prisma.$transaction(async (tx) => {
+      const totalAmount = items.reduce(
+        (sum: number, i: any) => sum + i.totalPrice,
+        0
+      );
+
+      // 1️⃣ Create sale
+      const sale = await tx.sale.create({
+        data: {
+          totalAmount,
+          soldById,
+          saleItems: {
+            create: items.map((i: any) => ({
+              itemId: i.itemId,
+              itemName: i.name,
+              barcode: i.barcode,
+              quantity: i.quantity,
+              unitPrice: i.unitPrice,
+              totalPrice: i.totalPrice,
+            })),
+          },
+        },
       });
 
-      for (const si of saleItems) {
-        const item = await prisma.item.update({
-          where: { id: si.itemId },
-          data: { stockQuantity: { decrement: si.quantity } },
-        });
+      // 2️⃣ Stock movements
+      await tx.stockMovement.createMany({
+        data: items.map((i: any) => ({
+          itemId: i.itemId,
+          changeQuantity: -i.quantity,
+          reason: "sale",
+          referenceId: sale.id,
+        })),
+      });
 
-        const totalPrice = item.currentPrice * si.quantity;
-        totalAmount += totalPrice;
-
-        await prisma.saleItem.create({
+      // 3️⃣ Update stock quantities
+      for (const i of items) {
+        await tx.item.update({
+          where: { id: i.itemId },
           data: {
-            saleId: sale.id,
-            itemId: item.id,
-            itemName: item.name,
-            barcode: item.barcode,
-            quantity: si.quantity,
-            unitPrice: item.currentPrice,
-            totalPrice,
-          },
-        });
-
-        await prisma.stockMovement.create({
-          data: {
-            itemId: si.itemId,
-            changeQuantity: -si.quantity,
-            reason: "sale",
-            referenceId: sale.id,
+            stockQuantity: {
+              decrement: i.quantity,
+            },
           },
         });
       }
 
-      const updatedSale = await prisma.sale.update({
-        where: { id: sale.id },
-        data: { totalAmount },
-      });
-
-      return updatedSale;
-    }
-  );
+      return { success: true, saleId: sale.id };
+    });
+  });
 }

@@ -13,8 +13,8 @@ function App() {
 
   useEffect(() => {
     async function fetchSession() {
-      const session = await window.api.getSession();
-      setRole(session.role);
+      const { role } = await window.api.getSession();
+      setRole(role);
     }
     fetchSession();
   }, []);

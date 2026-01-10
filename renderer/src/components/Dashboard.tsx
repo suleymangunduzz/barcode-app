@@ -14,6 +14,7 @@ import { CartItem } from "../types";
 
 export default function Dashboard() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isSaleInProgress, setIsSaleInProgress] = useState(false);
 
   const barcodeInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
@@ -92,6 +93,33 @@ export default function Dashboard() {
     setCartItems((prev) => removeItem(prev, itemId));
   };
 
+  const handleCompleteSale = async () => {
+    if (cartItems.length === 0) return;
+
+    setIsSaleInProgress(true);
+
+    try {
+      const { role: userRole } = await window.api.getSession();
+
+      const { users } = await window.api.getUsersByRole(userRole);
+      const userId = users.length > 0 ? users[0].id : undefined;
+
+      const response = await window.api.completeSale(cartItems, userId);
+
+      if (response.success) {
+        alert(t("Dashboard.saleSuccess"));
+        setCartItems([]); // Clear cart
+      } else {
+        alert(t("Dashboard.saleError"));
+      }
+    } catch (error) {
+      console.error("Complete sale failed:", error);
+      alert(t("Dashboard.saleError"));
+    } finally {
+      setIsSaleInProgress(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-semibold">{t("Dashboard.title")}</h2>
@@ -122,11 +150,21 @@ export default function Dashboard() {
             <table className="w-full text-sm">
               <thead className="border-b border-border">
                 <tr className="text-left">
-                  <th className="px-4 py-2">Ürün</th>
-                  <th className="px-4 py-2">Adet</th>
-                  <th className="px-4 py-2">Fiyat</th>
-                  <th className="px-4 py-2">Toplam</th>
-                  <th className="px-4 py-2 text-right">İşlem</th>
+                  <th className="px-4 py-2">
+                    {t("Dashboard.SaleTable.product")}
+                  </th>
+                  <th className="px-4 py-2">
+                    {t("Dashboard.SaleTable.quantity")}
+                  </th>
+                  <th className="px-4 py-2">
+                    {t("Dashboard.SaleTable.price")}
+                  </th>
+                  <th className="px-4 py-2">
+                    {t("Dashboard.SaleTable.total")}
+                  </th>
+                  <th className="px-4 py-2 text-right">
+                    {t("Dashboard.SaleTable.action")}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -186,12 +224,13 @@ export default function Dashboard() {
           </button>
 
           <button
-            disabled={cartItems.length === 0}
+            disabled={cartItems.length === 0 || isSaleInProgress}
             className={`px-6 py-2 rounded ${
-              cartItems.length === 0
+              cartItems.length === 0 || isSaleInProgress
                 ? "bg-muted text-muted-foreground cursor-not-allowed"
                 : "bg-primary text-primary-foreground"
             }`}
+            onClick={handleCompleteSale}
           >
             {t("Dashboard.completeSale")}
           </button>

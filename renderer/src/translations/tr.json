@@ -36,6 +36,15 @@
     "emptyCart": "Sepet boş",
     "total": "Toplam",
     "completeSale": "Satışı Tamamla",
-    "clearCart": "Sepeti Temizle"
+    "clearCart": "Sepeti Temizle",
+    "saleSuccess": "✅ Satış başarıyla kaydedildi!",
+    "saleError": "❌ Satış kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "SaleTable": {
+      "product": "Ürün",
+      "quantity": "Miktar",
+      "price": "Fiyat",
+      "total": "Toplam",
+      "action": "İşlem"
+    }
   }
 }
