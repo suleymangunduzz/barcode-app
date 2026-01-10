@@ -26,6 +26,7 @@
   "Header": {
     "title": "Barkod Uygulaması",
     "loginAsAdmin": "Yönetici Girişi",
-    "logout": "Çıkış Yap"
+    "logout": "Çıkış Yap",
+    "language": "Dil"
   }
 }

@@ -12,12 +12,18 @@ export default function Header({
   openLoginModal,
   onLogout,
 }: HeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language;
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(currentLang === "tr" ? "en" : "tr");
+  };
 
   return (
     <header className="h-14 border-b border-border px-4 flex items-center justify-between bg-background">
       <div className="flex items-center gap-3">
         <h1 className="text-lg font-bold">{t("Header.title")}</h1>
+
         <span className="text-xs px-2 py-0.5 rounded bg-muted text-muted-foreground">
           {role === "admin" ? t("UserRole.admin") : t("UserRole.staff")}
         </span>
@@ -43,6 +49,17 @@ export default function Header({
             {t("Header.logout")}
           </button>
         )}
+
+        <button
+          type="button"
+          onClick={toggleLanguage}
+          className="text-xs px-2 py-1 rounded border border-border hover:bg-muted cursor-pointer"
+          title="Change language"
+        >
+          {`${t("Header.language")}: ${
+            currentLang === "tr" ? "Türkçe" : "English"
+          }`}
+        </button>
       </div>
     </header>
   );

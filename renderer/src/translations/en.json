@@ -26,6 +26,7 @@
   "Header": {
     "title": "Barcode Application",
     "loginAsAdmin": "Admin Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "language": "Language"
   }
 }
