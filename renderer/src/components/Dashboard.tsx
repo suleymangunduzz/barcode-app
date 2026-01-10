@@ -110,6 +110,15 @@ export default function Dashboard() {
         alert(t("Dashboard.saleSuccess"));
         setCartItems([]); // Clear cart
       } else {
+        if (response.error === "INSUFFICIENT_STOCK") {
+          alert(
+            t("Dashboard.insufficientStock", {
+              itemName: response.itemName,
+            })
+          );
+          return;
+        }
+
         alert(t("Dashboard.saleError"));
       }
     } catch (error) {

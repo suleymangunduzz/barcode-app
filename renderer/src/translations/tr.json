@@ -39,6 +39,7 @@
     "clearCart": "Sepeti Temizle",
     "saleSuccess": "✅ Satış başarıyla kaydedildi!",
     "saleError": "❌ Satış kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "insufficientStock": "❌ Yetersiz stok: {{itemName}} için yeterli stok yok.",
     "SaleTable": {
       "product": "Ürün",
       "quantity": "Miktar",

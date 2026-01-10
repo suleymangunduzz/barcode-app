@@ -8,6 +8,27 @@ export function registerSaleHandlers(prisma: PrismaClient) {
     }
 
     return prisma.$transaction(async (tx) => {
+      const dbItems = await tx.item.findMany({
+        where: {
+          id: {
+            in: items.map((i: any) => i.itemId),
+          },
+        },
+      });
+
+      // Check stock availability
+      for (const i of items) {
+        const dbItem = dbItems.find((dbi) => dbi.id === i.itemId);
+        if (!dbItem || dbItem.stockQuantity < i.quantity) {
+          return {
+            success: false,
+            error: "INSUFFICIENT_STOCK",
+            itemId: i.itemId,
+            itemName: i.name,
+          };
+        }
+      }
+
       const totalAmount = items.reduce(
         (sum: number, i: any) => sum + i.totalPrice,
         0

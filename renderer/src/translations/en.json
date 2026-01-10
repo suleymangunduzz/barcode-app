@@ -39,6 +39,7 @@
     "clearCart": "Clear Cart",
     "saleSuccess": "✅ Sale recorded successfully!",
     "saleError": "❌ An error occurred while recording the sale. Please try again.",
+    "insufficientStock": "❌ Insufficient stock: Not enough stock for {{itemName}}.",
     "SaleTable": {
       "product": "Product",
       "quantity": "Quantity",
