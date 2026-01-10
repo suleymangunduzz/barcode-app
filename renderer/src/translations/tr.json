@@ -1,14 +1,31 @@
 {
+  "UserRole": {
+    "staff": "Personel",
+    "admin": "Yönetici"
+  },
   "LoginModal": {
     "title": "Yönetici Girişi",
     "emailPlaceholder": "E-posta",
     "passwordPlaceholder": "Parola",
     "loginButton": "Giriş Yap",
+    "logoutButton": "Çıkış Yap",
     "closeButton": "Kapat",
     "errors": {
       "unknownError": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
       "invalidCredentials": "Geçersiz e-posta veya parola.",
       "missingFields": "Lütfen tüm alanları doldurun."
     }
+  },
+  "SideBar": {
+    "title": "Menü",
+    "dashboard": "Satış Paneli",
+    "products": "Ürünler",
+    "reports": "Raporlar",
+    "categories": "Kategoriler"
+  },
+  "Header": {
+    "title": "Barkod Uygulaması",
+    "loginAsAdmin": "Yönetici Girişi",
+    "logout": "Çıkış Yap"
   }
 }

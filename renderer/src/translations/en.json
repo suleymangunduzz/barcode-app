@@ -1,14 +1,31 @@
 {
+  "UserRole": {
+    "staff": "Staff",
+    "admin": "Admin"
+  },
   "LoginModal": {
     "title": "Admin Login",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
     "loginButton": "Login",
+    "logoutButton": "Logout",
     "closeButton": "Close",
     "errors": {
       "unknownError": "An unexpected error occurred. Please try again.",
       "invalidCredentials": "Invalid email or password.",
       "missingFields": "Please fill in all fields."
     }
+  },
+  "SideBar": {
+    "title": "Menu",
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "reports": "Reports",
+    "categories": "Categories"
+  },
+  "Header": {
+    "title": "Barcode Application",
+    "loginAsAdmin": "Admin Login",
+    "logout": "Logout"
   }
 }

@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function LoginModal({
-  onLogin,
-  onClose,
-}: {
+type LoginModalProps = {
   onLogin: (user: any) => void;
   onClose: () => void;
-}) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+};
 
+export default function LoginModal({ onLogin, onClose }: LoginModalProps) {
+  const [error, setError] = useState("");
   const { t } = useTranslation();
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,16 +53,12 @@ export default function LoginModal({
             placeholder={t("LoginModal.emailPlaceholder")}
             name="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             className="w-full border p-2 mb-2 text-black"
             placeholder={t("LoginModal.passwordPlaceholder")}
             name="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="text-red-500 mb-2">{error}</p>}
           <button
