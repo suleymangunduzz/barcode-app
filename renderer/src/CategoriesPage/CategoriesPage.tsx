@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Category } from "../types";
+
 import AddCategoryModal from "./AddCategoryModal";
 import EditCategoryModal from "./EditCategoryModal";
 import CategoryItemsModal from "./CategoryItemsModal";
+import { Category } from "../types/prisma";
 
 export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
   const { t } = useTranslation();

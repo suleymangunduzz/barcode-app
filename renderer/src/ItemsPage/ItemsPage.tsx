@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import ItemsToolbar from "./ItemsToolbar";
 import ItemsTable from "./ItemsTable";
 import UpdateStockModal from "./UpdateStockModal";
-import { Item } from "../types";
+
 import UpdatePriceModal from "./UpdatePriceModal";
 import { useTranslation } from "react-i18next";
+import { Item } from "../types/prisma";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import LoginModal from "./components/LoginModal";
 import Sidebar from "./components/SideBar";
 import Header from "./components/Header";
-import { PageType, UserRole } from "./types";
+import { PageType, UserRole } from "./types/client";
 import Dashboard from "./components/Dashboard";
 import ItemsPage from "./ItemsPage";
 import CategoriesPage from "./CategoriesPage";

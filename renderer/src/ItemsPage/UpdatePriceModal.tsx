@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Item } from "../types";
+import { Item } from "../types/prisma";
 
 type Props = {
   item: Item;

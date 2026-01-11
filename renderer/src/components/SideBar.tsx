@@ -1,5 +1,5 @@
 import { ShoppingCart, Package, Tags, AlertTriangle } from "lucide-react";
-import { PageType, UserRole } from "../types";
+import { PageType, UserRole } from "../types/client";
 import { useTranslation } from "react-i18next";
 
 type SidebarProps = {

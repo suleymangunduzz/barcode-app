@@ -10,7 +10,7 @@ import {
   clearCart,
 } from "../utils/cart";
 import useBarcodeScanner from "../hooks/useBarcodeScanner";
-import { CartItem } from "../types";
+import { CartItem } from "../types/client";
 
 export default function Dashboard() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);

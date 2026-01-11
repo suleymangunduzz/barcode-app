@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Category, Item } from "../types";
+import { Category, Item } from "../types/prisma";
 
 type Props = {
   category: Category;

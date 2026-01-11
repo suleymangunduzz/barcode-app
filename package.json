@@ -13,7 +13,8 @@
     "dev": "concurrently \"npm run dev:renderer\" \"npm run dev:electron\"",
     "prisma:migrate": "npm --prefix electron run prisma:migrate",
     "prisma:seed": "npm --prefix electron run prisma:seed",
-    "view:db": "npm --prefix electron run view:db"
+    "view:db": "npm --prefix electron run view:db",
+    "generate:types": "ts-node scripts/generate-prisma-types.ts"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

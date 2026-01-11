@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Item } from "../types";
 import StockBadge from "./StockBadge";
+import { Item } from "../types/prisma";
 
 type Props = {
   items: Item[];

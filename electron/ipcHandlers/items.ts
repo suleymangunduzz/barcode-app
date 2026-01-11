@@ -23,7 +23,7 @@ export function registerItemHandlers(prisma: PrismaClient) {
       const session = getSession();
 
       if (session.role !== "admin") {
-        throw new Error("UNAUTHORIZED");
+        return { success: false, error: "UNAUTHORIZED" };
       }
 
       return prisma.$transaction(async (tx) => {
