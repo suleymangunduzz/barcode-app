@@ -41,8 +41,6 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
         </h2>
 
         <input
-          type="number"
-          step="0.01"
           value={price}
           onChange={(e) => setPrice(Number(e.target.value))}
           className="w-full mb-4 p-2 rounded bg-slate-700 text-white"
