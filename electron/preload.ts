@@ -32,8 +32,17 @@ contextBridge.exposeInMainWorld("api", {
   getSession: () => ipcRenderer.invoke("auth:getSession"),
 
   // Sales related handlers
-  completeSale: (items: any[], soldById?: number) =>
-    ipcRenderer.invoke("sale:create", { items, soldById }),
+  completeSale: (
+    items: {
+      itemId: number;
+      barcode: string;
+      name: string;
+      unitPrice: number;
+      quantity: number;
+      totalPrice: number;
+    }[],
+    soldById?: number
+  ) => ipcRenderer.invoke("sale:create", { items, soldById }),
 
   // User related handlers
   getUsersByRole: (role: string) =>

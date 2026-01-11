@@ -1,3 +1,4 @@
+import { CartItem } from "./src/types/client";
 import type { Item, Category, User, Sale, SaleItem } from "./src/types/prisma";
 
 export {};
@@ -50,7 +51,7 @@ declare global {
       // Sales
       // ───────────────
       completeSale: (
-        items: SaleItem[],
+        items: CartItem[],
         soldById?: number
       ) => Promise<{
         success: boolean;
