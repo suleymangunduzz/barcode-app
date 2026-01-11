@@ -36,7 +36,7 @@ declare global {
       updateCategory: (payload: {
         id: number;
         name: string;
-      }) => Promise<Category>;
+      }) => Promise<{ success: boolean; error?: string }>;
 
       // ───────────────
       // Auth
