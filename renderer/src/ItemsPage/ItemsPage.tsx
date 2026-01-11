@@ -4,10 +4,12 @@ import ItemsToolbar from "./ItemsToolbar";
 import ItemsTable from "./ItemsTable";
 import UpdateStockModal from "./UpdateStockModal";
 import { Item } from "../types";
+import UpdatePriceModal from "./UpdatePriceModal";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
 
@@ -61,12 +63,24 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         items={filteredItems}
         isAdmin={isAdmin}
         onUpdateStock={(item) => setSelectedItem(item)}
+        openPriceModal={(item) => setPriceModalItem(item)}
       />
 
       {selectedItem && (
         <UpdateStockModal
           item={selectedItem}
           onClose={() => setSelectedItem(null)}
+          onSuccess={async () => {
+            const data = await window.api.getAllItems();
+            setItems(data);
+            setFilteredItems(data);
+          }}
+        />
+      )}
+      {priceModalItem && (
+        <UpdatePriceModal
+          item={priceModalItem}
+          onClose={() => setPriceModalItem(null)}
           onSuccess={async () => {
             const data = await window.api.getAllItems();
             setItems(data);

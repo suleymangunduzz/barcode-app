@@ -73,7 +73,11 @@
       "stockAvailable": "Stokta Var ({{stock}})"
     },
     "Actions": {
-      "updateStock": "Stok Güncelle"
+      "updateStock": "Stok Güncelle",
+      "updatePrice": "Fiyat Güncelle"
+    },
+    "UpdatePrice": {
+      "title": "Satış Fiyatını Güncelle"
     },
     "Modal": {
       "title": "Stok Güncelle",

@@ -48,4 +48,30 @@ export function registerItemHandlers(prisma: PrismaClient) {
       });
     }
   );
+
+  ipcMain.handle("items:updatePrice", async (_event, { itemId, newPrice }) => {
+    try {
+      const session = getSession();
+
+      if (session.role !== "admin") {
+        return { success: false, error: "UNAUTHORIZED" };
+      }
+
+      if (typeof newPrice !== "number" || newPrice <= 0) {
+        return { success: false, error: "INVALID_PRICE" };
+      }
+
+      await prisma.item.update({
+        where: { id: itemId },
+        data: {
+          currentPrice: newPrice,
+        },
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error("Update price failed:", err);
+      return { success: false, error: "UPDATE_FAILED" };
+    }
+  });
 }

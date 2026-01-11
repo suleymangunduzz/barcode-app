@@ -6,9 +6,15 @@ type Props = {
   items: Item[];
   isAdmin: boolean;
   onUpdateStock: (item: Item) => void;
+  openPriceModal: (item: Item) => void;
 };
 
-export default function ItemsTable({ items, isAdmin, onUpdateStock }: Props) {
+export default function ItemsTable({
+  items,
+  isAdmin,
+  onUpdateStock,
+  openPriceModal,
+}: Props) {
   const { t } = useTranslation();
 
   if (items.length === 0) {
@@ -76,6 +82,12 @@ export default function ItemsTable({ items, isAdmin, onUpdateStock }: Props) {
                     className="px-2 py-1 text-xs rounded bg-blue-600 hover:bg-blue-500"
                   >
                     {t("ItemsPage.Actions.updateStock")}
+                  </button>
+                  <button
+                    onClick={() => openPriceModal(item)}
+                    className="px-2 py-1 text-xs rounded bg-amber-600 hover:bg-amber-500 pl-3 ml-2"
+                  >
+                    {t("ItemsPage.Actions.updatePrice")}
                   </button>
                 </td>
               )}

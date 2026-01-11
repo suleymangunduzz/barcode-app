@@ -11,6 +11,8 @@ contextBridge.exposeInMainWorld("api", {
       changeQuantity,
       reason,
     }),
+  updateItemPrice: (payload: { itemId: number; newPrice: number }) =>
+    ipcRenderer.invoke("items:updatePrice", payload),
 
   // Categories related handlers
   getCategories: () => ipcRenderer.invoke("categories:getAll"),
