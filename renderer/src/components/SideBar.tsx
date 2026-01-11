@@ -1,4 +1,4 @@
-import { ShoppingCart, Package, Tags } from "lucide-react";
+import { ShoppingCart, Package, Tags, AlertTriangle } from "lucide-react";
 import { PageType, UserRole } from "../types";
 import { useTranslation } from "react-i18next";
 
@@ -33,6 +33,12 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       key: "categories",
       label: t("SideBar.categories"),
       icon: Tags,
+      roles: ["staff", "admin"],
+    },
+    {
+      key: "lowStock",
+      label: t("SideBar.lowStock"),
+      icon: AlertTriangle,
       roles: ["staff", "admin"],
     },
   ];

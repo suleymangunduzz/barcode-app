@@ -14,11 +14,14 @@ contextBridge.exposeInMainWorld("api", {
   updateItemPrice: (payload: { itemId: number; newPrice: number }) =>
     ipcRenderer.invoke("items:updatePrice", payload),
 
+  getItemsByCategory: (categoryId: number) =>
+    ipcRenderer.invoke("items:getByCategory", categoryId),
+  getLowStockItems: () => ipcRenderer.invoke("items:getLowStock"),
+
   // Categories related handlers
   getAllCategories: () => ipcRenderer.invoke("categories:getAll"),
   createCategory: (payload: { name: string }) =>
     ipcRenderer.invoke("categories:create", payload),
-
   updateCategory: (payload: { id: number; name: string }) =>
     ipcRenderer.invoke("categories:update", payload),
 

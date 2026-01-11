@@ -29,7 +29,8 @@
     "dashboard": "Satış Paneli",
     "products": "Ürünler",
     "reports": "Raporlar",
-    "categories": "Kategoriler"
+    "categories": "Kategoriler",
+    "lowStock": "Düşük Stok"
   },
   "Header": {
     "title": "Barkod Uygulaması",
@@ -57,6 +58,7 @@
     }
   },
   "ItemsPage": {
+    "title": "Ürünler",
     "searchPlaceholder": "Barkot okut veya ürün ara...",
     "clearSearch": "Temizle",
     "noItems": "Kayıtlı ürün bulunamadı.",
@@ -105,7 +107,8 @@
     },
     "actions": {
       "add": "Kategori Ekle",
-      "edit": "Düzenle"
+      "edit": "Düzenle",
+      "viewItems": "Ürünleri Gör"
     },
     "addModal": {
       "title": "Kategori Ekle",
@@ -118,6 +121,25 @@
       "emptyName": "Kategori adı boş bırakılamaz",
       "DUPLICATE": "Bu kategori zaten mevcut",
       "UNAUTHORIZED": "Yetkisiz işlem"
+    },
+    "items": {
+      "search": "Ürün ara (isim / barkod)",
+      "noItems": "Bu kategoride ürün yok",
+      "name": "Ürün",
+      "barcode": "Barkod",
+      "stock": "Stok",
+      "price": "Fiyat"
+    }
+  },
+  "LowStockPage": {
+    "title": "Düşük Stoklu Ürünler",
+    "noItems": "Düşük stoklu ürün bulunamadı",
+    "table": {
+      "name": "Ürün",
+      "category": "Kategori",
+      "stock": "Stok",
+      "minStock": "Minimum",
+      "price": "Fiyat"
     }
   }
 }

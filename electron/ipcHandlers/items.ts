@@ -74,4 +74,23 @@ export function registerItemHandlers(prisma: PrismaClient) {
       return { success: false, error: "UPDATE_FAILED" };
     }
   });
+
+  ipcMain.handle("items:getByCategory", async (_event, categoryId: number) => {
+    return prisma.item.findMany({
+      where: { categoryId },
+      orderBy: { name: "asc" },
+    });
+  });
+
+  ipcMain.handle("items:getLowStock", async () => {
+    const items = await prisma.item.findMany({
+      include: { category: true },
+    });
+
+    const lowStockItems = items.filter(
+      (item) => item.stockQuantity <= item.minStockThreshold
+    );
+
+    return lowStockItems;
+  });
 }

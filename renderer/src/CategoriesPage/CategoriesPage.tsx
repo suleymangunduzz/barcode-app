@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Category } from "../types";
 import AddCategoryModal from "./AddCategoryModal";
 import EditCategoryModal from "./EditCategoryModal";
+import CategoryItemsModal from "./CategoryItemsModal";
 
 export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
   const { t } = useTranslation();
@@ -11,6 +12,9 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [editCategory, setEditCategory] = useState<Category | null>(null);
+  const [viewItemsCategory, setViewItemsCategory] = useState<Category | null>(
+    null
+  );
 
   async function fetchCategories() {
     const data = await window.api.getAllCategories();
@@ -79,16 +83,23 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
                 >
                   <td className="px-3 py-2">{category.name}</td>
 
-                  {isAdmin && (
-                    <td className="px-3 py-2 text-right">
+                  <td className="px-3 py-2 text-right flex justify-end gap-2">
+                    <button
+                      onClick={() => setViewItemsCategory(category)}
+                      className="text-xs px-2 py-1 rounded bg-slate-600 text-white"
+                    >
+                      {t("CategoriesPage.actions.viewItems")}
+                    </button>
+
+                    {isAdmin && (
                       <button
                         onClick={() => setEditCategory(category)}
                         className="text-xs px-2 py-1 rounded bg-amber-600 text-white"
                       >
                         {t("CategoriesPage.actions.edit")}
                       </button>
-                    </td>
-                  )}
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -115,6 +126,13 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
             setEditCategory(null);
             fetchCategories();
           }}
+        />
+      )}
+
+      {viewItemsCategory && (
+        <CategoryItemsModal
+          category={viewItemsCategory}
+          onClose={() => setViewItemsCategory(null)}
         />
       )}
     </div>

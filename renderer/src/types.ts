@@ -1,4 +1,9 @@
-export type PageType = "dashboard" | "products" | "reports" | "categories";
+export type PageType =
+  | "dashboard"
+  | "products"
+  | "reports"
+  | "categories"
+  | "lowStock";
 export type UserRole = "admin" | "staff";
 
 export type CartItem = {

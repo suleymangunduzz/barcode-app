@@ -29,7 +29,8 @@
     "dashboard": "Dashboard",
     "products": "Products",
     "reports": "Reports",
-    "categories": "Categories"
+    "categories": "Categories",
+    "lowStock": "Low Stock"
   },
   "Header": {
     "title": "Barcode Application",
@@ -57,6 +58,7 @@
     }
   },
   "ItemsPage": {
+    "title": "Products",
     "searchPlaceholder": "Scan barcode or search product...",
     "clearSearch": "Clear",
     "noItems": "No registered products found.",
@@ -105,7 +107,8 @@
     },
     "actions": {
       "add": "Add Category",
-      "edit": "Edit"
+      "edit": "Edit",
+      "viewItems": "View Items"
     },
     "addModal": {
       "title": "Add Category",
@@ -118,6 +121,25 @@
       "emptyName": "Category name cannot be empty",
       "DUPLICATE": "This category already exists",
       "UNAUTHORIZED": "You are not authorized"
+    },
+    "items": {
+      "search": "Search items (name / barcode)",
+      "noItems": "No items in this category",
+      "name": "Name",
+      "barcode": "Barcode",
+      "stock": "Stock",
+      "price": "Price"
+    }
+  },
+  "LowStockPage": {
+    "title": "Items with Low Stock",
+    "noItems": "No items with low stock found.",
+    "table": {
+      "name": "Product",
+      "category": "Category",
+      "stock": "Stock",
+      "minStock": "Minimum",
+      "price": "Price"
     }
   }
 }

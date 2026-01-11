@@ -5,6 +5,7 @@ import ItemsTable from "./ItemsTable";
 import UpdateStockModal from "./UpdateStockModal";
 import { Item } from "../types";
 import UpdatePriceModal from "./UpdatePriceModal";
+import { useTranslation } from "react-i18next";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
@@ -12,6 +13,8 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchItems() {
@@ -50,6 +53,7 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <div className="p-4 space-y-4">
+      <h2 className="text-2xl font-bold">{t("ItemsPage.title")}</h2>
       <ItemsToolbar
         value={search}
         onChange={handleSearch}

@@ -7,6 +7,7 @@ import { PageType, UserRole } from "./types";
 import Dashboard from "./components/Dashboard";
 import ItemsPage from "./ItemsPage";
 import CategoriesPage from "./CategoriesPage";
+import LowStockPage from "./LowStockPage";
 
 function App() {
   const [role, setRole] = useState<UserRole>("staff");
@@ -58,6 +59,7 @@ function App() {
           {page === "categories" && (
             <CategoriesPage isAdmin={role === "admin"} />
           )}
+          {page === "lowStock" && <LowStockPage />}
         </main>
       </div>
     </div>
