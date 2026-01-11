@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import { PageType, UserRole } from "./types";
 import Dashboard from "./components/Dashboard";
 import ItemsPage from "./ItemsPage";
+import CategoriesPage from "./CategoriesPage";
 
 function App() {
   const [role, setRole] = useState<UserRole>("staff");
@@ -54,6 +55,9 @@ function App() {
         <main className="flex-1 p-4">
           {page === "dashboard" && <Dashboard />}
           {page === "products" && <ItemsPage isAdmin={role === "admin"} />}
+          {page === "categories" && (
+            <CategoriesPage isAdmin={role === "admin"} />
+          )}
         </main>
       </div>
     </div>

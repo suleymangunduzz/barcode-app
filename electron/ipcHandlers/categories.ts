@@ -1,5 +1,6 @@
 import { ipcMain } from "electron";
 import { PrismaClient } from "@prisma/client";
+import { getSession } from "../auth/session";
 
 export function registerCategoryHandlers(prisma: PrismaClient) {
   // Fetch all categories
@@ -10,30 +11,70 @@ export function registerCategoryHandlers(prisma: PrismaClient) {
   });
 
   // Create new category
-  ipcMain.handle("categories:create", async (event, name: string) => {
-    const category = await prisma.category.create({
-      data: { name },
-    });
-    return category;
+  ipcMain.handle("categories:create", async (_event, { name }) => {
+    try {
+      const session = getSession();
+
+      if (session.role !== "admin") {
+        return { success: false, error: "UNAUTHORIZED" };
+      }
+
+      if (!name || !name.trim()) {
+        return { success: false, error: "EMPTY_NAME" };
+      }
+
+      const existing = await prisma.category.findUnique({
+        where: { name: name.trim() },
+      });
+
+      if (existing) {
+        return { success: false, error: "DUPLICATE" };
+      }
+
+      await prisma.category.create({
+        data: { name: name.trim() },
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error("Create category failed:", err);
+      return { success: false, error: "UNKNOWN" };
+    }
   });
 
-  // Update category
-  ipcMain.handle(
-    "categories:update",
-    async (event, id: number, name: string) => {
-      const category = await prisma.category.update({
-        where: { id },
-        data: { name },
-      });
-      return category;
-    }
-  );
+  // Update category name
+  ipcMain.handle("categories:update", async (_event, { id, name }) => {
+    try {
+      const session = getSession();
 
-  // Delete category
-  ipcMain.handle("categories:delete", async (event, id: number) => {
-    await prisma.category.delete({
-      where: { id },
-    });
-    return { success: true };
+      if (session.role !== "admin") {
+        return { success: false, error: "UNAUTHORIZED" };
+      }
+
+      if (!name || !name.trim()) {
+        return { success: false, error: "EMPTY_NAME" };
+      }
+
+      const existing = await prisma.category.findFirst({
+        where: {
+          name: name.trim(),
+          NOT: { id },
+        },
+      });
+
+      if (existing) {
+        return { success: false, error: "DUPLICATE" };
+      }
+
+      await prisma.category.update({
+        where: { id },
+        data: { name: name.trim() },
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error("Update category failed:", err);
+      return { success: false, error: "UNKNOWN" };
+    }
   });
 }

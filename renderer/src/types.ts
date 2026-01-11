@@ -22,3 +22,10 @@ export type Item = {
     name: string;
   };
 };
+
+export type Category = {
+  id: number;
+  name: string;
+  items: Item[];
+  createdAt: Date;
+};

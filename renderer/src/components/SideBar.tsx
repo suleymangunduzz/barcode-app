@@ -33,7 +33,7 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       key: "categories",
       label: t("SideBar.categories"),
       icon: Tags,
-      roles: ["admin"],
+      roles: ["staff", "admin"],
     },
   ];
 

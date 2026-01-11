@@ -94,5 +94,30 @@
       "missingFields": "Please fill in all fields.",
       "updateFailed": "Failed to update stock. Please try again."
     }
+  },
+  "CategoriesPage": {
+    "title": "Categories",
+    "searchPlaceholder": "Search category...",
+    "noCategories": "No categories found",
+    "table": {
+      "name": "Category Name",
+      "actions": "Actions"
+    },
+    "actions": {
+      "add": "Add Category",
+      "edit": "Edit"
+    },
+    "addModal": {
+      "title": "Add Category",
+      "placeholder": "Category name"
+    },
+    "editModal": {
+      "title": "Edit Category"
+    },
+    "errors": {
+      "emptyName": "Category name cannot be empty",
+      "DUPLICATE": "This category already exists",
+      "UNAUTHORIZED": "You are not authorized"
+    }
   }
 }

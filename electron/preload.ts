@@ -15,7 +15,12 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("items:updatePrice", payload),
 
   // Categories related handlers
-  getCategories: () => ipcRenderer.invoke("categories:getAll"),
+  getAllCategories: () => ipcRenderer.invoke("categories:getAll"),
+  createCategory: (payload: { name: string }) =>
+    ipcRenderer.invoke("categories:create", payload),
+
+  updateCategory: (payload: { id: number; name: string }) =>
+    ipcRenderer.invoke("categories:update", payload),
 
   // Auth related handlers
   login: (email: string, password: string) =>

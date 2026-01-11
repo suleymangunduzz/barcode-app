@@ -94,5 +94,30 @@
       "missingFields": "Tüm alanlar zorunludur",
       "updateFailed": "Stok güncellenemedi"
     }
+  },
+  "CategoriesPage": {
+    "title": "Kategoriler",
+    "searchPlaceholder": "Kategori ara...",
+    "noCategories": "Kategori bulunamadı",
+    "table": {
+      "name": "Kategori Adı",
+      "actions": "İşlemler"
+    },
+    "actions": {
+      "add": "Kategori Ekle",
+      "edit": "Düzenle"
+    },
+    "addModal": {
+      "title": "Kategori Ekle",
+      "placeholder": "Kategori adı"
+    },
+    "editModal": {
+      "title": "Kategoriyi Düzenle"
+    },
+    "errors": {
+      "emptyName": "Kategori adı boş bırakılamaz",
+      "DUPLICATE": "Bu kategori zaten mevcut",
+      "UNAUTHORIZED": "Yetkisiz işlem"
+    }
   }
 }
