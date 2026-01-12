@@ -10,6 +10,7 @@ declare global {
       // Items
       // ───────────────
       getAllItems: () => Promise<Item[]>;
+      addNewItem: (data: Item) => Promise<{ success: boolean; error?: string }>;
       getItemByBarcode: (barcode: string) => Promise<Item | null>;
 
       updateItemStock: (

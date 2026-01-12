@@ -7,12 +7,14 @@ import UpdateStockModal from "./UpdateStockModal";
 import UpdatePriceModal from "./UpdatePriceModal";
 import { useTranslation } from "react-i18next";
 import { Item } from "../types/prisma";
+import AddItemModal from "./AddItemModal";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [search, setSearch] = useState("");
 
   const { t } = useTranslation();
@@ -64,6 +66,15 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         }}
       />
 
+      {isAdmin && (
+        <button
+          className="bg-primary text-primary-foreground px-3 py-1 rounded text-sm"
+          onClick={() => setShowAddModal(true)}
+        >
+          {t("ItemsPage.addNew")}
+        </button>
+      )}
+
       <ItemsTable
         items={filteredItems}
         isAdmin={isAdmin}
@@ -90,6 +101,18 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
             const data = await window.api.getAllItems();
             setItems(data);
             setFilteredItems(data);
+          }}
+        />
+      )}
+
+      {showAddModal && (
+        <AddItemModal
+          onClose={() => setShowAddModal(false)}
+          onSuccess={async () => {
+            const data = await window.api.getAllItems();
+            setItems(data);
+            setFilteredItems(data);
+            setShowAddModal(false);
           }}
         />
       )}

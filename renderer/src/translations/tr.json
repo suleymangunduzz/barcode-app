@@ -79,6 +79,7 @@
       "updatePrice": "Fiyat Güncelle"
     },
     "UpdatePrice": {
+      "price": "Satış Fiyatı",
       "title": "Satış Fiyatını Güncelle"
     },
     "Modal": {
@@ -95,6 +96,21 @@
     "Errors": {
       "missingFields": "Tüm alanlar zorunludur",
       "updateFailed": "Stok güncellenemedi"
+    },
+    "AddModal": {
+      "title": "Yeni Ürün Ekle",
+      "fields": {
+        "barcode": "Barkod",
+        "name": "Ürün Adı",
+        "brand": "Marka",
+        "model": "Model",
+        "price": "Satış Fiyatı",
+        "stock": "Başlangıç Stok",
+        "minStock": "Minimum Stok",
+        "noCategory": "Kategori Yok",
+        "stockLabel": "Stok",
+        "minStockLabel": "Minimum Stok"
+      }
     }
   },
   "CategoriesPage": {

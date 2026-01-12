@@ -79,6 +79,7 @@
       "updatePrice": "Update Price"
     },
     "UpdatePrice": {
+      "price": "Price",
       "title": "Update Selling Price"
     },
     "Modal": {
@@ -95,6 +96,37 @@
     "Errors": {
       "missingFields": "Please fill in all fields.",
       "updateFailed": "Failed to update stock. Please try again."
+    },
+    "AddModal": {
+      "title": "Add New Product",
+      "fields": {
+        "barcode": "Barcode",
+        "name": "Product Name",
+        "brand": "Brand",
+        "price": "Selling Price",
+        "costPrice": "Cost Price",
+        "initialStock": "Initial Stock",
+        "minStock": "Minimum Stock",
+        "category": "Category",
+        "stockLabel": "Stock",
+        "minStockLabel": "Minimum Stock"
+      },
+      "placeholders": {
+        "barcode": "Enter barcode",
+        "name": "Enter product name",
+        "brand": "Enter brand (optional)",
+        "price": "Enter selling price",
+        "costPrice": "Enter cost price",
+        "initialStock": "Enter initial stock quantity",
+        "minStock": "Enter minimum stock level",
+        "category": "Select category (optional)"
+      },
+      "errors": {
+        "missingFields": "Please fill in all required fields.",
+        "duplicateBarcode": "A product with this barcode already exists.",
+        "invalidPrice": "Please enter a valid price.",
+        "invalidStock": "Please enter a valid stock quantity."
+      }
     }
   },
   "CategoriesPage": {

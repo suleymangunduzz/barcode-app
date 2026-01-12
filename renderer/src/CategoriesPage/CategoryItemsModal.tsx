@@ -29,46 +29,61 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
   }, [items, search]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-slate-800 rounded p-4 w-[700px] max-h-[80vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <div className="bg-slate-900 w-full max-w-3xl max-h-[80vh] rounded-lg shadow-xl flex flex-col">
         {/* Header */}
-        <div className="flex justify-between items-center mb-3">
-          <h2 className="text-lg font-bold">{category.name}</h2>
+        <div className="flex justify-between items-center px-5 py-4 border-b border-slate-700">
+          <h2 className="text-lg font-semibold text-white">{category.name}</h2>
 
-          <button onClick={onClose} className="text-slate-400 hover:text-white">
-            ✕
+          <button
+            onClick={onClose}
+            className="
+              text-slate-400 hover:text-white
+              text-xl leading-none
+              transition
+            "
+            aria-label={t("Common.close")}
+          >
+            ×
           </button>
         </div>
 
         {/* Search */}
-        <input
-          type="text"
-          placeholder={t("CategoriesPage.items.search")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="mb-3 px-3 py-2 rounded bg-slate-700 text-white"
-        />
+        <div className="px-5 py-3 border-b border-slate-700">
+          <input
+            type="text"
+            placeholder={t("CategoriesPage.items.search")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="
+              w-full px-3 py-2 rounded
+              bg-slate-700 text-white
+              border border-slate-600
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
+          />
+        </div>
 
-        {/* Table */}
-        <div className="overflow-auto">
+        {/* Content */}
+        <div className="flex-1 overflow-auto px-5 py-3">
           {filteredItems.length === 0 ? (
             <div className="text-slate-400 text-sm">
               {t("CategoriesPage.items.noItems")}
             </div>
           ) : (
-            <table className="w-full text-sm">
-              <thead className="bg-slate-700 text-slate-300">
-                <tr>
-                  <th className="text-left px-2 py-1">
+            <table className="w-full text-sm border-collapse">
+              <thead className="sticky top-0 bg-slate-800">
+                <tr className="text-slate-300 border-b border-slate-700">
+                  <th className="text-left px-3 py-2 font-medium">
                     {t("CategoriesPage.items.name")}
                   </th>
-                  <th className="text-left px-2 py-1">
+                  <th className="text-left px-3 py-2 font-medium">
                     {t("CategoriesPage.items.barcode")}
                   </th>
-                  <th className="text-right px-2 py-1">
+                  <th className="text-right px-3 py-2 font-medium">
                     {t("CategoriesPage.items.stock")}
                   </th>
-                  <th className="text-right px-2 py-1">
+                  <th className="text-right px-3 py-2 font-medium">
                     {t("CategoriesPage.items.price")}
                   </th>
                 </tr>
@@ -76,13 +91,16 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
 
               <tbody>
                 {filteredItems.map((item) => (
-                  <tr key={item.id} className="border-t border-slate-700">
-                    <td className="px-2 py-1">{item.name}</td>
-                    <td className="px-2 py-1">{item.barcode}</td>
-                    <td className="px-2 py-1 text-right">
+                  <tr
+                    key={item.id}
+                    className="border-b border-slate-800 hover:bg-slate-800/60 transition"
+                  >
+                    <td className="px-3 py-2 text-slate-100">{item.name}</td>
+                    <td className="px-3 py-2 text-slate-300">{item.barcode}</td>
+                    <td className="px-3 py-2 text-right text-slate-100">
                       {item.stockQuantity}
                     </td>
-                    <td className="px-2 py-1 text-right">
+                    <td className="px-3 py-2 text-right text-slate-100">
                       ₺{item.currentPrice}
                     </td>
                   </tr>

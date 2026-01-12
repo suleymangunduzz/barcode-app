@@ -93,4 +93,50 @@ export function registerItemHandlers(prisma: PrismaClient) {
 
     return lowStockItems;
   });
+
+  ipcMain.handle("items:addNewItem", async (_event, data) => {
+    const session = getSession();
+    if (session.role !== "admin") {
+      throw new Error("UNAUTHORIZED");
+    }
+
+    const {
+      barcode,
+      name,
+      brand,
+      model,
+      categoryId,
+      currentPrice,
+      stockQuantity,
+      minStockThreshold,
+    } = data;
+
+    return prisma.$transaction(async (tx) => {
+      const item = await tx.item.create({
+        data: {
+          barcode,
+          name,
+          brand: brand || null,
+          model: model || null,
+          categoryId: categoryId || null,
+          currentPrice,
+          stockQuantity,
+          minStockThreshold,
+        },
+      });
+
+      // Initial stock movement (if any stock)
+      if (stockQuantity > 0) {
+        await tx.stockMovement.create({
+          data: {
+            itemId: item.id,
+            changeQuantity: stockQuantity,
+            reason: "restock",
+          },
+        });
+      }
+
+      return item;
+    });
+  });
 }
