@@ -31,7 +31,9 @@ declare global {
       // ───────────────
       getAllCategories: () => Promise<Category[]>;
 
-      createCategory: (payload: { name: string }) => Promise<Category>;
+      createCategory: (payload: {
+        name: string;
+      }) => Promise<{ success: boolean; error?: string }>;
 
       updateCategory: (payload: {
         id: number;
