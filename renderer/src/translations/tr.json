@@ -135,7 +135,9 @@
     "title": "Düşük Stoklu Ürünler",
     "noItems": "Düşük stoklu ürün bulunamadı",
     "table": {
+      "barcode": "Barkod",
       "name": "Ürün",
+      "brand": "Marka",
       "category": "Kategori",
       "stock": "Stok",
       "minStock": "Minimum",

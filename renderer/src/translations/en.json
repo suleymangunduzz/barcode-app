@@ -135,7 +135,9 @@
     "title": "Items with Low Stock",
     "noItems": "No items with low stock found.",
     "table": {
+      "barcode": "Barcode",
       "name": "Product",
+      "brand": "Brand",
       "category": "Category",
       "stock": "Stock",
       "minStock": "Minimum",

@@ -26,7 +26,13 @@ export default function LowStockPage() {
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="text-left px-3 py-2">
+                  {t("LowStockPage.table.barcode")}
+                </th>
+                <th className="text-left px-3 py-2">
                   {t("LowStockPage.table.name")}
+                </th>
+                <th className="text-left px-3 py-2">
+                  {t("LowStockPage.table.brand")}
                 </th>
                 <th className="text-left px-3 py-2">
                   {t("LowStockPage.table.category")}
@@ -46,7 +52,9 @@ export default function LowStockPage() {
             <tbody>
               {items.map((item) => (
                 <tr key={item.id} className="border-t border-slate-700">
+                  <td className="px-3 py-2">{item.barcode}</td>
                   <td className="px-3 py-2">{item.name}</td>
+                  <td className="px-3 py-2">{item.brand ?? "-"}</td>
                   <td className="px-3 py-2">{item.category?.name ?? "-"}</td>
                   <td className="px-3 py-2 text-right text-red-400 font-semibold">
                     {item.stockQuantity}
