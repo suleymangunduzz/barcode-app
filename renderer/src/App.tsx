@@ -39,7 +39,7 @@ function App() {
   };
 
   return (
-    <div className="h-screen flex bg-background text-foreground">
+    <div className="h-screen flex bg-slate-900 text-slate-100">
       <Sidebar role={role} page={page} setPage={setPage} />
       <div className="flex-1 flex flex-col">
         <Header
@@ -53,7 +53,7 @@ function App() {
             onClose={() => setShowLogin(false)}
           />
         )}
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 overflow-auto">
           {page === "dashboard" && <Dashboard />}
           {page === "products" && <ItemsPage isAdmin={role === "admin"} />}
           {page === "categories" && (

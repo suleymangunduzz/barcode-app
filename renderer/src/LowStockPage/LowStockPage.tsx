@@ -16,9 +16,7 @@ export default function LowStockPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-white">
-        {t("LowStockPage.title")}
-      </h1>
+      <h1 className="text-2xl font-bold mb-4">{t("LowStockPage.title")}</h1>
 
       {items.length === 0 ? (
         <div className="text-slate-400">{t("LowStockPage.noItems")}</div>

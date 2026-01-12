@@ -108,7 +108,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-4 text-slate-100">
-      <h2 className="text-2xl font-bold text-black">{t("Dashboard.title")}</h2>
+      <h2 className="text-2xl font-bold">{t("Dashboard.title")}</h2>
 
       {/* Barcode input */}
       <input
