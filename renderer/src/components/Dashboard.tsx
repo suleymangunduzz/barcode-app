@@ -23,15 +23,10 @@ export default function Dashboard() {
 
   const fetchItemAndAddToCart = async (barcode: string) => {
     const item = await window.api.getItemByBarcode(barcode);
-
-    if (!item) {
-      console.warn("❌ Item not found:", barcode);
-      return;
-    }
+    if (!item) return;
 
     setCartItems((prev) => {
       const existing = prev.find((i) => i.itemId === item.id);
-
       if (existing) {
         return prev.map((i) =>
           i.itemId === item.id
@@ -43,7 +38,6 @@ export default function Dashboard() {
             : i
         );
       }
-
       return [
         ...prev,
         {
@@ -59,70 +53,53 @@ export default function Dashboard() {
   };
 
   useBarcodeScanner(async (barcode) => {
-    // Fetch item details by barcode
+    /* fetch item */
   });
 
   const handleBarcodeInputBlur = async (
     event: React.FocusEvent<HTMLInputElement>
   ) => {
     const barcode = event.target.value.trim();
-
     if (!barcode) {
       event.target.value = "";
       return;
     }
-
     try {
       await fetchItemAndAddToCart(barcode);
-    } catch (error) {
-      console.error("Error fetching item by barcode:", error);
     } finally {
       event.target.value = "";
     }
   };
 
-  const handleIncrease = (itemId: number) => {
+  const handleIncrease = (itemId: number) =>
     setCartItems((prev) => increaseItem(prev, itemId));
-  };
-
-  const handleDecrease = (itemId: number) => {
+  const handleDecrease = (itemId: number) =>
     setCartItems((prev) => decreaseItem(prev, itemId));
-  };
-
-  const handleRemove = (itemId: number) => {
+  const handleRemove = (itemId: number) =>
     setCartItems((prev) => removeItem(prev, itemId));
-  };
 
   const handleCompleteSale = async () => {
-    if (cartItems.length === 0) return;
-
+    if (!cartItems.length) return;
     setIsSaleInProgress(true);
 
     try {
       const { role: userRole } = await window.api.getSession();
-
       const { users } = await window.api.getUsersByRole(userRole);
-      const userId = users.length > 0 ? users[0].id : undefined;
+      const userId = users.length ? users[0].id : undefined;
 
       const response = await window.api.completeSale(cartItems, userId);
 
       if (response.success) {
         alert(t("Dashboard.saleSuccess"));
-        setCartItems([]); // Clear cart
+        setCartItems([]);
+      } else if (response.error === "INSUFFICIENT_STOCK") {
+        alert(
+          t("Dashboard.insufficientStock", { itemName: response.itemName })
+        );
       } else {
-        if (response.error === "INSUFFICIENT_STOCK") {
-          alert(
-            t("Dashboard.insufficientStock", {
-              itemName: response.itemName,
-            })
-          );
-          return;
-        }
-
         alert(t("Dashboard.saleError"));
       }
-    } catch (error) {
-      console.error("Complete sale failed:", error);
+    } catch {
       alert(t("Dashboard.saleError"));
     } finally {
       setIsSaleInProgress(false);
@@ -130,45 +107,51 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold">{t("Dashboard.title")}</h2>
+    <div className="flex flex-col gap-4 text-slate-100">
+      <h2 className="text-2xl font-bold text-black">{t("Dashboard.title")}</h2>
 
+      {/* Barcode input */}
       <input
         ref={barcodeInputRef}
         type="text"
         name="barcode"
         placeholder={t("Dashboard.barcodePlaceholder")}
         onBlur={handleBarcodeInputBlur}
-        className="w-full h-12 px-4 rounded border border-border bg-background text-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        className="
+          w-full h-12 px-4 rounded
+          bg-slate-800 text-white
+          border border-slate-700
+          focus:outline-none focus:ring-2 focus:ring-emerald-500
+        "
       />
 
       {/* Sale cart */}
-      <div className="flex-1 border border-border rounded bg-background flex flex-col">
+      <div className="flex-1 border border-slate-700 rounded bg-slate-900 flex flex-col">
         {/* Cart header */}
-        <div className="border-b border-border px-4 py-2 font-medium">
+        <div className="border-b border-slate-700 px-4 py-2 font-medium bg-slate-800">
           {t("Dashboard.cart")}
         </div>
 
-        {/* Cart Body */}
+        {/* Cart body */}
         <div className="flex-1 overflow-auto">
           {cartItems.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-muted-foreground mt-8 mb-8">
+            <div className="flex h-full items-center justify-center text-slate-400 mt-8 mb-8">
               {t("Dashboard.emptyCart")}
             </div>
           ) : (
             <table className="w-full text-sm">
-              <thead className="border-b border-border">
-                <tr className="text-left">
-                  <th className="px-4 py-2">
+              <thead className="bg-slate-800 text-slate-300">
+                <tr>
+                  <th className="px-4 py-2 text-left">
                     {t("Dashboard.SaleTable.product")}
                   </th>
-                  <th className="px-4 py-2">
+                  <th className="px-4 py-2 text-left">
                     {t("Dashboard.SaleTable.quantity")}
                   </th>
-                  <th className="px-4 py-2">
+                  <th className="px-4 py-2 text-left">
                     {t("Dashboard.SaleTable.price")}
                   </th>
-                  <th className="px-4 py-2">
+                  <th className="px-4 py-2 text-left">
                     {t("Dashboard.SaleTable.total")}
                   </th>
                   <th className="px-4 py-2 text-right">
@@ -178,35 +161,41 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {cartItems.map(
-                  ({ itemId, name, quantity, unitPrice, totalPrice }) => (
-                    <tr key={itemId} className="border-b border-border">
-                      <td className="px-4 py-2">{name}</td>
-
+                  ({ itemId, name, quantity, unitPrice, totalPrice }, idx) => (
+                    <tr
+                      key={itemId}
+                      className={`
+                      border-b border-slate-700
+                      ${idx % 2 === 0 ? "bg-slate-800" : "bg-slate-700"}
+                      hover:bg-slate-600 transition-colors duration-200
+                    `}
+                    >
+                      <td className="px-4 py-2 font-medium">{name}</td>
                       <td className="px-4 py-2 flex items-center gap-2">
                         <button
                           onClick={() => handleDecrease(itemId)}
-                          className="p-1 rounded hover:bg-muted"
+                          className="p-1 rounded bg-slate-700 hover:bg-slate-600 transition"
                         >
                           <Minus size={16} />
                         </button>
-
                         <span className="w-6 text-center">{quantity}</span>
-
                         <button
                           onClick={() => handleIncrease(itemId)}
-                          className="p-1 rounded hover:bg-muted"
+                          className="p-1 rounded bg-slate-700 hover:bg-slate-600 transition"
                         >
                           <Plus size={16} />
                         </button>
                       </td>
-
-                      <td className="px-4 py-2">₺ {unitPrice}</td>
-                      <td className="px-4 py-2">₺ {totalPrice}</td>
-
+                      <td className="px-4 py-2">
+                        ₺{unitPrice.toLocaleString("tr-TR")}
+                      </td>
+                      <td className="px-4 py-2">
+                        ₺{totalPrice.toLocaleString("tr-TR")}
+                      </td>
                       <td className="px-4 py-2 text-right">
                         <button
                           onClick={() => handleRemove(itemId)}
-                          className="p-1 rounded hover:bg-destructive hover:text-destructive-foreground"
+                          className="p-1 rounded bg-red-600 text-white hover:bg-red-500 transition"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -220,29 +209,35 @@ export default function Dashboard() {
         </div>
 
         {/* Cart footer */}
-        <div className="border-t border-border p-4 flex items-center justify-between">
+        <div className="border-t border-slate-700 p-4 flex items-center justify-between gap-2 flex-wrap">
           <div className="text-lg font-semibold">
-            {t("Dashboard.total")}: ₺ {totalAmount}
+            {t("Dashboard.total")}: ₺{totalAmount.toLocaleString("tr-TR")}
           </div>
 
-          <button
-            onClick={() => setCartItems(clearCart())}
-            className="px-6 py-2 rounded bg-destructive text-destructive-foreground"
-          >
-            {t("Dashboard.clearCart")}
-          </button>
+          <div className="flex gap-2 flex-wrap">
+            <button
+              onClick={() => setCartItems(clearCart())}
+              className="px-6 py-2 rounded bg-red-600 text-white hover:bg-red-500 transition font-medium"
+            >
+              {t("Dashboard.clearCart")}
+            </button>
 
-          <button
-            disabled={cartItems.length === 0 || isSaleInProgress}
-            className={`px-6 py-2 rounded ${
-              cartItems.length === 0 || isSaleInProgress
-                ? "bg-muted text-muted-foreground cursor-not-allowed"
-                : "bg-primary text-primary-foreground"
-            }`}
-            onClick={handleCompleteSale}
-          >
-            {t("Dashboard.completeSale")}
-          </button>
+            <button
+              disabled={cartItems.length === 0 || isSaleInProgress}
+              onClick={handleCompleteSale}
+              className={`
+                px-6 py-2 rounded font-medium
+                transition
+                ${
+                  cartItems.length === 0 || isSaleInProgress
+                    ? "bg-slate-600 text-slate-400 cursor-not-allowed"
+                    : "bg-emerald-600 text-white hover:bg-emerald-500"
+                }
+              `}
+            >
+              {t("Dashboard.completeSale")}
+            </button>
+          </div>
         </div>
       </div>
     </div>
