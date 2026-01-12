@@ -68,11 +68,9 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
                 <th className="text-left px-3 py-2">
                   {t("CategoriesPage.table.name")}
                 </th>
-                {isAdmin && (
-                  <th className="text-right px-3 py-2">
-                    {t("CategoriesPage.table.actions")}
-                  </th>
-                )}
+                <th className="text-right px-3 py-2">
+                  {t("CategoriesPage.table.actions")}
+                </th>
               </tr>
             </thead>
 
