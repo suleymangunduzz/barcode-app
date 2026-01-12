@@ -36,12 +36,12 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
     <div className="p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">{t("CategoriesPage.title")}</h1>
+        <h2 className="text-2xl font-bold">{t("CategoriesPage.title")}</h2>
 
         {isAdmin && (
           <button
             onClick={() => setShowAdd(true)}
-            className="px-3 py-1 rounded bg-primary text-primary-foreground text-sm"
+            className="px-4 py-2 rounded bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition"
           >
             {t("CategoriesPage.actions.add")}
           </button>
@@ -54,7 +54,12 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
         placeholder={t("CategoriesPage.searchPlaceholder")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full mb-4 px-3 py-2 rounded bg-slate-800 text-white"
+        className="
+          w-full mb-4 px-3 py-2 rounded
+          bg-slate-800 text-slate-100
+          border border-slate-700
+          focus:outline-none focus:ring-2 focus:ring-emerald-500
+        "
       />
 
       {/* Empty state */}
@@ -75,17 +80,26 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
             </thead>
 
             <tbody>
-              {filteredCategories.map((category) => (
+              {filteredCategories.map((category, index) => (
                 <tr
                   key={category.id}
-                  className="border-t border-slate-700 hover:bg-slate-800"
+                  className={`
+                    border-t border-slate-700
+                    ${index % 2 === 0 ? "bg-slate-800" : "bg-slate-700"}
+                    hover:bg-slate-600 transition-colors duration-200
+                    text-slate-100
+                  `}
                 >
                   <td className="px-3 py-2">{category.name}</td>
 
                   <td className="px-3 py-2 text-right flex justify-end gap-2">
                     <button
                       onClick={() => setViewItemsCategory(category)}
-                      className="text-xs px-2 py-1 rounded bg-slate-600 text-white"
+                      className="
+                        text-sm px-3 py-1 rounded
+                        bg-blue-600 text-white
+                        hover:bg-blue-500 transition font-medium
+                      "
                     >
                       {t("CategoriesPage.actions.viewItems")}
                     </button>
@@ -93,7 +107,11 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
                     {isAdmin && (
                       <button
                         onClick={() => setEditCategory(category)}
-                        className="text-xs px-2 py-1 rounded bg-amber-600 text-white"
+                        className="
+                          text-sm px-3 py-1 rounded
+                          bg-amber-600 text-white
+                          hover:bg-amber-500 transition font-medium
+                        "
                       >
                         {t("CategoriesPage.actions.edit")}
                       </button>

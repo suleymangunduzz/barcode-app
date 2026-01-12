@@ -62,6 +62,7 @@
     "searchPlaceholder": "Barkot okut veya ürün ara...",
     "clearSearch": "Temizle",
     "noItems": "Kayıtlı ürün bulunamadı.",
+    "addNew": "Yeni Ürün Ekle",
     "Table": {
       "headerName": "Ürün Adı",
       "headerBrand": "Marka",
@@ -122,12 +123,12 @@
       "actions": "İşlemler"
     },
     "actions": {
-      "add": "Kategori Ekle",
+      "add": "Yeni Kategori Ekle",
       "edit": "Düzenle",
       "viewItems": "Ürünleri Gör"
     },
     "addModal": {
-      "title": "Kategori Ekle",
+      "title": "Yeni Kategori Ekle",
       "placeholder": "Kategori adı"
     },
     "editModal": {

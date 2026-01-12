@@ -56,7 +56,17 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
 
   return (
     <div className="p-4 space-y-4">
-      <h2 className="text-2xl font-bold">{t("ItemsPage.title")}</h2>
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-bold">{t("ItemsPage.title")}</h2>
+        {isAdmin && (
+          <button
+            className="px-4 py-2 rounded bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition"
+            onClick={() => setShowAddModal(true)}
+          >
+            {t("ItemsPage.addNew")}
+          </button>
+        )}
+      </div>
       <ItemsToolbar
         value={search}
         onChange={handleSearch}
@@ -65,15 +75,6 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
           setFilteredItems(items);
         }}
       />
-
-      {isAdmin && (
-        <button
-          className="bg-primary text-primary-foreground px-3 py-1 rounded text-sm"
-          onClick={() => setShowAddModal(true)}
-        >
-          {t("ItemsPage.addNew")}
-        </button>
-      )}
 
       <ItemsTable
         items={filteredItems}

@@ -57,10 +57,16 @@ export default function ItemsTable({
         </thead>
 
         <tbody>
-          {items.map((item) => (
+          {items.map((item, index) => (
             <tr
               key={item.id}
-              className="border-t border-slate-700 hover:bg-slate-800"
+              className={`
+                border-t border-slate-700
+                ${index % 2 === 0 ? "bg-slate-800" : "bg-slate-700"}
+                hover:bg-slate-600
+                transition-colors duration-200
+                text-slate-100
+              `}
             >
               <td className="px-3 py-2">{item.barcode}</td>
               <td className="px-3 py-2 font-medium">{item.name}</td>
@@ -79,13 +85,21 @@ export default function ItemsTable({
                 <td className="px-3 py-2 text-center">
                   <button
                     onClick={() => onUpdateStock(item)}
-                    className="px-2 py-1 text-xs rounded bg-blue-600 hover:bg-blue-500"
+                    className="
+                      px-3 py-1 text-sm rounded
+                      bg-blue-600 text-white
+                      hover:bg-blue-500 transition font-medium
+                    "
                   >
                     {t("ItemsPage.Actions.updateStock")}
                   </button>
                   <button
                     onClick={() => openPriceModal(item)}
-                    className="px-2 py-1 text-xs rounded bg-amber-600 hover:bg-amber-500 pl-3 ml-2"
+                    className="
+                      px-3 py-1 text-sm rounded
+                      bg-amber-600 text-white
+                      hover:bg-amber-500 transition font-medium ml-2
+                    "
                   >
                     {t("ItemsPage.Actions.updatePrice")}
                   </button>

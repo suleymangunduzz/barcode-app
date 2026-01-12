@@ -62,6 +62,7 @@
     "searchPlaceholder": "Scan barcode or search product...",
     "clearSearch": "Clear",
     "noItems": "No registered products found.",
+    "addNew": "Add New Product",
     "Table": {
       "headerName": "Product Name",
       "headerBrand": "Brand",
