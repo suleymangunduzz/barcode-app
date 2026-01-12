@@ -84,7 +84,7 @@ export function registerSaleHandlers(prisma: PrismaClient) {
       const sales = await prisma.sale.findMany({
         orderBy: { createdAt: "desc" },
         take: limit || 20,
-        include: { soldBy: true },
+        include: { soldBy: true, saleItems: true },
       });
       return sales;
     }

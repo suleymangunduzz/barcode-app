@@ -184,10 +184,20 @@
     "from": "From",
     "to": "To",
     "noSales": "No sales found.",
+    "actions": {
+      "view": "View Details"
+    },
     "table": {
       "date": "Date",
       "soldBy": "Sold By",
       "total": "Total"
+    },
+    "details": {
+      "title": "Sale Details",
+      "date": "Date",
+      "soldBy": "Sold By",
+      "total": "Total",
+      "items": "Items"
     }
   }
 }

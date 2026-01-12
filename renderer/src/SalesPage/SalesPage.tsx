@@ -1,81 +1,78 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Sale } from "../types/prisma";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const LAST_SALES_COUNT = 20;
+import { Sale } from "../types/prisma";
+import SaleDetailsModal from "./SaleDetailsModal";
 
 export default function SalesPage() {
   const { t } = useTranslation();
 
   const [sales, setSales] = useState<Sale[]>([]);
+  const [filteredSales, setFilteredSales] = useState<Sale[]>([]);
   const [search, setSearch] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
+  const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
 
   async function fetchSales() {
-    const data = await window.api.getLastSales(LAST_SALES_COUNT);
+    const data = await window.api.getLastSales(20);
     setSales(data);
+    setFilteredSales(data);
   }
 
   useEffect(() => {
     fetchSales();
   }, []);
 
-  const filteredSales = useMemo(() => {
-    return sales
-      .filter((s) => {
-        // Filter by total search
-        if (search.trim()) {
-          return s.totalAmount.toString().includes(search);
-        }
-        return true;
-      })
-      .filter((s) => {
-        // Filter by date
-        const saleDate = new Date(s.createdAt).setHours(0, 0, 0, 0);
-        const from = fromDate ? new Date(fromDate).getTime() : -Infinity;
-        const to = toDate ? new Date(toDate).getTime() : Infinity;
-        return saleDate >= from && saleDate <= to;
-      });
-  }, [sales, search, fromDate, toDate]);
+  // Filter by date and search
+  const filtered = sales.filter((sale) => {
+    const matchesSearch = search
+      ? sale.totalAmount.toString().includes(search)
+      : true;
+    const matchesFrom = fromDate ? new Date(sale.createdAt) >= fromDate : true;
+    const matchesTo = toDate ? new Date(sale.createdAt) <= toDate : true;
+
+    return matchesSearch && matchesFrom && matchesTo;
+  });
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">{t("SalesPage.title")}</h1>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-4 items-center">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4 items-start sm:items-center">
         <input
           type="text"
           placeholder={t("SalesPage.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-3 py-2 rounded bg-slate-700 text-white w-40"
+          className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary w-full sm:w-64"
         />
-        <div className="flex gap-2">
-          <label className="text-sm text-slate-400">
-            {t("SalesPage.from")}
+
+        <div className="flex gap-2 items-center">
+          <label className="text-sm text-slate-300">
+            {t("SalesPage.from")}:
           </label>
-          <input
-            type="date"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            className="px-3 py-2 rounded bg-slate-700 text-white"
+          <DatePicker
+            selected={fromDate}
+            onChange={(date) => setFromDate(date)}
+            className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
-        <div className="flex gap-2">
-          <label className="text-sm text-slate-400">{t("SalesPage.to")}</label>
-          <input
-            type="date"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            className="px-3 py-2 rounded bg-slate-700 text-white"
+
+        <div className="flex gap-2 items-center">
+          <label className="text-sm text-slate-300">{t("SalesPage.to")}:</label>
+          <DatePicker
+            selected={toDate}
+            onChange={(date) => setToDate(date)}
+            className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
       </div>
 
-      {/* Table */}
-      {filteredSales.length === 0 ? (
+      {filtered.length === 0 ? (
         <div className="text-slate-400">{t("SalesPage.noSales")}</div>
       ) : (
         <div className="overflow-auto border border-slate-700 rounded">
@@ -91,10 +88,13 @@ export default function SalesPage() {
                 <th className="px-3 py-2 text-right">
                   {t("SalesPage.table.total")}
                 </th>
+                <th className="px-3 py-2 text-center">
+                  {t("SalesPage.actions.view")}
+                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredSales.map((sale) => (
+              {filtered.map((sale) => (
                 <tr
                   key={sale.id}
                   className="border-t border-slate-700 hover:bg-slate-800"
@@ -103,14 +103,29 @@ export default function SalesPage() {
                     {new Date(sale.createdAt).toLocaleString()}
                   </td>
                   <td className="px-3 py-2">{sale.soldBy?.name ?? "-"}</td>
-                  <td className="px-3 py-2 text-right font-semibold">
+                  <td className="px-3 py-2 text-right font-medium">
                     ₺{sale.totalAmount.toLocaleString("tr-TR")}
+                  </td>
+                  <td className="px-3 py-2 text-center">
+                    <button
+                      className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-500 text-sm font-medium transition"
+                      onClick={() => setSelectedSale(sale)}
+                    >
+                      {t("SalesPage.actions.view")}
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      )}
+
+      {selectedSale && (
+        <SaleDetailsModal
+          sale={selectedSale}
+          onClose={() => setSelectedSale(null)}
+        />
       )}
     </div>
   );

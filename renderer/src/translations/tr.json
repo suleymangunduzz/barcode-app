@@ -165,13 +165,23 @@
   "SalesPage": {
     "title": "Satışlar",
     "searchPlaceholder": "Toplam tutara göre ara...",
-    "from": "Tarih Aralığı Başlangıç",
-    "to": "Tarih Aralığı Bitiş",
+    "from": "Başlangıç",
+    "to": "Bitiş",
     "noSales": "Satış bulunamadı.",
+    "actions": {
+      "view": "Detayları Gör"
+    },
     "table": {
       "date": "Tarih",
-      "soldBy": "Satışı Yapan",
-      "total": "Toplam Tutar"
+      "soldBy": "Satıcı",
+      "total": "Toplam"
+    },
+    "details": {
+      "title": "Satış Detayları",
+      "date": "Tarih",
+      "soldBy": "Satıcı",
+      "total": "Toplam",
+      "items": "Ürünler"
     }
   }
 }
