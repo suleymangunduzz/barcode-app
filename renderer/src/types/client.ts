@@ -1,5 +1,6 @@
 export type PageType =
   | "dashboard"
+  | "sales"
   | "products"
   | "reports"
   | "categories"

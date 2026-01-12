@@ -30,7 +30,8 @@
     "products": "Products",
     "reports": "Reports",
     "categories": "Categories",
-    "lowStock": "Low Stock"
+    "lowStock": "Low Stock",
+    "sales": "Sales"
   },
   "Header": {
     "title": "Barcode Application",
@@ -175,6 +176,18 @@
       "stock": "Stock",
       "minStock": "Minimum",
       "price": "Price"
+    }
+  },
+  "SalesPage": {
+    "title": "Sales",
+    "searchPlaceholder": "Search by total amount...",
+    "from": "From",
+    "to": "To",
+    "noSales": "No sales found.",
+    "table": {
+      "date": "Date",
+      "soldBy": "Sold By",
+      "total": "Total"
     }
   }
 }

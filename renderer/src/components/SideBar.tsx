@@ -1,4 +1,10 @@
-import { ShoppingCart, Package, Tags, AlertTriangle } from "lucide-react";
+import {
+  ShoppingCart,
+  Package,
+  Tags,
+  AlertTriangle,
+  DollarSign,
+} from "lucide-react";
 import { PageType, UserRole } from "../types/client";
 import { useTranslation } from "react-i18next";
 
@@ -24,6 +30,12 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       roles: ["staff", "admin"],
     },
     {
+      key: "sales",
+      label: t("SideBar.sales"),
+      icon: DollarSign,
+      roles: ["staff", "admin"],
+    },
+    {
       key: "products",
       label: t("SideBar.products"),
       icon: Package,
@@ -45,11 +57,9 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
 
   return (
     <aside className="w-56 border-r border-slate-700 bg-slate-900 text-slate-100">
-      <div className="p-4 text-lg font-semibold border-b border-slate-700">
-        {t("SideBar.title")}
-      </div>
+      <div className="p-4 text-lg font-semibold">{t("SideBar.title")}</div>
 
-      <nav className="flex flex-col gap-1 px-2 mt-2">
+      <nav className="flex flex-col gap-1 px-2">
         {navItems
           .filter((item) => item.roles.includes(role))
           .map((item) => {
@@ -61,13 +71,8 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
                 key={item.key}
                 onClick={() => setPage(item.key)}
                 className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md text-sm cursor-pointer
-                  transition-colors duration-200
-                  ${
-                    isActive
-                      ? "bg-emerald-600 text-white font-medium"
-                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                  }
+                  flex items-center gap-3 px-3 py-2 rounded-md text-sm cursor-pointer transition-colors
+                  ${isActive ? "bg-emerald-600 text-white font-medium" : "text-slate-400 hover:bg-slate-700 hover:text-white"}
                 `}
               >
                 <Icon size={18} />

@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("api", {
   // Items related handlers
-  // addNewItem: (data: unknown) => ipcRenderer.invoke("items:addNewItem", data),
+  addNewItem: (data: unknown) => ipcRenderer.invoke("items:addNewItem", data),
   getAllItems: () => ipcRenderer.invoke("items:getAll"),
   getItemByBarcode: (barcode: string) =>
     ipcRenderer.invoke("items:getByBarcode", barcode),
@@ -44,6 +44,8 @@ contextBridge.exposeInMainWorld("api", {
     }[],
     soldById?: number
   ) => ipcRenderer.invoke("sale:create", { items, soldById }),
+  getLastSales: (limit?: number) =>
+    ipcRenderer.invoke("sale:getLastSales", { limit }),
 
   // User related handlers
   getUsersByRole: (role: string) =>

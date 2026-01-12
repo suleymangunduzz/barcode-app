@@ -77,4 +77,16 @@ export function registerSaleHandlers(prisma: PrismaClient) {
       return { success: true, saleId: sale.id };
     });
   });
+
+  ipcMain.handle(
+    "sale:getLastSales",
+    async (event, { limit }: { limit?: number }) => {
+      const sales = await prisma.sale.findMany({
+        orderBy: { createdAt: "desc" },
+        take: limit || 20,
+        include: { soldBy: true },
+      });
+      return sales;
+    }
+  );
 }

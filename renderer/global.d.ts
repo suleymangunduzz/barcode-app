@@ -1,4 +1,4 @@
-import { CartItem } from "./src/types/client";
+import { CartItem, UserRole } from "./src/types/client";
 import type { Item, Category, User, Sale, SaleItem } from "./src/types/prisma";
 
 export {};
@@ -48,7 +48,7 @@ declare global {
 
       logout: () => Promise<void>;
 
-      getSession: () => Promise<User>;
+      getSession: () => Promise<{ role: UserRole; email: string }>;
 
       // ───────────────
       // Sales
@@ -63,6 +63,7 @@ declare global {
         itemId?: number;
         itemName?: string;
       }>;
+      getLastSales: (limit?: number) => Promise<Sale[]>;
 
       // ───────────────
       // Users

@@ -94,6 +94,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           value={form.categoryId}
           onChange={(e) => updateField("categoryId", e.target.value)}
           className={`${inputClass} cursor-pointer`}
+          required
         >
           <option value="">{t("ItemsPage.AddModal.fields.noCategory")}</option>
           {categories.map((c) => (
@@ -117,6 +118,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
             {t("ItemsPage.AddModal.fields.stockLabel")}
           </label>
           <input
+            required
             type="number"
             placeholder={t("ItemsPage.AddModal.fields.stock")}
             value={form.stockQuantity}
@@ -130,9 +132,11 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
             {t("ItemsPage.AddModal.fields.minStockLabel")}
           </label>
           <input
+            required
             type="number"
             placeholder={t("ItemsPage.AddModal.fields.minStock")}
             value={form.minStockThreshold}
+            defaultValue={10}
             onChange={(e) => updateField("minStockThreshold", e.target.value)}
             className={inputClass}
           />
