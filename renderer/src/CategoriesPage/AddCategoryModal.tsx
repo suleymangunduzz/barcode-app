@@ -33,30 +33,52 @@ export default function AddCategoryModal({ onClose, onSuccess }: Props) {
     }
 
     onSuccess();
+    onClose();
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <form onSubmit={handleSubmit} className="bg-slate-800 rounded p-4 w-80">
-        <h2 className="text-lg font-bold mb-3">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-slate-900 w-full max-w-sm rounded-lg p-5 space-y-4 shadow-xl"
+      >
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-white">
           {t("CategoriesPage.addModal.title")}
         </h2>
 
+        {/* Input */}
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={t("CategoriesPage.addModal.placeholder")}
-          className="w-full mb-3 px-3 py-2 rounded bg-slate-700 text-white"
+          className="
+            w-full px-3 py-2 rounded
+            bg-slate-800 text-slate-100
+            border border-slate-700
+            focus:outline-none focus:ring-2 focus:ring-blue-500
+          "
         />
 
-        {error && <div className="text-red-400 text-sm mb-2">{error}</div>}
+        {/* Error */}
+        {error && (
+          <div className="text-red-400 text-sm bg-red-900/30 px-3 py-2 rounded">
+            {error}
+          </div>
+        )}
 
-        <div className="flex justify-end gap-2">
+        {/* Actions */}
+        <div className="flex justify-end gap-2 pt-3 border-t border-slate-700">
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1 rounded bg-slate-600"
+            className="
+              px-4 py-2 rounded
+              bg-slate-700 text-slate-200
+              hover:bg-slate-600
+              transition
+            "
           >
             {t("Common.cancel")}
           </button>
@@ -64,7 +86,14 @@ export default function AddCategoryModal({ onClose, onSuccess }: Props) {
           <button
             type="submit"
             disabled={loading}
-            className="px-3 py-1 rounded bg-primary text-primary-foreground"
+            className="
+              px-4 py-2 rounded
+              bg-emerald-600 text-white
+              hover:bg-emerald-500
+              transition
+              font-semibold
+              disabled:opacity-60
+            "
           >
             {t("Common.save")}
           </button>
