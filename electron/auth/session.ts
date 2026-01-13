@@ -1,4 +1,4 @@
-export type SessionRole = "staff" | "admin";
+export type SessionRole = "staff" | "admin" | null;
 
 export type Session = {
   role: SessionRole;
@@ -7,7 +7,7 @@ export type Session = {
 };
 
 let currentSession: Session = {
-  role: "staff",
+  role: null,
 };
 
 export function getSession(): Session {
@@ -22,8 +22,16 @@ export function setAdminSession(user: { id: number; email: string }) {
   };
 }
 
-export function clearSession() {
+export function setStaffSession(user: { id: number; email: string }) {
   currentSession = {
     role: "staff",
+    userId: user.id,
+    email: user.email,
+  };
+}
+
+export function clearSession() {
+  currentSession = {
+    role: null,
   };
 }

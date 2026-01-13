@@ -23,10 +23,10 @@ export default function LoginModal({ onLogin, onClose }: LoginModalProps) {
     }
 
     try {
-      const res = await window.api.login(email, password);
+      const { success, user } = await window.api.login(email, password);
 
-      if (res.success) {
-        onLogin(res.user);
+      if (success) {
+        onLogin(user);
       } else {
         setError(t("LoginModal.errors.invalidCredentials"));
       }

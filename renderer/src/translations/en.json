@@ -12,7 +12,8 @@
     "admin": "Admin"
   },
   "SignupModal": {
-    "title": "Register First Admin",
+    "titleAdmin": "Register First Admin",
+    "titleStaff": "Register Personel",
     "namePlaceholder": "Name",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
@@ -20,6 +21,7 @@
     "closeButton": "Close"
   },
   "LoginModal": {
+    "shouldLoginText": "Login to continue.",
     "title": "Admin Login",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",

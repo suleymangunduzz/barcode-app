@@ -1,7 +1,12 @@
 import { ipcMain } from "electron";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
-import { getSession, setAdminSession, clearSession } from "./session";
+import {
+  getSession,
+  setAdminSession,
+  clearSession,
+  setStaffSession,
+} from "./session";
 
 export function registerAuthHandlers(prisma: PrismaClient) {
   // Get current session
@@ -23,17 +28,19 @@ export function registerAuthHandlers(prisma: PrismaClient) {
       return { success: false, error: "INVALID_CREDENTIALS" };
     }
 
-    if (user.role !== "admin") {
-      return { success: false, error: "NOT_ADMIN" };
-    }
-
     const validPassword = await bcrypt.compare(password, user.passwordHash);
 
     if (!validPassword) {
       return { success: false, error: "INVALID_CREDENTIALS" };
     }
 
-    setAdminSession({ id: user.id, email: user.email });
+    if (user.role === "admin") {
+      setAdminSession({ id: user.id, email: user.email });
+    }
+
+    if (user.role === "staff") {
+      setStaffSession({ id: user.id, email: user.email });
+    }
 
     return { success: true };
   });

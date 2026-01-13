@@ -42,9 +42,12 @@ declare global {
       }) => Promise<{ success: boolean; error?: string }>;
 
       // ───────────────
-      // Auth
+      // Auth and User
       // ───────────────
-      login: (email: string, password: string) => Promise<User>;
+      login: (
+        email: string,
+        password: string
+      ) => Promise<{ success: boolean; error?: string; user?: User }>;
       logout: () => Promise<void>;
       getSession: () => Promise<{ role: UserRole; email: string }>;
       signupFirstAdmin: (data: {
@@ -52,7 +55,16 @@ declare global {
         email: string;
         password: string;
       }) => Promise<{ success: boolean; error?: string; user?: User }>;
+      signupStaff: (data: {
+        name: string;
+        email: string;
+        password: string;
+      }) => Promise<{ success: boolean; error?: string; user?: User }>;
       isFirstAdminNeeded: () => Promise<{ needed: boolean }>;
+      getUserCount: () => Promise<{ count: number }>;
+      getUsersByRole: (
+        role: string
+      ) => Promise<{ success: boolean; users: User[] }>;
 
       // ───────────────
       // Sales
@@ -68,13 +80,6 @@ declare global {
         itemName?: string;
       }>;
       getLastSales: (limit?: number) => Promise<Sale[]>;
-
-      // ───────────────
-      // Users
-      // ───────────────
-      getUsersByRole: (
-        role: string
-      ) => Promise<{ success: boolean; users: User[] }>;
     };
   }
 }

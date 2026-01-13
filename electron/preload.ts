@@ -26,15 +26,20 @@ contextBridge.exposeInMainWorld("api", {
   updateCategory: (payload: { id: number; name: string }) =>
     ipcRenderer.invoke("categories:update", payload),
 
-  // Auth related handlers
+  // Auth and User related handlers
   login: (email: string, password: string) =>
     ipcRenderer.invoke("auth:login", { email, password }),
   logout: () => ipcRenderer.invoke("auth:logout"),
   getSession: () => ipcRenderer.invoke("auth:getSession"),
   signupFirstAdmin: (data: { name: string; email: string; password: string }) =>
     ipcRenderer.invoke("user:signupFirstAdmin", data),
+  signupStaff: (data: { name: string; email: string; password: string }) =>
+    ipcRenderer.invoke("user:signupStaff", data),
 
   isFirstAdminNeeded: () => ipcRenderer.invoke("user:isFirstAdminNeeded"),
+  getUserCount: () => ipcRenderer.invoke("user:getUserCount"),
+  getUsersByRole: (role: string) =>
+    ipcRenderer.invoke("user:getByRole", { role }),
 
   // Sales related handlers
   completeSale: (
@@ -50,8 +55,4 @@ contextBridge.exposeInMainWorld("api", {
   ) => ipcRenderer.invoke("sale:create", { items, soldById }),
   getLastSales: (limit?: number) =>
     ipcRenderer.invoke("sale:getLastSales", { limit }),
-
-  // User related handlers
-  getUsersByRole: (role: string) =>
-    ipcRenderer.invoke("user:getByRole", { role }),
 });

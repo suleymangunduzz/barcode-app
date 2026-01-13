@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import LoginModal from "./components/LoginModal";
 import SignupModal from "./components/SignupModal";
@@ -12,10 +13,13 @@ import LowStockPage from "./LowStockPage";
 import SalesPage from "./SalesPage";
 
 function App() {
-  const [role, setRole] = useState<UserRole>("staff");
+  const [role, setRole] = useState<UserRole | null>(null);
   const [page, setPage] = useState<PageType>("dashboard");
   const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
+  const [showSignupStaff, setShowSignupStaff] = useState(false);
+  const [showAdminSignup, setShowAdminSignup] = useState(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchSessionAndCheckAdmin() {
@@ -24,26 +28,46 @@ function App() {
 
       const { needed } = await window.api.isFirstAdminNeeded();
       if (needed) {
-        setShowSignup(true);
+        setShowAdminSignup(true);
+      }
+
+      const { count: userCount } = await window.api.getUserCount();
+
+      if (userCount < 2) {
+        setShowSignupStaff(true);
       }
     }
     fetchSessionAndCheckAdmin();
   }, []);
 
   const onLoginSuccess = () => {
-    setRole("admin");
     setShowLogin(false);
-  };
-
-  const onSignupSuccess = () => {
-    setRole("admin");
-    setShowSignup(false);
   };
 
   const onLogout = async () => {
     window.api.logout();
-    setRole("staff");
+    setRole(null);
   };
+
+  if (showAdminSignup) {
+    return <SignupModal role="admin" />;
+  }
+
+  if (showSignupStaff) {
+    return <SignupModal role="staff" />;
+  }
+
+  if (role === null) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-slate-900 text-slate-100">
+        {t("LoginModal.shouldLoginText")}
+        <LoginModal
+          onLogin={onLoginSuccess}
+          onClose={() => setShowLogin(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex bg-slate-900 text-slate-100">
@@ -54,20 +78,6 @@ function App() {
           openLoginModal={() => setShowLogin(true)}
           onLogout={onLogout}
         />
-
-        {showSignup && (
-          <SignupModal
-            onSignup={onSignupSuccess}
-            onClose={() => setShowSignup(false)}
-          />
-        )}
-
-        {showLogin && !showSignup && (
-          <LoginModal
-            onLogin={onLoginSuccess}
-            onClose={() => setShowLogin(false)}
-          />
-        )}
 
         <main className="flex-1 p-4 overflow-auto">
           {page === "dashboard" && <Dashboard />}

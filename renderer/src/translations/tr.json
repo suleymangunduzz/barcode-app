@@ -12,7 +12,8 @@
     "admin": "Yönetici"
   },
   "SignupModal": {
-    "title": "İlk Yönetici Hesabını Oluştur",
+    "titleAdmin": "İlk Yönetici Hesabını Oluştur",
+    "titleStaff": "Personel Hesabı Oluştur",
     "namePlaceholder": "İsim",
     "emailPlaceholder": "E-posta",
     "passwordPlaceholder": "Parola",
@@ -20,6 +21,7 @@
     "closeButton": "Kapat"
   },
   "LoginModal": {
+    "shouldLoginText": "Devam etmek için oturum aç.",
     "title": "Yönetici Girişi",
     "emailPlaceholder": "E-posta",
     "passwordPlaceholder": "Parola",
