@@ -33,18 +33,23 @@ export function registerUserHandlers(prisma: PrismaClient) {
 
       const passwordHash = await bcrypt.hash(password, 10);
 
-      const admin = await prisma.user.create({
-        data: { name, email, passwordHash, role: "admin" },
-      });
+      // Wrap in transaction
+      const admin = await prisma.$transaction(async (tx) => {
+        const newAdmin = await tx.user.create({
+          data: { name, email, passwordHash, role: "admin" },
+        });
 
-      // Optional: SyncQueue
-      await prisma.syncQueue.create({
-        data: {
-          tableName: "User",
-          action: "create",
-          recordId: admin.id,
-          payload: JSON.stringify(admin),
-        },
+        // SyncQueue entry
+        await tx.syncQueue.create({
+          data: {
+            tableName: "User",
+            action: "create",
+            recordId: newAdmin.id,
+            payload: JSON.stringify(newAdmin),
+          },
+        });
+
+        return newAdmin;
       });
 
       // Set session
