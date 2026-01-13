@@ -11,6 +11,14 @@
     "staff": "Staff",
     "admin": "Admin"
   },
+  "SignupModal": {
+    "title": "Register First Admin",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "signupButton": "Sign Up",
+    "closeButton": "Close"
+  },
   "LoginModal": {
     "title": "Admin Login",
     "emailPlaceholder": "Email",

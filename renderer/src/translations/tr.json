@@ -11,6 +11,14 @@
     "staff": "Personel",
     "admin": "Yönetici"
   },
+  "SignupModal": {
+    "title": "İlk Yönetici Hesabını Oluştur",
+    "namePlaceholder": "İsim",
+    "emailPlaceholder": "E-posta",
+    "passwordPlaceholder": "Parola",
+    "signupButton": "Kayıt Ol",
+    "closeButton": "Kapat"
+  },
   "LoginModal": {
     "title": "Yönetici Girişi",
     "emailPlaceholder": "E-posta",
