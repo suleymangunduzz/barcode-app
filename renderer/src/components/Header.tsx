@@ -3,15 +3,10 @@ import { UserRole } from "../types/client";
 
 type HeaderProps = {
   role: UserRole;
-  openLoginModal: () => void;
   onLogout: () => void;
 };
 
-export default function Header({
-  role,
-  openLoginModal,
-  onLogout,
-}: HeaderProps) {
+export default function Header({ role, onLogout }: HeaderProps) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language;
 
@@ -30,25 +25,13 @@ export default function Header({
       </div>
 
       <div className="flex items-center gap-2">
-        {role === "staff" && (
-          <button
-            type="button"
-            onClick={openLoginModal}
-            className="text-sm px-3 py-1 rounded bg-primary text-primary-foreground hover:opacity-90 cursor-pointer"
-          >
-            {t("Header.loginAsAdmin")}
-          </button>
-        )}
-
-        {role === "admin" && (
-          <button
-            type="button"
-            onClick={onLogout}
-            className="text-sm px-3 py-1 rounded bg-destructive text-destructive-foreground hover:opacity-90 cursor-pointer"
-          >
-            {t("Header.logout")}
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={onLogout}
+          className="text-sm px-3 py-1 rounded bg-destructive text-destructive-foreground hover:opacity-90 cursor-pointer"
+        >
+          {t("Header.logout")}
+        </button>
 
         <button
           type="button"

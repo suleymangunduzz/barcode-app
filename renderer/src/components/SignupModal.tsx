@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "../types/prisma";
 
 type Props = {
   role: User["role"];
+  onSuccess: () => void;
 };
 
-export default function SignupModal({ role }: Props) {
+export default function SignupModal({ role, onSuccess }: Props) {
   const { t } = useTranslation();
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  }, [role]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,12 +31,13 @@ export default function SignupModal({ role }: Props) {
         password,
       };
 
-      const result =
+      const { success } =
         role === "admin"
           ? await window.api.signupFirstAdmin(requestData)
           : await window.api.signupStaff(requestData);
 
-      if (result.success) {
+      if (success) {
+        onSuccess();
       } else {
         alert("Bir hata olustu, lutfen tekrar deneyin.");
       }
@@ -40,7 +49,7 @@ export default function SignupModal({ role }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <form onSubmit={handleSubmit}>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <div className="bg-slate-800 p-6 rounded-lg w-96">
           <h2 className="text-xl mb-4">
             {role === "admin"

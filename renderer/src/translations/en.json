@@ -22,7 +22,7 @@
   },
   "LoginModal": {
     "shouldLoginText": "Login to continue.",
-    "title": "Admin Login",
+    "title": "User Login",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
     "loginButton": "Login",

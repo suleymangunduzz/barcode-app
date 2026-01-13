@@ -9,7 +9,6 @@ import {
 } from "./session";
 
 export function registerAuthHandlers(prisma: PrismaClient) {
-  // Get current session
   ipcMain.handle("auth:getSession", () => {
     const session = getSession();
     return {
@@ -18,7 +17,6 @@ export function registerAuthHandlers(prisma: PrismaClient) {
     };
   });
 
-  // Admin login
   ipcMain.handle("auth:login", async (_event, { email, password }) => {
     const user = await prisma.user.findUnique({
       where: { email },
@@ -42,10 +40,9 @@ export function registerAuthHandlers(prisma: PrismaClient) {
       setStaffSession({ id: user.id, email: user.email });
     }
 
-    return { success: true };
+    return { success: true, user };
   });
 
-  // Logout admin
   ipcMain.handle("auth:logout", () => {
     clearSession();
     return { success: true };

@@ -22,7 +22,7 @@
   },
   "LoginModal": {
     "shouldLoginText": "Devam etmek için oturum aç.",
-    "title": "Yönetici Girişi",
+    "title": "Kullanıcı Girişi",
     "emailPlaceholder": "E-posta",
     "passwordPlaceholder": "Parola",
     "loginButton": "Giriş Yap",

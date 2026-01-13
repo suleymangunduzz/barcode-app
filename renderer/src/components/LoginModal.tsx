@@ -3,10 +3,9 @@ import { useTranslation } from "react-i18next";
 
 type LoginModalProps = {
   onLogin: (user: any) => void;
-  onClose: () => void;
 };
 
-export default function LoginModal({ onLogin, onClose }: LoginModalProps) {
+export default function LoginModal({ onLogin }: LoginModalProps) {
   const [error, setError] = useState("");
   const { t } = useTranslation();
 
@@ -42,12 +41,6 @@ export default function LoginModal({ onLogin, onClose }: LoginModalProps) {
           <h2 className="text-xl font-bold mb-4 text-black">
             {t("LoginModal.title")}
           </h2>
-          <button
-            className="absolute top-2 right-2 text-gray-500 cursor-pointer"
-            onClick={onClose}
-          >
-            {t("LoginModal.closeButton")}
-          </button>
           <input
             className="w-full border p-2 mb-2 text-black"
             placeholder={t("LoginModal.emailPlaceholder")}
