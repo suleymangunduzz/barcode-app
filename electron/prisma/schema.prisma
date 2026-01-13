@@ -73,3 +73,15 @@ model SaleItem {
   unitPrice  Float
   totalPrice Float
 }
+
+model SyncQueue {
+  id        Int      @id @default(autoincrement())
+  tableName String
+  action    String
+  recordId  Int?
+  payload   String   // JSON serialized string
+  synced    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([synced, createdAt, id])
+}

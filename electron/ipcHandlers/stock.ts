@@ -5,21 +5,47 @@ export function registerStockHandlers(prisma: PrismaClient) {
   ipcMain.handle(
     "stock:add",
     async (
-      event,
+      _event,
       itemId: number,
       quantity: number,
       reason: "restock" | "manual_adjustment"
     ) => {
-      const item = await prisma.item.update({
-        where: { id: itemId },
-        data: { stockQuantity: { increment: quantity } },
-      });
+      return prisma.$transaction(async (tx) => {
+        // 1️⃣ Update stock quantity
+        const updatedItem = await tx.item.update({
+          where: { id: itemId },
+          data: { stockQuantity: { increment: quantity } },
+        });
 
-      await prisma.stockMovement.create({
-        data: { itemId, changeQuantity: quantity, reason },
-      });
+        // 2️⃣ Record Item update in SyncQueue
+        await tx.syncQueue.create({
+          data: {
+            tableName: "Item",
+            action: "update",
+            recordId: updatedItem.id,
+            payload: JSON.stringify({
+              stockQuantity: updatedItem.stockQuantity,
+            }),
+          },
+        });
 
-      return item;
+        // 3️⃣ Create StockMovement
+        const movement = await tx.stockMovement.create({
+          data: { itemId, changeQuantity: quantity, reason },
+        });
+
+        // 4️⃣ Record StockMovement in SyncQueue
+        await tx.syncQueue.create({
+          data: {
+            tableName: "StockMovement",
+            action: "create",
+            recordId: movement.id,
+            payload: JSON.stringify(movement),
+          },
+        });
+
+        return updatedItem;
+      });
     }
   );
 }

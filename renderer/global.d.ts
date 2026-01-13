@@ -45,10 +45,14 @@ declare global {
       // Auth
       // ───────────────
       login: (email: string, password: string) => Promise<User>;
-
       logout: () => Promise<void>;
-
       getSession: () => Promise<{ role: UserRole; email: string }>;
+      signupFirstAdmin: (data: {
+        name: string;
+        email: string;
+        password: string;
+      }) => Promise<{ success: boolean; error?: string; user?: User }>;
+      isFirstAdminNeeded: () => Promise<{ needed: boolean }>;
 
       // ───────────────
       // Sales

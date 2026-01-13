@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import LoginModal from "./components/LoginModal";
+import SignupModal from "./components/SignupModal";
 import Sidebar from "./components/SideBar";
 import Header from "./components/Header";
 import { PageType, UserRole } from "./types/client";
@@ -14,24 +15,29 @@ function App() {
   const [role, setRole] = useState<UserRole>("staff");
   const [page, setPage] = useState<PageType>("dashboard");
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   useEffect(() => {
-    async function fetchSession() {
+    async function fetchSessionAndCheckAdmin() {
       const { role } = await window.api.getSession();
       setRole(role);
-    }
-    fetchSession();
-  }, []);
 
-  useEffect(() => {
-    if (role === "staff") {
-      setPage("dashboard");
+      const { needed } = await window.api.isFirstAdminNeeded();
+      if (needed) {
+        setShowSignup(true);
+      }
     }
-  }, [role]);
+    fetchSessionAndCheckAdmin();
+  }, []);
 
   const onLoginSuccess = () => {
     setRole("admin");
     setShowLogin(false);
+  };
+
+  const onSignupSuccess = () => {
+    setRole("admin");
+    setShowSignup(false);
   };
 
   const onLogout = async () => {
@@ -48,12 +54,21 @@ function App() {
           openLoginModal={() => setShowLogin(true)}
           onLogout={onLogout}
         />
-        {showLogin && (
+
+        {showSignup && (
+          <SignupModal
+            onSignup={onSignupSuccess}
+            onClose={() => setShowSignup(false)}
+          />
+        )}
+
+        {showLogin && !showSignup && (
           <LoginModal
             onLogin={onLoginSuccess}
             onClose={() => setShowLogin(false)}
           />
         )}
+
         <main className="flex-1 p-4 overflow-auto">
           {page === "dashboard" && <Dashboard />}
           {page === "products" && <ItemsPage isAdmin={role === "admin"} />}

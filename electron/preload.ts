@@ -31,6 +31,10 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.invoke("auth:login", { email, password }),
   logout: () => ipcRenderer.invoke("auth:logout"),
   getSession: () => ipcRenderer.invoke("auth:getSession"),
+  signupFirstAdmin: (data: { name: string; email: string; password: string }) =>
+    ipcRenderer.invoke("user:signupFirstAdmin", data),
+
+  isFirstAdminNeeded: () => ipcRenderer.invoke("user:isFirstAdminNeeded"),
 
   // Sales related handlers
   completeSale: (

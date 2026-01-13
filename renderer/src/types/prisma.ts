@@ -67,3 +67,12 @@ export type SaleItem = {
   totalPrice: number;
 };
 
+export type SyncQueue = {
+  id: number;
+  tableName: string;
+  action: string;
+  recordId?: number | null;
+  payload: string;
+  synced: boolean;
+  createdAt: string;
+};

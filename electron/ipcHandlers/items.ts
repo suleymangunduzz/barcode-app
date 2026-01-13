@@ -17,64 +17,6 @@ export function registerItemHandlers(prisma: PrismaClient) {
     });
   });
 
-  ipcMain.handle(
-    "items:updateStock",
-    async (_event, { itemId, changeQuantity, reason }) => {
-      const session = getSession();
-
-      if (session.role !== "admin") {
-        return { success: false, error: "UNAUTHORIZED" };
-      }
-
-      return prisma.$transaction(async (tx) => {
-        await tx.item.update({
-          where: { id: itemId },
-          data: {
-            stockQuantity: {
-              increment: changeQuantity,
-            },
-          },
-        });
-
-        await tx.stockMovement.create({
-          data: {
-            itemId,
-            changeQuantity,
-            reason,
-          },
-        });
-
-        return { success: true };
-      });
-    }
-  );
-
-  ipcMain.handle("items:updatePrice", async (_event, { itemId, newPrice }) => {
-    try {
-      const session = getSession();
-
-      if (session.role !== "admin") {
-        return { success: false, error: "UNAUTHORIZED" };
-      }
-
-      if (typeof newPrice !== "number" || newPrice <= 0) {
-        return { success: false, error: "INVALID_PRICE" };
-      }
-
-      await prisma.item.update({
-        where: { id: itemId },
-        data: {
-          currentPrice: newPrice,
-        },
-      });
-
-      return { success: true };
-    } catch (err) {
-      console.error("Update price failed:", err);
-      return { success: false, error: "UPDATE_FAILED" };
-    }
-  });
-
   ipcMain.handle("items:getByCategory", async (_event, categoryId: number) => {
     return prisma.item.findMany({
       where: { categoryId },
@@ -93,6 +35,60 @@ export function registerItemHandlers(prisma: PrismaClient) {
 
     return lowStockItems;
   });
+
+  ipcMain.handle(
+    "items:updateStock",
+    async (_event, { itemId, changeQuantity, reason }) => {
+      const session = getSession();
+
+      if (session.role !== "admin") {
+        return { success: false, error: "UNAUTHORIZED" };
+      }
+
+      return prisma.$transaction(async (tx) => {
+        const updatedItem = await tx.item.update({
+          where: { id: itemId },
+          data: {
+            stockQuantity: {
+              increment: changeQuantity,
+            },
+          },
+        });
+
+        const stockMovement = await tx.stockMovement.create({
+          data: {
+            itemId,
+            changeQuantity,
+            reason,
+          },
+        });
+
+        // Sync: item update
+        await tx.syncQueue.create({
+          data: {
+            tableName: "Item",
+            action: "update",
+            recordId: itemId,
+            payload: JSON.stringify({
+              stockQuantity: updatedItem.stockQuantity,
+            }),
+          },
+        });
+
+        // Sync: stock movement create
+        await tx.syncQueue.create({
+          data: {
+            tableName: "StockMovement",
+            action: "create",
+            recordId: stockMovement.id,
+            payload: JSON.stringify(stockMovement),
+          },
+        });
+
+        return { success: true };
+      });
+    }
+  );
 
   ipcMain.handle("items:addNewItem", async (_event, data) => {
     const session = getSession();
@@ -125,18 +121,76 @@ export function registerItemHandlers(prisma: PrismaClient) {
         },
       });
 
-      // Initial stock movement (if any stock)
+      // Sync: item create
+      await tx.syncQueue.create({
+        data: {
+          tableName: "Item",
+          action: "create",
+          recordId: item.id,
+          payload: JSON.stringify(item),
+        },
+      });
+
       if (stockQuantity > 0) {
-        await tx.stockMovement.create({
+        const stockMovement = await tx.stockMovement.create({
           data: {
             itemId: item.id,
             changeQuantity: stockQuantity,
             reason: "restock",
           },
         });
+
+        // Sync: stock movement create
+        await tx.syncQueue.create({
+          data: {
+            tableName: "StockMovement",
+            action: "create",
+            recordId: stockMovement.id,
+            payload: JSON.stringify(stockMovement),
+          },
+        });
       }
 
       return item;
     });
+  });
+
+  ipcMain.handle("items:updatePrice", async (_event, { itemId, newPrice }) => {
+    try {
+      const session = getSession();
+
+      if (session.role !== "admin") {
+        return { success: false, error: "UNAUTHORIZED" };
+      }
+
+      if (typeof newPrice !== "number" || newPrice <= 0) {
+        return { success: false, error: "INVALID_PRICE" };
+      }
+
+      await prisma.$transaction(async (tx) => {
+        const item = await tx.item.update({
+          where: { id: itemId },
+          data: {
+            currentPrice: newPrice,
+          },
+        });
+
+        await tx.syncQueue.create({
+          data: {
+            tableName: "Item",
+            action: "update",
+            recordId: itemId,
+            payload: JSON.stringify({
+              currentPrice: item.currentPrice,
+            }),
+          },
+        });
+      });
+
+      return { success: true };
+    } catch (err) {
+      console.error("Update price failed:", err);
+      return { success: false, error: "UPDATE_FAILED" };
+    }
   });
 }
