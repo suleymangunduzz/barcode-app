@@ -21,6 +21,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    icon: path.join(__dirname, "../assets/images/icon.png"),
   });
 
   mainWindow.loadURL("http://localhost:5173");
