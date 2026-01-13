@@ -111,6 +111,8 @@
     },
     "AddModal": {
       "title": "Add New Product",
+      "addBarcode": "Add Barcode",
+      "changeBarcode": "Change Barcode",
       "fields": {
         "barcode": "Barcode",
         "name": "Product Name",
@@ -139,6 +141,11 @@
         "invalidPrice": "Please enter a valid price.",
         "invalidStock": "Please enter a valid stock quantity."
       }
+    },
+    "BarcodeModal": {
+      "barcodeExistError": "Barcode exist in the system, try again.",
+      "scan": "Scan or generate barcode",
+      "generate": "Generate"
     }
   },
   "CategoriesPage": {

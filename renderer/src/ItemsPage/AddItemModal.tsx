@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category } from "../types/prisma";
+import BarcodeModal from "./BarcodeModal";
 
 type Props = {
   onClose: () => void;
@@ -10,6 +11,8 @@ type Props = {
 export default function AddItemModal({ onClose, onSuccess }: Props) {
   const { t } = useTranslation();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [barcode, setBarcode] = useState<string>("");
+  const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
 
   const [form, setForm] = useState({
     barcode: "",
@@ -34,7 +37,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
     e.preventDefault();
 
     await window.api.addNewItem({
-      barcode: form.barcode,
+      barcode,
       name: form.name,
       brand: form.brand || null,
       model: form.model || null,
@@ -52,6 +55,12 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+      {isBarcodeModalOpen && (
+        <BarcodeModal
+          onClose={() => setIsBarcodeModalOpen(false)}
+          onConfirm={setBarcode}
+        />
+      )}
       <form
         onSubmit={handleSubmit}
         className="bg-slate-900 p-6 rounded-lg w-[420px] space-y-4 border border-slate-700 shadow-xl"
@@ -60,13 +69,24 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           {t("ItemsPage.AddModal.title")}
         </h2>
 
-        <input
-          required
-          placeholder={t("ItemsPage.AddModal.fields.barcode")}
-          value={form.barcode}
-          onChange={(e) => updateField("barcode", e.target.value)}
-          className={inputClass}
-        />
+        <div className="flex gap-2">
+          <input
+            disabled
+            value={barcode}
+            placeholder={t("ItemsPage.AddModal.fields.barcode")}
+            className={`${inputClass} opacity-60 cursor-not-allowed`}
+          />
+
+          <button
+            type="button"
+            onClick={() => setIsBarcodeModalOpen(true)}
+            className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 transition whitespace-nowrap"
+          >
+            {barcode
+              ? t("ItemsPage.AddModal.changeBarcode")
+              : t("ItemsPage.AddModal.addBarcode")}
+          </button>
+        </div>
 
         <input
           required
@@ -136,7 +156,6 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
             type="number"
             placeholder={t("ItemsPage.AddModal.fields.minStock")}
             value={form.minStockThreshold}
-            defaultValue={10}
             onChange={(e) => updateField("minStockThreshold", e.target.value)}
             className={inputClass}
           />

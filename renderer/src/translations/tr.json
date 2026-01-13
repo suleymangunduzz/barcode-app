@@ -111,6 +111,8 @@
     },
     "AddModal": {
       "title": "Yeni Ürün Ekle",
+      "addBarcode": "Barkod Ekle",
+      "changeBarcode": "Barkodu Değiştir",
       "fields": {
         "barcode": "Barkod",
         "name": "Ürün Adı",
@@ -123,6 +125,11 @@
         "stockLabel": "Stok",
         "minStockLabel": "Minimum Stok"
       }
+    },
+    "BarcodeModal": {
+      "barcodeExistError": "Bu barkod sistemde kayıtlı, tekrar deneyin.",
+      "scan": "Barkod okut ya da oluştur",
+      "generate": "Oluştur"
     }
   },
   "CategoriesPage": {
