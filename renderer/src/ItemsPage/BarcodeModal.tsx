@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-// import { generateUniqueBarcode } from "../utils/generateUniqueBarcode";
+import { generateUniqueBarcode } from "../utils/generateUniqueBarcode";
 
 type BarcodeModalProps = {
   initialValue?: string;
@@ -46,10 +46,13 @@ export default function BarcodeModal({
   }
 
   async function handleGenerate() {
-    // const barcode = await generateUniqueBarcode();
-    const barcode = "123123";
-    setValue(barcode);
-    setError(null);
+    try {
+      const barcode = await generateUniqueBarcode();
+      setValue(barcode);
+      setError(null);
+    } catch (err) {
+      setError(t("ItemsPage.BarcodeModal.barcodeNotGeneratedError"));
+    }
   }
 
   return (
