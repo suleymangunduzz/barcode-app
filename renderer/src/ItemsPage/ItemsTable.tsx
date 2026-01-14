@@ -81,30 +81,42 @@ export default function ItemsTable({
                   min={item.minStockThreshold}
                 />
               </td>
-              {isAdmin && (
-                <td className="px-3 py-2 text-center">
-                  <button
-                    onClick={() => onUpdateStock(item)}
-                    className="
+              <td className="px-3 py-2 text-center flex gap-2">
+                <button
+                  onClick={() => onUpdateStock(item)}
+                  className="
                       px-3 py-1 text-sm rounded
                       bg-blue-600 text-white
                       hover:bg-blue-500 transition font-medium
                     "
-                  >
-                    {t("ItemsPage.Actions.updateStock")}
-                  </button>
-                  <button
-                    onClick={() => openPriceModal(item)}
-                    className="
+                >
+                  {t("ItemsPage.Actions.addToCart")}
+                </button>
+                {isAdmin && (
+                  <>
+                    <button
+                      onClick={() => onUpdateStock(item)}
+                      className="
+                      px-3 py-1 text-sm rounded
+                      bg-blue-600 text-white
+                      hover:bg-blue-500 transition font-medium
+                    "
+                    >
+                      {t("ItemsPage.Actions.updateStock")}
+                    </button>
+                    <button
+                      onClick={() => openPriceModal(item)}
+                      className="
                       px-3 py-1 text-sm rounded
                       bg-amber-600 text-white
-                      hover:bg-amber-500 transition font-medium ml-2
+                      hover:bg-amber-500 transition font-medium
                     "
-                  >
-                    {t("ItemsPage.Actions.updatePrice")}
-                  </button>
-                </td>
-              )}
+                    >
+                      {t("ItemsPage.Actions.updatePrice")}
+                    </button>
+                  </>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
