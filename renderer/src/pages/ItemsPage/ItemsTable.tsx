@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
 import { Item } from "@/types/prisma";
 import useToast from "@/hooks/useToast";
+import { useCart } from "@/context/CartContext";
 
 type Props = {
   items?: Item[]; // make optional to be defensive
@@ -22,9 +23,21 @@ export default function ItemsTable({
   const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  const { cartItems } = useCart();
   const toast = useToast();
 
   const handleAddToCart = async (item: Item) => {
+    // Find how many of this item are already in the cart
+    const cartItem = cartItems.find((ci) => ci.itemId === item.id);
+    const cartQuantity = cartItem ? cartItem.quantity : 0;
+    // If not enough stock for the requested quantity (cart + 1), block
+    if (item.stockQuantity - cartQuantity < 1) {
+      toast({
+        type: "error",
+        message: t("ItemsPage.toast.insufficientStock", { name: item.name }),
+      });
+      return;
+    }
     await addToCart(item);
     toast({
       type: "success",
@@ -114,11 +127,13 @@ export default function ItemsTable({
                   <td className="px-3 py-2 text-center flex gap-2 justify-center">
                     <button
                       onClick={() => handleAddToCart(item)}
-                      className="
+                      disabled={item.stockQuantity < 1}
+                      className={`
                           px-3 py-1 text-sm rounded
                           bg-blue-600 text-white
                           hover:bg-blue-500 transition font-medium
-                        "
+                          ${item.stockQuantity < 1 ? "opacity-50 cursor-not-allowed" : ""}
+                        `}
                     >
                       {t("ItemsPage.Actions.addToCart")}
                     </button>

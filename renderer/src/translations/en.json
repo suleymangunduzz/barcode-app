@@ -96,7 +96,8 @@
       "title": "Update Selling Price"
     },
     "toast": {
-      "addedToCart": "{{name}} added to cart!"
+      "addedToCart": "{{name}} added to cart!",
+      "insufficientStock": "❌ Not enough stock for {{name}}."
     },
     "Modal": {
       "title": "Update Stock",

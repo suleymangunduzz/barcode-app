@@ -96,7 +96,8 @@
       "title": "Satış Fiyatını Güncelle"
     },
     "toast": {
-      "addedToCart": "{{name}} sepete eklendi!"
+      "addedToCart": "{{name}} sepete eklendi!",
+      "insufficientStock": "❌ {{name}} için yeterli stok yok."
     },
     "Modal": {
       "title": "Stok Güncelle",
