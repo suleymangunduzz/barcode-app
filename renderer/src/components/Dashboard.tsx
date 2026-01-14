@@ -2,18 +2,19 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Plus, Minus, Trash2 } from "lucide-react";
 
-import {
-  increaseItem,
-  decreaseItem,
-  removeItem,
-  calculateTotal,
-  clearCart,
-} from "../utils/cart";
+import { calculateTotal } from "../utils/cart";
 import useBarcodeScanner from "../hooks/useBarcodeScanner";
-import { CartItem } from "../types/client";
+import { useCart } from "../context/CartContext";
 
 export default function Dashboard() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const {
+    cartItems,
+    addItemByBarcode,
+    handleIncrease,
+    handleDecrease,
+    handleRemove,
+    handleClearCart,
+  } = useCart();
   const [isSaleInProgress, setIsSaleInProgress] = useState(false);
 
   const barcodeInputRef = useRef<HTMLInputElement>(null);
@@ -21,39 +22,9 @@ export default function Dashboard() {
 
   const totalAmount = calculateTotal(cartItems);
 
-  const fetchItemAndAddToCart = async (barcode: string) => {
-    const item = await window.api.getItemByBarcode(barcode);
-    if (!item) return;
-
-    setCartItems((prev) => {
-      const existing = prev.find((i) => i.itemId === item.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.itemId === item.id
-            ? {
-                ...i,
-                quantity: i.quantity + 1,
-                totalPrice: (i.quantity + 1) * i.unitPrice,
-              }
-            : i
-        );
-      }
-      return [
-        ...prev,
-        {
-          itemId: item.id,
-          barcode: item.barcode,
-          name: item.name,
-          unitPrice: item.currentPrice,
-          quantity: 1,
-          totalPrice: item.currentPrice,
-        },
-      ];
-    });
-  };
-
   useBarcodeScanner(async (barcode) => {
-    /* fetch item */
+    if (!barcode) return;
+    await addItemByBarcode(barcode);
   });
 
   const handleBarcodeInputBlur = async (
@@ -65,18 +36,11 @@ export default function Dashboard() {
       return;
     }
     try {
-      await fetchItemAndAddToCart(barcode);
+      await addItemByBarcode(barcode);
     } finally {
       event.target.value = "";
     }
   };
-
-  const handleIncrease = (itemId: number) =>
-    setCartItems((prev) => increaseItem(prev, itemId));
-  const handleDecrease = (itemId: number) =>
-    setCartItems((prev) => decreaseItem(prev, itemId));
-  const handleRemove = (itemId: number) =>
-    setCartItems((prev) => removeItem(prev, itemId));
 
   const handleCompleteSale = async () => {
     if (!cartItems.length) return;
@@ -91,7 +55,7 @@ export default function Dashboard() {
 
       if (response.success) {
         alert(t("Dashboard.saleSuccess"));
-        setCartItems([]);
+        handleClearCart();
       } else if (response.error === "INSUFFICIENT_STOCK") {
         alert(
           t("Dashboard.insufficientStock", { itemName: response.itemName })
@@ -216,7 +180,7 @@ export default function Dashboard() {
 
           <div className="flex gap-2 flex-wrap">
             <button
-              onClick={() => setCartItems(clearCart())}
+              onClick={handleClearCart}
               className="px-6 py-2 rounded bg-red-600 text-white hover:bg-red-500 transition font-medium"
             >
               {t("Dashboard.clearCart")}

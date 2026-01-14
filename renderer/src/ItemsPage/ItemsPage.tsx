@@ -6,10 +6,13 @@ import UpdateStockModal from "./UpdateStockModal";
 
 import UpdatePriceModal from "./UpdatePriceModal";
 import { useTranslation } from "react-i18next";
-import { Item } from "../types/prisma";
+import { Item } from "../types/prisma"; // fixed relative import
 import AddItemModal from "./AddItemModal";
 
+import { useCart } from "../context/CartContext";
+
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
+  const { addItem } = useCart();
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
@@ -81,6 +84,7 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         isAdmin={isAdmin}
         onUpdateStock={(item) => setSelectedItem(item)}
         openPriceModal={(item) => setPriceModalItem(item)}
+        addToCart={addItem}
       />
 
       {selectedItem && (

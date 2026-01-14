@@ -3,21 +3,23 @@ import StockBadge from "./StockBadge";
 import { Item } from "../types/prisma";
 
 type Props = {
-  items: Item[];
+  items?: Item[]; // make optional to be defensive
   isAdmin: boolean;
   onUpdateStock: (item: Item) => void;
   openPriceModal: (item: Item) => void;
+  addToCart: (item: Item) => void | Promise<void>;
 };
 
 export default function ItemsTable({
-  items,
+  items = [], // default to empty array
   isAdmin,
   onUpdateStock,
   openPriceModal,
+  addToCart,
 }: Props) {
   const { t } = useTranslation();
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
       <div className="text-center text-slate-400 mt-10">
         {t("ItemsPage.noItems")}
@@ -48,11 +50,9 @@ export default function ItemsTable({
             <th className="px-3 py-2 text-center">
               {t("ItemsPage.Table.headerStock")}
             </th>
-            {isAdmin && (
-              <th className="px-3 py-2 text-center">
-                {t("ItemsPage.Table.headerActions")}
-              </th>
-            )}
+            <th className="px-3 py-2 text-center">
+              {t("ItemsPage.Table.headerActions")}
+            </th>
           </tr>
         </thead>
 
@@ -81,9 +81,9 @@ export default function ItemsTable({
                   min={item.minStockThreshold}
                 />
               </td>
-              <td className="px-3 py-2 text-center flex gap-2">
+              <td className="px-3 py-2 text-center flex gap-2 justify-center">
                 <button
-                  onClick={() => onUpdateStock(item)}
+                  onClick={() => addToCart(item)}
                   className="
                       px-3 py-1 text-sm rounded
                       bg-blue-600 text-white
