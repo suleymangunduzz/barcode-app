@@ -29,18 +29,20 @@ export default function Toast({
 
   return (
     <div
-      className={`fixed z-50 right-4 bottom-4 min-w-[200px] max-w-xs px-4 py-3 rounded shadow-lg text-white ${color} animate-fade-in-up`}
+      className={`fixed z-50 right-4 bottom-4 min-w-[320px] max-w-lg px-4 py-3 rounded shadow-lg text-white ${color} animate-fade-in-up`}
       style={{ pointerEvents: "auto" }}
       role="alert"
     >
-      <span>{message}</span>
-      <button
-        className="ml-4 text-white/80 hover:text-white text-lg font-bold focus:outline-none"
-        onClick={onClose}
-        aria-label="Close notification"
-      >
-        ×
-      </button>
+      <div className="flex items-start justify-between w-full">
+        <span className="flex-1 whitespace-nowrap pr-2">{message}</span>
+        <button
+          className="ml-2 flex-shrink-0 text-white/80 hover:text-white text-lg font-bold focus:outline-none"
+          onClick={onClose}
+          aria-label="Close notification"
+        >
+          ×
+        </button>
+      </div>
     </div>
   );
 }
