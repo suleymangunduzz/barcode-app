@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { enUS } from "date-fns/locale";
 import { tr } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { Sale } from "@/types/prisma";
 import SaleDetailsModal from "@/pages/SalesPage/SaleDetailsModal";
@@ -59,7 +59,7 @@ export default function SalesPage() {
           </label>
           <DatePicker
             selected={fromDate}
-            onChange={(date) => setFromDate(date)}
+            onChange={(date: Date | null) => setFromDate(date)}
             locale={i18n.language === "tr" ? tr : enUS}
             className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
@@ -70,7 +70,7 @@ export default function SalesPage() {
           <DatePicker
             selected={toDate}
             locale={i18n.language === "tr" ? tr : enUS}
-            onChange={(date) => setToDate(date)}
+            onChange={(date: Date | null) => setToDate(date)}
             className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
