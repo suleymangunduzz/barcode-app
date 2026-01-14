@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { CartItem } from "../types/client";
-import { Item } from "../types/prisma";
+import { CartItem } from "@/types/client";
+import { Item } from "@/types/prisma";
 import {
   increaseItem,
   decreaseItem,
   removeItem,
   clearCart,
-} from "../utils/cart";
+} from "@/utils/cart";
 
 interface CartContextType {
   cartItems: CartItem[];

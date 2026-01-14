@@ -2,9 +2,9 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Plus, Minus, Trash2 } from "lucide-react";
 
-import { calculateTotal } from "../utils/cart";
-import useBarcodeScanner from "../hooks/useBarcodeScanner";
-import { useCart } from "../context/CartContext";
+import { calculateTotal } from "@/utils/cart";
+import useBarcodeScanner from "@/hooks/useBarcodeScanner";
+import { useCart } from "@/context/CartContext";
 
 export default function Dashboard() {
   const {

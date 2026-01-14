@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import AddCategoryModal from "./AddCategoryModal";
 import EditCategoryModal from "./EditCategoryModal";
 import CategoryItemsModal from "./CategoryItemsModal";
-import { Category } from "../types/prisma";
+import { Category } from "@/types/prisma";
 
 export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
   const { t } = useTranslation();
