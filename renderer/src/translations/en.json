@@ -95,6 +95,9 @@
       "price": "Price",
       "title": "Update Selling Price"
     },
+    "toast": {
+      "addedToCart": "{{name}} added to cart!"
+    },
     "Modal": {
       "title": "Update Stock",
       "currentStock": "Current Stock",
