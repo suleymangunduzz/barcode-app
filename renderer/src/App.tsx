@@ -7,10 +7,10 @@ import Sidebar from "@/components/SideBar";
 import Header from "@/components/Header";
 import { PageType, UserRole } from "@/types/client";
 import Dashboard from "@/components/Dashboard";
-import ItemsPage from "./ItemsPage";
-import CategoriesPage from "./CategoriesPage";
-import LowStockPage from "./LowStockPage";
-import SalesPage from "./SalesPage";
+import ItemsPage from "@/pages/ItemsPage";
+import CategoriesPage from "@/pages/CategoriesPage";
+import LowStockPage from "@/pages/LowStockPage";
+import SalesPage from "@/pages/SalesPage";
 
 function App() {
   const [role, setRole] = useState<UserRole | null>(null);

@@ -5,8 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { enUS } from "date-fns/locale";
 import { tr } from "date-fns/locale";
 
-import { Sale } from "../types/prisma";
-import SaleDetailsModal from "./SaleDetailsModal";
+import { Sale } from "@/types/prisma";
+import SaleDetailsModal from "@/pages/SalesPage/SaleDetailsModal";
 
 export default function SalesPage() {
   const { t, i18n } = useTranslation();

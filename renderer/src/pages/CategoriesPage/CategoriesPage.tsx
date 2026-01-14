@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import AddCategoryModal from "./AddCategoryModal";
-import EditCategoryModal from "./EditCategoryModal";
-import CategoryItemsModal from "./CategoryItemsModal";
+import AddCategoryModal from "@/pages/CategoriesPage/AddCategoryModal";
+import EditCategoryModal from "@/pages/CategoriesPage/EditCategoryModal";
+import CategoryItemsModal from "@/pages/CategoriesPage/CategoryItemsModal";
 import { Category } from "@/types/prisma";
 
 export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {

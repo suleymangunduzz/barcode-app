@@ -16,6 +16,7 @@
       "@/utils/*": ["src/utils/*"],
       "@/translations/*": ["src/translations/*"],
       "@/context/*": ["src/context/*"],
+      "@/pages/*": ["src/pages/*"],
       "@/*": ["./*"]
     }
   },

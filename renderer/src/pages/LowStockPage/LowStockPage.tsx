@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Item } from "../types/prisma";
+import { Item } from "@/types/prisma";
 
 export default function LowStockPage() {
   const { t } = useTranslation();

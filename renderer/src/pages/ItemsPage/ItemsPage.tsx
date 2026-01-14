@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 
-import ItemsToolbar from "./ItemsToolbar";
-import ItemsTable from "./ItemsTable";
-import UpdateStockModal from "./UpdateStockModal";
-
-import UpdatePriceModal from "./UpdatePriceModal";
+import ItemsToolbar from "@/pages/ItemsPage/ItemsToolbar";
+import ItemsTable from "@/pages/ItemsPage/ItemsTable";
+import UpdateStockModal from "@/pages/ItemsPage/UpdateStockModal";
+import UpdatePriceModal from "@/pages/ItemsPage/UpdatePriceModal";
 import { useTranslation } from "react-i18next";
-import { Item } from "../types/prisma"; // fixed relative import
-import AddItemModal from "./AddItemModal";
-
-import { useCart } from "../context/CartContext";
+import { Item } from "@/types/prisma";
+import AddItemModal from "@/pages/ItemsPage/AddItemModal";
+import { useCart } from "@/context/CartContext";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const { addItem } = useCart();
