@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import StockBadge from "./StockBadge";
+import StockBadge from "@/pages/ItemsPage/StockBadge";
 import { Item } from "@/types/prisma";
 
 type Props = {

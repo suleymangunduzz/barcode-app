@@ -1,4 +1,4 @@
-import { calculateEAN13Checksum } from "./ean13";
+import { calculateEAN13Checksum } from "@/utils/ean13";
 
 export function generateInternalEAN13(): string {
   const prefix = "20";

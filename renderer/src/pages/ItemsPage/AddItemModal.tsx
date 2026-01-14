@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category } from "@/types/prisma";
-import BarcodeModal from "./BarcodeModal";
+import BarcodeModal from "@/pages/ItemsPage/BarcodeModal";
 
 type Props = {
   onClose: () => void;

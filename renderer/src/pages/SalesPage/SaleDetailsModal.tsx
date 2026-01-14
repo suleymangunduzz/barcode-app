@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Sale } from "../types/prisma";
+import { Sale } from "@/types/prisma";
 
 type Props = {
   sale: Sale;

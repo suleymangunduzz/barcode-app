@@ -1,1 +1,1 @@
-export { default } from "./LowStockPage";
+export { default } from "@/pages/LowStockPage/LowStockPage";

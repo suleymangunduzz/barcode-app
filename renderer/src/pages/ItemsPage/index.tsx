@@ -1,1 +1,1 @@
-export { default } from "./ItemsPage";
+export { default } from "@/pages/ItemsPage/ItemsPage";

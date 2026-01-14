@@ -1,4 +1,4 @@
-import { generateInternalEAN13 } from "./generateInternalEAN13";
+import { generateInternalEAN13 } from "@/utils/generateInternalEAN13";
 
 export async function generateUniqueBarcode(maxRetries = 15): Promise<string> {
   for (let i = 0; i < maxRetries; i++) {

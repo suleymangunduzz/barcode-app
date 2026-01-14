@@ -1,4 +1,4 @@
-import { CartItem } from "../types/client";
+import { CartItem } from "@/types/client";
 
 export function increaseItem(items: CartItem[], itemId: number): CartItem[] {
   return items.map((item) =>

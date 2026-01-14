@@ -1,5 +1,5 @@
-import { CartItem, UserRole } from "./src/types/client";
-import type { Item, Category, User, Sale, SaleItem } from "./src/types/prisma";
+import { CartItem, UserRole } from "@/types/client";
+import type { Item, Category, User, Sale, SaleItem } from "@/types/prisma";
 
 export {};
 
