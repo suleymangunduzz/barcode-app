@@ -1,9 +1,9 @@
-import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
 import { Item } from "@/types/prisma";
 import useToast from "@/hooks/useToast";
 import { useCart } from "@/context/CartContext";
+import useBarcodeBeep from "@/hooks/useBarcodeBeep";
 
 type Props = {
   items?: Item[]; // make optional to be defensive
@@ -21,10 +21,11 @@ export default function ItemsTable({
   addToCart,
 }: Props) {
   const { t } = useTranslation();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const { cartItems } = useCart();
   const toast = useToast();
+
+  const { playBeep, audioRef } = useBarcodeBeep();
 
   const handleAddToCart = async (item: Item) => {
     // Find how many of this item are already in the cart
@@ -43,15 +44,7 @@ export default function ItemsTable({
       type: "success",
       message: t("ItemsPage.toast.addedToCart", { name: item.name }),
     });
-    if (audioRef.current) {
-      try {
-        audioRef.current.currentTime = 0;
-        await audioRef.current.play();
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error("Barcode sound playback failed", err);
-      }
-    }
+    await playBeep();
   };
 
   // Always return a single parent div, even for empty state
@@ -60,12 +53,6 @@ export default function ItemsTable({
   return (
     <div>
       {/* Toast is now handled globally by ToastProvider */}
-      <audio
-        ref={audioRef}
-        src="/sounds/barcode-beep.mp3"
-        preload="auto"
-        className="hidden"
-      />
       {isEmpty ? (
         <div className="text-center text-slate-400 mt-10">
           {t("ItemsPage.noItems")}
@@ -168,6 +155,12 @@ export default function ItemsTable({
           </table>
         </div>
       )}
+      <audio
+        ref={audioRef}
+        src="/sounds/barcode-beep.mp3"
+        preload="auto"
+        className="hidden"
+      />
     </div>
   );
 }
