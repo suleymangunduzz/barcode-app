@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { User } from "../types/prisma";
+import { User } from "@/types/prisma";
 
 type Props = {
   role: User["role"];

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Category } from "../types/prisma";
+import { Category } from "@/types/prisma";
 import BarcodeModal from "./BarcodeModal";
 
 type Props = {

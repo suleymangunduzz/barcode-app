@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { UserRole } from "../types/client";
+import { UserRole } from "@/types/client";
 
 type HeaderProps = {
   role: UserRole;

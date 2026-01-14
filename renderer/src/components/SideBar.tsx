@@ -5,7 +5,7 @@ import {
   AlertTriangle,
   DollarSign,
 } from "lucide-react";
-import { PageType, UserRole } from "../types/client";
+import { PageType, UserRole } from "@/types/client";
 import { useTranslation } from "react-i18next";
 
 type SidebarProps = {

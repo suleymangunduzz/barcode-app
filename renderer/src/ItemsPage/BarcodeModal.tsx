@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { generateUniqueBarcode } from "../utils/generateUniqueBarcode";
+import { generateUniqueBarcode } from "@/utils/generateUniqueBarcode";
 
 type BarcodeModalProps = {
   initialValue?: string;

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import StockBadge from "./StockBadge";
-import { Item } from "../types/prisma";
+import { Item } from "@/types/prisma";
 
 type Props = {
   items?: Item[]; // make optional to be defensive
