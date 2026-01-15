@@ -195,8 +195,13 @@ export default function Dashboard() {
 
           <div className="flex gap-2 flex-wrap">
             <button
+              disabled={cartItems.length === 0 || isSaleInProgress}
               onClick={handleClearCart}
-              className="px-6 py-2 rounded bg-red-600 text-white hover:bg-red-500 transition font-medium"
+              className={`px-6 py-2 rounded bg-red-600 text-white hover:bg-red-500 transition font-medium ${
+                cartItems.length === 0 || isSaleInProgress
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               {t("Dashboard.clearCart")}
             </button>
