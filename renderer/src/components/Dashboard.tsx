@@ -4,7 +4,6 @@ import { Plus, Minus, Trash2 } from "lucide-react";
 
 import { calculateTotal } from "@/utils/cart";
 import useBarcodeScanner from "@/hooks/useBarcodeScanner";
-import useBarcodeBeep from "@/hooks/useBarcodeBeep";
 import { useCart } from "@/context/CartContext";
 
 export default function Dashboard() {
@@ -23,23 +22,9 @@ export default function Dashboard() {
 
   const totalAmount = calculateTotal(cartItems);
 
-  const { audioRef, playBeep } = useBarcodeBeep();
-  const prevCartCount = useRef(
-    cartItems.reduce((sum, i) => sum + i.quantity, 0)
-  );
-
-  useEffect(() => {
-    const currentCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
-    if (currentCount !== prevCartCount.current) {
-      playBeep();
-    }
-    prevCartCount.current = currentCount;
-  }, [cartItems, playBeep]);
-
   useBarcodeScanner(async (barcode) => {
     if (!barcode) return;
     await addItemByBarcode(barcode);
-    await playBeep();
   });
 
   const handleBarcodeInputBlur = async (
@@ -225,12 +210,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <audio
-        ref={audioRef}
-        src="/sounds/barcode-beep.mp3"
-        preload="auto"
-        className="hidden"
-      />
+      {/* audio handled by CartProvider */}
     </div>
   );
 }

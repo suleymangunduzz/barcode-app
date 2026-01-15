@@ -7,11 +7,18 @@ import {
   removeItem,
   clearCart,
 } from "@/utils/cart";
+import useBarcodeBeep from "@/hooks/useBarcodeBeep";
+import useToast from "@/hooks/useToast";
+import { useTranslation } from "react-i18next";
+
+type AddResult =
+  | { success: true }
+  | { success: false; reason: "no-item" | "insufficient-stock" };
 
 interface CartContextType {
   cartItems: CartItem[];
-  addItem: (item: Item) => void;
-  addItemByBarcode: (barcode: string) => Promise<void>;
+  addItem: (item: Item) => Promise<AddResult>;
+  addItemByBarcode: (barcode: string) => Promise<AddResult>;
   handleIncrease: (itemId: number) => void;
   handleDecrease: (itemId: number) => void;
   handleRemove: (itemId: number) => void;
@@ -29,7 +36,22 @@ export function useCart() {
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const addItem = (item: Item) => {
+  const { audioRef, playBeep } = useBarcodeBeep();
+  const toast = useToast();
+  const { t } = useTranslation();
+
+  const addItem = async (item: Item): Promise<AddResult> => {
+    const cartItem = cartItems.find((i) => i.itemId === item.id);
+    const cartQuantity = cartItem ? cartItem.quantity : 0;
+    if (item.stockQuantity - cartQuantity < 1) {
+      // central toast for insufficient stock
+      toast({
+        type: "error",
+        message: t("ItemsPage.toast.insufficientStock", { name: item.name }),
+      });
+      return { success: false, reason: "insufficient-stock" };
+    }
+
     setCartItems((prev) => {
       const existing = prev.find((i) => i.itemId === item.id);
       if (existing) {
@@ -55,12 +77,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
         },
       ];
     });
+
+    try {
+      await playBeep();
+    } catch {}
+
+    // central success toast
+    toast({
+      type: "success",
+      message: t("ItemsPage.toast.addedToCart", { name: item.name }),
+    });
+    return { success: true };
   };
 
-  const addItemByBarcode = async (barcode: string) => {
+  const addItemByBarcode = async (barcode: string): Promise<AddResult> => {
     const item = await window.api.getItemByBarcode(barcode);
-    if (!item) return;
-    addItem(item);
+    if (!item) return { success: false, reason: "no-item" };
+    return addItem(item);
   };
 
   const handleIncrease = (itemId: number) =>
@@ -84,6 +117,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
+      <audio
+        ref={audioRef}
+        src="/sounds/barcode-beep.mp3"
+        preload="auto"
+        className="hidden"
+      />
     </CartContext.Provider>
   );
 }

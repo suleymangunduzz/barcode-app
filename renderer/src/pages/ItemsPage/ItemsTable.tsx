@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
 import { Item } from "@/types/prisma";
-import useToast from "@/hooks/useToast";
 import { useCart } from "@/context/CartContext";
-import useBarcodeBeep from "@/hooks/useBarcodeBeep";
 
 type Props = {
   items?: Item[]; // make optional to be defensive
@@ -20,29 +18,9 @@ export default function ItemsTable({
 }: Props) {
   const { t } = useTranslation();
 
-  const { cartItems, addItem } = useCart();
-  const toast = useToast();
-
-  const { playBeep, audioRef } = useBarcodeBeep();
-
+  const { addItem } = useCart();
   const handleAddToCart = async (item: Item) => {
-    // Find how many of this item are already in the cart
-    const cartItem = cartItems.find((ci) => ci.itemId === item.id);
-    const cartQuantity = cartItem ? cartItem.quantity : 0;
-    // If not enough stock for the requested quantity (cart + 1), block
-    if (item.stockQuantity - cartQuantity < 1) {
-      toast({
-        type: "error",
-        message: t("ItemsPage.toast.insufficientStock", { name: item.name }),
-      });
-      return;
-    }
-    addItem(item);
-    toast({
-      type: "success",
-      message: t("ItemsPage.toast.addedToCart", { name: item.name }),
-    });
-    await playBeep();
+    await addItem(item);
   };
 
   // Always return a single parent div, even for empty state
@@ -157,12 +135,7 @@ export default function ItemsTable({
           </table>
         </div>
       )}
-      <audio
-        ref={audioRef}
-        src="/sounds/barcode-beep.mp3"
-        preload="auto"
-        className="hidden"
-      />
+      {/* audio handled by CartProvider */}
     </div>
   );
 }

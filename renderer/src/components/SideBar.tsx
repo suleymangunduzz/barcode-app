@@ -72,7 +72,11 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
                 onClick={() => setPage(item.key)}
                 className={`
                   flex items-center gap-3 px-3 py-2 rounded-md text-sm cursor-pointer transition-colors
-                  ${isActive ? "bg-emerald-600 text-white font-medium" : "text-slate-400 hover:bg-slate-700 hover:text-white"}
+                  ${
+                    isActive
+                      ? "bg-emerald-600 text-white font-medium"
+                      : "text-slate-400 hover:bg-slate-700 hover:text-white"
+                  }
                 `}
               >
                 <Icon size={18} />

@@ -31,6 +31,10 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
     );
   }, [items, search]);
 
+  const handleAdd = async (item: Item) => {
+    await addItem(item);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <div className="bg-slate-900 w-full max-w-3xl max-h-[80vh] rounded-lg shadow-xl flex flex-col">
@@ -40,11 +44,7 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
 
           <button
             onClick={onClose}
-            className="
-              text-slate-400 hover:text-white
-              text-xl leading-none
-              transition
-            "
+            className="text-slate-400 hover:text-white text-xl leading-none transition"
             aria-label={t("Common.close")}
           >
             ×
@@ -58,12 +58,7 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
             placeholder={t("CategoriesPage.items.search")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="
-              w-full px-3 py-2 rounded
-              bg-slate-700 text-white
-              border border-slate-600
-              focus:outline-none focus:ring-2 focus:ring-blue-500
-            "
+            className="w-full px-3 py-2 rounded bg-slate-700 text-white border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
@@ -109,12 +104,8 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
                     </td>
                     <td className="px-3 py-2 text-right text-slate-100">
                       <button
-                        onClick={() => addItem(item)}
-                        className="
-                          text-sm px-3 py-1 rounded
-                          bg-blue-600 text-white
-                          hover:bg-blue-500 transition font-medium
-                        "
+                        onClick={() => handleAdd(item)}
+                        className="text-sm px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-500 transition font-medium"
                       >
                         {t("CategoriesPage.items.addToCart")}
                       </button>

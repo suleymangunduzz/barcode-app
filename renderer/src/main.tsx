@@ -6,9 +6,9 @@ import { ToastProvider } from "@/hooks/useToast";
 import { CartProvider } from "@/context/CartContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <CartProvider>
-    <ToastProvider>
+  <ToastProvider>
+    <CartProvider>
       <App />
-    </ToastProvider>
-  </CartProvider>
+    </CartProvider>
+  </ToastProvider>
 );
