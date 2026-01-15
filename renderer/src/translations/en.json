@@ -185,7 +185,9 @@
       "name": "Name",
       "barcode": "Barcode",
       "stock": "Stock",
-      "price": "Price"
+      "price": "Price",
+      "actions": "Actions",
+      "addToCart": "Add To Cart"
     }
   },
   "LowStockPage": {

@@ -69,8 +69,8 @@ export default function Dashboard() {
       const response = await window.api.completeSale(cartItems, userId);
 
       if (response.success) {
-        alert(t("Dashboard.saleSuccess"));
         handleClearCart();
+        alert(t("Dashboard.saleSuccess"));
       } else if (response.error === "INSUFFICIENT_STOCK") {
         alert(
           t("Dashboard.insufficientStock", { itemName: response.itemName })

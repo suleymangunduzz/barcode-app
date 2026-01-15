@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category, Item } from "@/types/prisma";
+import { useCart } from "@/context/CartContext";
 
 type Props = {
   category: Category;
@@ -11,6 +12,8 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
   const { t } = useTranslation();
   const [items, setItems] = useState<Item[]>([]);
   const [search, setSearch] = useState("");
+
+  const { addItem } = useCart();
 
   useEffect(() => {
     async function fetchItems() {
@@ -86,6 +89,7 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
                   <th className="text-right px-3 py-2 font-medium">
                     {t("CategoriesPage.items.price")}
                   </th>
+                  <th className="">{t("CategoriesPage.items.actions")}</th>
                 </tr>
               </thead>
 
@@ -102,6 +106,18 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
                     </td>
                     <td className="px-3 py-2 text-right text-slate-100">
                       ₺{item.currentPrice}
+                    </td>
+                    <td className="px-3 py-2 text-right text-slate-100">
+                      <button
+                        onClick={() => addItem(item)}
+                        className="
+                          text-sm px-3 py-1 rounded
+                          bg-blue-600 text-white
+                          hover:bg-blue-500 transition font-medium
+                        "
+                      >
+                        {t("CategoriesPage.items.addToCart")}
+                      </button>
                     </td>
                   </tr>
                 ))}

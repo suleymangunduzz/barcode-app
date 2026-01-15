@@ -169,7 +169,9 @@
       "name": "Ürün",
       "barcode": "Barkod",
       "stock": "Stok",
-      "price": "Fiyat"
+      "price": "Fiyat",
+      "actions": "İşlemler",
+      "addToCart": "Satışa Ekle"
     }
   },
   "LowStockPage": {
