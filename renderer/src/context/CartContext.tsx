@@ -19,8 +19,8 @@ interface CartContextType {
   cartItems: CartItem[];
   addItem: (item: Item) => Promise<AddResult>;
   addItemByBarcode: (barcode: string) => Promise<AddResult>;
-  handleIncrease: (itemId: number) => void;
-  handleDecrease: (itemId: number) => void;
+  handleIncrease: (itemId: number) => Promise<void>;
+  handleDecrease: (itemId: number) => Promise<void>;
   handleRemove: (itemId: number) => void;
   handleClearCart: () => void;
 }
@@ -96,10 +96,62 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return addItem(item);
   };
 
-  const handleIncrease = (itemId: number) =>
-    setCartItems((prev) => increaseItem(prev, itemId));
-  const handleDecrease = (itemId: number) =>
+  // play beep when cartItems change
+  const prevCartCount = React.useRef(
+    cartItems.reduce((sum, i) => sum + i.quantity, 0)
+  );
+
+  React.useEffect(() => {
+    const currentCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+    if (currentCount !== prevCartCount.current) {
+      // fire beep for any cart change
+      playBeep().catch(() => {});
+    }
+    prevCartCount.current = currentCount;
+  }, [cartItems, playBeep]);
+
+  const handleIncrease = async (itemId: number) => {
+    // determine current quantity
+    const cartItem = cartItems.find((i) => i.itemId === itemId);
+    const cartQuantity = cartItem ? cartItem.quantity : 0;
+
+    // fetch latest item data to check stock
+    try {
+      const allItems: Item[] = await window.api.getAllItems();
+      const item = allItems.find((it) => it.id === itemId);
+      if (!item) {
+        toast({
+          type: "error",
+          message: t("ItemsPage.toast.insufficientStock", { name: "" }),
+        });
+        return;
+      }
+
+      if (item.stockQuantity - cartQuantity < 1) {
+        toast({
+          type: "error",
+          message: t("ItemsPage.toast.insufficientStock", { name: item.name }),
+        });
+        return;
+      }
+
+      setCartItems((prev) => increaseItem(prev, itemId));
+      // success toast
+      toast({
+        type: "success",
+        message: t("ItemsPage.toast.addedToCart", { name: item.name }),
+      });
+    } catch (err) {
+      // swallow; optionally log
+      // eslint-disable-next-line no-console
+      console.error("handleIncrease failed", err);
+    }
+  };
+
+  const handleDecrease = async (itemId: number) => {
+    // simply decrease locally
     setCartItems((prev) => decreaseItem(prev, itemId));
+  };
   const handleRemove = (itemId: number) =>
     setCartItems((prev) => removeItem(prev, itemId));
   const handleClearCart = () => setCartItems(clearCart());
