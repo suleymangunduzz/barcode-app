@@ -10,7 +10,6 @@ type Props = {
   isAdmin: boolean;
   onUpdateStock: (item: Item) => void;
   openPriceModal: (item: Item) => void;
-  addToCart: (item: Item) => void | Promise<void>;
 };
 
 export default function ItemsTable({
@@ -18,11 +17,10 @@ export default function ItemsTable({
   isAdmin,
   onUpdateStock,
   openPriceModal,
-  addToCart,
 }: Props) {
   const { t } = useTranslation();
 
-  const { cartItems } = useCart();
+  const { cartItems, addItem } = useCart();
   const toast = useToast();
 
   const { playBeep, audioRef } = useBarcodeBeep();
@@ -39,7 +37,7 @@ export default function ItemsTable({
       });
       return;
     }
-    await addToCart(item);
+    addItem(item);
     toast({
       type: "success",
       message: t("ItemsPage.toast.addedToCart", { name: item.name }),
@@ -119,7 +117,11 @@ export default function ItemsTable({
                           px-3 py-1 text-sm rounded
                           bg-blue-600 text-white
                           hover:bg-blue-500 transition font-medium
-                          ${item.stockQuantity < 1 ? "opacity-50 cursor-not-allowed" : ""}
+                          ${
+                            item.stockQuantity < 1
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }
                         `}
                     >
                       {t("ItemsPage.Actions.addToCart")}
