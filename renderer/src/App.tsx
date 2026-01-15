@@ -76,7 +76,7 @@ function App() {
     <div className="h-screen flex bg-slate-900 text-slate-100">
       <Sidebar role={role} page={page} setPage={setPage} />
       <div className="flex-1 flex flex-col">
-        <Header role={role} onLogout={onLogout} />
+        <Header role={role} onLogout={onLogout} setPage={setPage} />
 
         <main className="flex-1 p-4 overflow-auto">
           {page === "dashboard" && <Dashboard />}
