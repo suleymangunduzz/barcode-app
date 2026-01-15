@@ -194,6 +194,7 @@
     "to": "Bitiş",
     "noSales": "Satış bulunamadı.",
     "actions": {
+      "title": "İşlemler",
       "view": "Detayları Gör"
     },
     "table": {

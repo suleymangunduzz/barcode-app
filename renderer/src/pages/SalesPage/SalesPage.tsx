@@ -95,7 +95,7 @@ export default function SalesPage() {
                   {t("SalesPage.table.total")}
                 </th>
                 <th className="px-3 py-2 text-center">
-                  {t("SalesPage.actions.view")}
+                  {t("SalesPage.actions.title")}
                 </th>
               </tr>
             </thead>
