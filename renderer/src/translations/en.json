@@ -225,5 +225,9 @@
       "total": "Total",
       "items": "Items"
     }
+  },
+  "ReportsPage": {
+    "title": "Reports",
+    "empty": "No reports yet."
   }
 }

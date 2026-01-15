@@ -209,5 +209,9 @@
       "total": "Toplam",
       "items": "Ürünler"
     }
+  },
+  "ReportsPage": {
+    "title": "Raporlar",
+    "empty": "Henüz rapor yok."
   }
 }

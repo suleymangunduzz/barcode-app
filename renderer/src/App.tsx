@@ -11,6 +11,7 @@ import ItemsPage from "@/pages/ItemsPage";
 import CategoriesPage from "@/pages/CategoriesPage";
 import LowStockPage from "@/pages/LowStockPage";
 import SalesPage from "@/pages/SalesPage";
+import ReportsPage from "@/pages/ReportsPage";
 
 function App() {
   const [role, setRole] = useState<UserRole | null>(null);
@@ -84,6 +85,7 @@ function App() {
           {page === "categories" && (
             <CategoriesPage isAdmin={role === "admin"} />
           )}
+          {page === "reports" && <ReportsPage />}
           {page === "lowStock" && <LowStockPage />}
           {page === "sales" && <SalesPage />}
         </main>
