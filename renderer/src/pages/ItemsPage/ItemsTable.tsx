@@ -35,7 +35,7 @@ export default function ItemsTable({
         </div>
       ) : (
         <div className="overflow-auto rounded border border-slate-700">
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="px-3 py-2 text-left">
@@ -92,7 +92,7 @@ export default function ItemsTable({
                       onClick={() => handleAddToCart(item)}
                       disabled={item.stockQuantity < 1}
                       className={`
-                          px-3 py-1 text-sm rounded
+                          px-3 py-1 text-base rounded
                           bg-blue-600 text-white
                           hover:bg-blue-500 transition font-medium
                           ${
@@ -109,17 +109,17 @@ export default function ItemsTable({
                         <button
                           onClick={() => onUpdateStock(item)}
                           className="
-                          px-3 py-1 text-sm rounded
-                          bg-blue-600 text-white
-                          hover:bg-blue-500 transition font-medium
-                        "
+                            px-3 py-1 text-base rounded
+                            bg-blue-600 text-white
+                            hover:bg-blue-500 transition font-medium
+                          "
                         >
                           {t("ItemsPage.Actions.updateStock")}
                         </button>
                         <button
                           onClick={() => openPriceModal(item)}
                           className="
-                          px-3 py-1 text-sm rounded
+                          px-3 py-1 text-base rounded
                           bg-amber-600 text-white
                           hover:bg-amber-500 transition font-medium
                         "

@@ -134,7 +134,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
         />
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-base font-medium text-slate-300 mb-1">
             {t("ItemsPage.AddModal.fields.stockLabel")}
           </label>
           <input

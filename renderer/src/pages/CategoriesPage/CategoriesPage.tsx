@@ -41,7 +41,7 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
         {isAdmin && (
           <button
             onClick={() => setShowAdd(true)}
-            className="px-4 py-2 rounded bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition"
+            className="px-4 py-2 rounded bg-emerald-600 text-white text-base font-medium hover:bg-emerald-500 transition"
           >
             {t("CategoriesPage.actions.add")}
           </button>
@@ -67,7 +67,7 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
         <div className="text-slate-400">{t("CategoriesPage.noCategories")}</div>
       ) : (
         <div className="border border-slate-700 rounded overflow-hidden">
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="text-left px-3 py-2">
@@ -95,11 +95,7 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
                   <td className="px-3 py-2 text-right flex justify-end gap-2">
                     <button
                       onClick={() => setViewItemsCategory(category)}
-                      className="
-                        text-sm px-3 py-1 rounded
-                        bg-blue-600 text-white
-                        hover:bg-blue-500 transition font-medium
-                      "
+                      className="text-base px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-500 transition font-medium"
                     >
                       {t("CategoriesPage.actions.viewItems")}
                     </button>
@@ -107,11 +103,7 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
                     {isAdmin && (
                       <button
                         onClick={() => setEditCategory(category)}
-                        className="
-                          text-sm px-3 py-1 rounded
-                          bg-amber-600 text-white
-                          hover:bg-amber-500 transition font-medium
-                        "
+                        className="text-base px-3 py-1 rounded bg-amber-600 text-white hover:bg-amber-500 transition font-medium"
                       >
                         {t("CategoriesPage.actions.edit")}
                       </button>

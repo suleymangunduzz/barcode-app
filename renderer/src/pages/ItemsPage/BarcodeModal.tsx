@@ -72,7 +72,7 @@ export default function BarcodeModal({
           className="w-full px-3 py-2 rounded bg-slate-800 text-slate-100 border border-slate-700"
         />
 
-        {error && <p className="text-sm text-red-400">{error}</p>}
+        {error && <p className="text-base text-red-400">{error}</p>}
 
         <div className="flex justify-between">
           <button

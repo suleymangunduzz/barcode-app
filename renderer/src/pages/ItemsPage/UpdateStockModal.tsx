@@ -49,11 +49,11 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
         </h2>
 
         {/* Item name */}
-        <div className="text-sm text-slate-300">{item.name}</div>
+        <div className="text-base text-slate-300">{item.name}</div>
 
         {/* Current stock */}
         <div>
-          <label className="block text-sm mb-1 text-slate-200">
+          <label className="block text-base mb-1 text-slate-200">
             {t("ItemsPage.Modal.currentStock")}
           </label>
           <div className="bg-slate-700 px-3 py-2 rounded text-white font-semibold">
@@ -63,7 +63,7 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
 
         {/* Change quantity */}
         <div>
-          <label className="block text-sm mb-1 text-slate-200">
+          <label className="block text-base mb-1 text-slate-200">
             {t("ItemsPage.Modal.changeQuantity")}
           </label>
           <input
@@ -81,7 +81,7 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
 
         {/* Reason */}
         <div>
-          <label className="block text-sm mb-1 text-slate-200">
+          <label className="block text-base mb-1 text-slate-200">
             {t("ItemsPage.Modal.reason")}
           </label>
           <select
@@ -104,7 +104,7 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
 
         {/* Error */}
         {error && (
-          <div className="text-sm text-white bg-red-600 px-3 py-2 rounded">
+          <div className="text-base text-white bg-red-600 px-3 py-2 rounded">
             {error}
           </div>
         )}

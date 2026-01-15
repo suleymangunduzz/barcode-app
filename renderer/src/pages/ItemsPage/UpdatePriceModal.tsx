@@ -45,11 +45,11 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
         </h2>
 
         {/* Item name */}
-        <div className="text-sm text-slate-300">{item.name}</div>
+        <div className="text-base text-slate-300">{item.name}</div>
 
         {/* Price input */}
         <div>
-          <label className="block text-sm mb-1 text-slate-200">
+          <label className="block text-base mb-1 text-slate-200">
             {t("ItemsPage.UpdatePrice.price")}
           </label>
           <input

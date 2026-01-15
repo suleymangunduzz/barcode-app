@@ -59,7 +59,7 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         <h2 className="text-2xl font-bold">{t("ItemsPage.title")}</h2>
         {isAdmin && (
           <button
-            className="px-4 py-2 rounded bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition"
+            className="px-4 py-2 rounded bg-emerald-600 text-white text-base font-medium hover:bg-emerald-500 transition"
             onClick={() => setShowAddModal(true)}
           >
             {t("ItemsPage.addNew")}

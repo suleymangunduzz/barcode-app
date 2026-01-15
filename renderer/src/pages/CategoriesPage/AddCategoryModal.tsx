@@ -63,7 +63,7 @@ export default function AddCategoryModal({ onClose, onSuccess }: Props) {
 
         {/* Error */}
         {error && (
-          <div className="text-red-400 text-sm bg-red-900/30 px-3 py-2 rounded">
+          <div className="text-red-400 text-base bg-red-900/30 px-3 py-2 rounded">
             {error}
           </div>
         )}

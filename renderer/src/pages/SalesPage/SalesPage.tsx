@@ -54,7 +54,7 @@ export default function SalesPage() {
         />
 
         <div className="flex gap-2 items-center">
-          <label className="text-sm text-slate-300">
+          <label className="text-base text-slate-300">
             {t("SalesPage.from")}:
           </label>
           <DatePicker
@@ -66,7 +66,9 @@ export default function SalesPage() {
         </div>
 
         <div className="flex gap-2 items-center">
-          <label className="text-sm text-slate-300">{t("SalesPage.to")}:</label>
+          <label className="text-base text-slate-300">
+            {t("SalesPage.to")}:
+          </label>
           <DatePicker
             selected={toDate}
             locale={i18n.language === "tr" ? tr : enUS}
@@ -80,7 +82,7 @@ export default function SalesPage() {
         <div className="text-slate-400">{t("SalesPage.noSales")}</div>
       ) : (
         <div className="overflow-auto border border-slate-700 rounded">
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="px-3 py-2 text-left">
@@ -112,7 +114,7 @@ export default function SalesPage() {
                   </td>
                   <td className="px-3 py-2 text-center">
                     <button
-                      className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-500 text-sm font-medium transition"
+                      className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-500 text-base font-medium transition"
                       onClick={() => setSelectedSale(sale)}
                     >
                       {t("SalesPage.actions.view")}

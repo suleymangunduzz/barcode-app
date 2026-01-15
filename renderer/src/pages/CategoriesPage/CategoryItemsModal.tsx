@@ -65,11 +65,11 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
         {/* Content */}
         <div className="flex-1 overflow-auto px-5 py-3">
           {filteredItems.length === 0 ? (
-            <div className="text-slate-400 text-sm">
+            <div className="text-slate-400 text-base">
               {t("CategoriesPage.items.noItems")}
             </div>
           ) : (
-            <table className="w-full text-sm border-collapse">
+            <table className="w-full text-base border-collapse">
               <thead className="sticky top-0 bg-slate-800">
                 <tr className="text-slate-300 border-b border-slate-700">
                   <th className="text-left px-3 py-2 font-medium">
@@ -105,7 +105,7 @@ export default function CategoryItemsModal({ category, onClose }: Props) {
                     <td className="px-3 py-2 text-right text-slate-100">
                       <button
                         onClick={() => handleAdd(item)}
-                        className="text-sm px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-500 transition font-medium"
+                        className="text-base px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-500 transition font-medium"
                       >
                         {t("CategoriesPage.items.addToCart")}
                       </button>

@@ -24,7 +24,7 @@ export default function SaleDetailsModal({ sale, onClose }: Props) {
           </button>
         </div>
 
-        <div className="space-y-2 text-sm text-slate-200">
+        <div className="space-y-2 text-base text-slate-200">
           <div>
             <strong>{t("SalesPage.details.date")}:</strong>{" "}
             {new Date(sale.createdAt).toLocaleString()}
