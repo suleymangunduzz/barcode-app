@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export function registerUserHandlers(prisma: PrismaClient) {
   // Existing handler
@@ -12,7 +12,7 @@ export function registerUserHandlers(prisma: PrismaClient) {
         where: { role },
       });
       return { success: true, users };
-    }
+    },
   );
 
   // Get user count
@@ -62,7 +62,7 @@ export function registerUserHandlers(prisma: PrismaClient) {
       });
 
       return { success: true, user: admin };
-    }
+    },
   );
 
   // Create a staff user
@@ -74,7 +74,7 @@ export function registerUserHandlers(prisma: PrismaClient) {
         name,
         email,
         password,
-      }: { name: string; email: string; password: string }
+      }: { name: string; email: string; password: string },
     ) => {
       if (!name?.trim() || !email?.trim() || !password) {
         return { success: false, error: "INVALID_INPUT" };
@@ -114,6 +114,6 @@ export function registerUserHandlers(prisma: PrismaClient) {
       });
 
       return { success: true, user };
-    }
+    },
   );
 }

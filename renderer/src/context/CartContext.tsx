@@ -62,7 +62,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 quantity: i.quantity + 1,
                 totalPrice: (i.quantity + 1) * i.unitPrice,
               }
-            : i
+            : i,
         );
       }
       return [
@@ -98,7 +98,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // play beep when cartItems change
   const prevCartCount = React.useRef(
-    cartItems.reduce((sum, i) => sum + i.quantity, 0)
+    cartItems.reduce((sum, i) => sum + i.quantity, 0),
   );
 
   React.useEffect(() => {
@@ -171,7 +171,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       {children}
       <audio
         ref={audioRef}
-        src="/sounds/barcode-beep.mp3"
+        src="barcode-beep.mp3"
         preload="auto"
         className="hidden"
       />

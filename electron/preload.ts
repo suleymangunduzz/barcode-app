@@ -51,7 +51,7 @@ contextBridge.exposeInMainWorld("api", {
       quantity: number;
       totalPrice: number;
     }[],
-    soldById?: number
+    soldById?: number,
   ) => ipcRenderer.invoke("sale:create", { items, soldById }),
   getLastSales: (limit?: number) =>
     ipcRenderer.invoke("sale:getLastSales", { limit }),

@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 import {
   getSession,
