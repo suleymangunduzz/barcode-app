@@ -149,6 +149,7 @@
       }
     },
     "BarcodeModal": {
+      "title": "Barkod Ekle",
       "barcodeExistError": "Bu barkod sistemde kayıtlı, tekrar deneyin.",
       "barcodeExistToast": "❌ Bu barkod zaten sistemde kayıtlı.",
       "barcodeNotGeneratedError": "Barkod oluşturulamadı, tekrar deneyin.",

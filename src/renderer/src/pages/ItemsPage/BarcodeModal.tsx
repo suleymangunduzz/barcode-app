@@ -115,7 +115,9 @@ export default function BarcodeModal({
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
       <div className="bg-slate-900 p-6 rounded-lg w-[400px] space-y-4 border border-slate-700">
-        <h2 className="text-lg font-semibold text-slate-100">Add Barcode</h2>
+        <h2 className="text-lg font-semibold text-slate-100">
+          {t("ItemsPage.BarcodeModal.title")}
+        </h2>
 
         <input
           ref={inputRef}
