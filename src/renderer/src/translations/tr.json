@@ -134,6 +134,7 @@
     },
     "BarcodeModal": {
       "barcodeExistError": "Bu barkod sistemde kayıtlı, tekrar deneyin.",
+      "barcodeExistToast": "❌ Bu barkod zaten sistemde kayıtlı.",
       "barcodeNotGeneratedError": "Barkod oluşturulamadı, tekrar deneyin.",
       "scan": "Barkod okut ya da oluştur",
       "generate": "Oluştur",

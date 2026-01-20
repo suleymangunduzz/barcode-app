@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { generateUniqueBarcode } from "@/utils/generateUniqueBarcode";
 import { useBarcodeScannerRegister } from "@/context/BarcodeScanContext";
+import useToast from "@/hooks/useToast";
 
 type BarcodeModalProps = {
   initialValue?: string;
@@ -18,6 +19,7 @@ export default function BarcodeModal({
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scanner = useBarcodeScannerRegister();
+  const toast = useToast();
 
   const { t } = useTranslation();
 
@@ -28,10 +30,21 @@ export default function BarcodeModal({
   useEffect(() => {
     // register scanner handler while modal is open
     const handler = (barcode: string) => {
-      setValue(barcode);
-      setError(null);
-      // focus input so user sees value
-      inputRef.current?.focus();
+      // If barcode already exists, show toast and don't populate
+      window.api.getItemByBarcode(barcode).then((item) => {
+        if (item) {
+          toast({
+            type: "error",
+            message: t("ItemsPage.BarcodeModal.barcodeExistToast"),
+          });
+          return;
+        }
+
+        setValue(barcode);
+        setError(null);
+        // focus input so user sees value
+        inputRef.current?.focus();
+      });
     };
 
     scanner.registerHandler(handler);
