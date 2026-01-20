@@ -18,6 +18,12 @@ contextBridge.exposeInMainWorld("api", {
   getItemsByCategory: (categoryId: number) =>
     ipcRenderer.invoke("items:getByCategory", categoryId),
   getLowStockItems: () => ipcRenderer.invoke("items:getLowStock"),
+  getStockMovements: (itemId: number) =>
+    ipcRenderer.invoke("items:getStockMovements", itemId),
+  getSalesForItem: (payload: { itemId: number; from?: string; to?: string }) =>
+    ipcRenderer.invoke("items:getSalesForItem", payload),
+  getPriceHistory: (itemId: number) =>
+    ipcRenderer.invoke("items:getPriceHistory", itemId),
 
   // Categories related handlers
   getAllCategories: () => ipcRenderer.invoke("categories:getAll"),

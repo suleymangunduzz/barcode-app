@@ -7,10 +7,14 @@ import UpdatePriceModal from "@/pages/ItemsPage/UpdatePriceModal";
 import { useTranslation } from "react-i18next";
 import { Item } from "@/types/DB";
 import AddItemModal from "@/pages/ItemsPage/AddItemModal";
+import SelectedItemModal from "@/pages/ItemsPage/SelectedItemModal";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [selectedDetailsItem, setSelectedDetailsItem] = useState<Item | null>(
+    null,
+  );
   const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -80,6 +84,7 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         isAdmin={isAdmin}
         onUpdateStock={(item) => setSelectedItem(item)}
         openPriceModal={(item) => setPriceModalItem(item)}
+        onViewDetails={(item) => setSelectedDetailsItem(item)}
       />
 
       {selectedItem && (
@@ -91,6 +96,12 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
             setItems(data);
             setFilteredItems(data);
           }}
+        />
+      )}
+      {selectedDetailsItem && (
+        <SelectedItemModal
+          item={selectedDetailsItem}
+          onClose={() => setSelectedDetailsItem(null)}
         />
       )}
       {priceModalItem && (

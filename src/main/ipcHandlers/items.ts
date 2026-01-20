@@ -21,6 +21,124 @@ export function registerItemHandlers(db: SqliteDb) {
     return items;
   });
 
+  // Get stock movements for an item
+  ipcMain.handle("items:getStockMovements", (_event, itemId: number) => {
+    const movements = db
+      .prepare(
+        `
+        SELECT * FROM StockMovement WHERE itemId = ? ORDER BY id DESC
+      `,
+      )
+      .all(itemId);
+
+    return movements;
+  });
+
+  // Get sales (and sale items) for a specific item within optional date range
+  ipcMain.handle(
+    "items:getSalesForItem",
+    (
+      _event,
+      { itemId, from, to }: { itemId: number; from?: string; to?: string },
+    ) => {
+      // Build base query joining Sale and SaleItem
+      let query = `
+        SELECT s.*
+        FROM Sale s
+        JOIN SaleItem si ON si.saleId = s.id
+        WHERE si.itemId = ?
+      `;
+
+      const params: any[] = [itemId];
+
+      if (from) {
+        query += " AND s.createdAt >= ?";
+        params.push(from);
+      }
+      if (to) {
+        query += " AND s.createdAt <= ?";
+        params.push(to);
+      }
+
+      query += " ORDER BY s.createdAt DESC";
+
+      const sales = db.prepare(query).all(...params) as any[];
+
+      for (const sale of sales) {
+        sale.saleItems = db
+          .prepare("SELECT * FROM SaleItem WHERE saleId = ? AND itemId = ?")
+          .all(sale.id, itemId);
+      }
+
+      return sales;
+    },
+  );
+
+  // Get price history derived from SaleItem (unitPrice over time)
+  ipcMain.handle("items:getPriceHistory", (_event, itemId: number) => {
+    // Sale-derived prices
+    const saleRows = db
+      .prepare(
+        `
+        SELECT s.createdAt as date, si.unitPrice, si.quantity, si.totalPrice, s.id as saleId
+        FROM Sale s
+        JOIN SaleItem si ON si.saleId = s.id
+        WHERE si.itemId = ?
+      `,
+      )
+      .all(itemId) as any[];
+
+    // Manual price changes (and initial item create) are recorded in SyncQueue payloads
+    const syncRows = db
+      .prepare(
+        `
+        SELECT id, tableName, action, payload, createdAt
+        FROM SyncQueue
+        WHERE tableName = 'Item' AND (action = 'create' OR action = 'update') AND payload LIKE '%currentPrice%'
+      `,
+      )
+      .all() as any[];
+
+    const parsedSyncPrices: any[] = [];
+    for (const r of syncRows) {
+      try {
+        const payload = JSON.parse(r.payload);
+        // payload may contain currentPrice at top-level (create) or as the only property (update)
+        const price = payload?.currentPrice ?? null;
+        if (typeof price === "number") {
+          parsedSyncPrices.push({
+            date: r.createdAt,
+            unitPrice: price,
+            quantity: null,
+            source: r.action === "create" ? "initial" : "manual",
+            syncId: r.id,
+          });
+        }
+      } catch (e) {
+        // ignore malformed payloads
+      }
+    }
+
+    // Normalize sale rows
+    const normalizedSales = saleRows.map((s) => ({
+      date: s.date || s.createdAt,
+      unitPrice: s.unitPrice,
+      quantity: s.quantity,
+      totalPrice: s.totalPrice,
+      saleId: s.saleId,
+      source: "sale",
+    }));
+
+    // Combine and sort by date DESC
+    const combined = [...normalizedSales, ...parsedSyncPrices].sort((a, b) => {
+      const ad = new Date(a.date).getTime();
+      const bd = new Date(b.date).getTime();
+      return bd - ad;
+    });
+
+    return combined;
+  });
+
   // Get single item by barcode
   ipcMain.handle("items:getByBarcode", (_event, barcode: string) => {
     const item = db

@@ -1,5 +1,12 @@
 import { CartItem, UserRole } from "@/types/client";
-import type { Item, Category, User, Sale, SaleItem } from "@/types/DB";
+import type {
+  Item,
+  Category,
+  User,
+  Sale,
+  SaleItem,
+  StockMovement,
+} from "@/types/DB";
 
 export {};
 
@@ -26,6 +33,7 @@ declare global {
 
       getItemsByCategory: (categoryId: number) => Promise<Item[]>;
       getLowStockItems: () => Promise<Item[]>;
+      getStockMovements: (itemId: number) => Promise<StockMovement[]>;
 
       // ───────────────
       // Categories
@@ -80,6 +88,12 @@ declare global {
         itemName?: string;
       }>;
       getLastSales: (limit?: number) => Promise<Sale[]>;
+      getSalesForItem: (payload: {
+        itemId: number;
+        from?: string;
+        to?: string;
+      }) => Promise<Sale[]>;
+      getPriceHistory: (itemId: number) => Promise<any[]>;
     };
   }
 }

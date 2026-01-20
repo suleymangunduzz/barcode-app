@@ -5,7 +5,10 @@
     "close": "Kapat",
     "confirm": "Onayla",
     "loading": "Yükleniyor...",
-    "search": "Ara"
+    "search": "Ara",
+    "date": "Tarih",
+    "from": "Başlangıç",
+    "to": "Bitiş"
   },
   "UserRole": {
     "staff": "Personel",
@@ -107,9 +110,20 @@
       "reason": "Sebep",
       "selectReason": "Sebep seçin"
     },
+    "Details": {
+      "priceHistory": "Fiyat Geçmişi",
+      "stockMovements": "Stok Hareketleri",
+      "sales": "Satışlar",
+      "qty": "Adet",
+      "change": "Değişim",
+      "reason": "Sebep",
+      "total": "Toplam",
+      "view": "Görüntüle"
+    },
     "Reasons": {
       "restock": "Stok Ekleme",
-      "manualAdjustment": "Manuel Düzeltme"
+      "manualAdjustment": "Manuel Düzeltme",
+      "sale": "Satış"
     },
     "Errors": {
       "missingFields": "Tüm alanlar zorunludur",

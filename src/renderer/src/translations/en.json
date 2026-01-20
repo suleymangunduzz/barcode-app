@@ -5,7 +5,10 @@
     "close": "Close",
     "confirm": "Confirm",
     "loading": "Loading...",
-    "search": "Search"
+    "search": "Search",
+    "date": "Date",
+    "from": "From",
+    "to": "To"
   },
   "UserRole": {
     "staff": "Staff",
@@ -107,9 +110,20 @@
       "reason": "Reason",
       "selectReason": "Select Reason"
     },
+    "Details": {
+      "priceHistory": "Price History",
+      "stockMovements": "Stock Movements",
+      "sales": "Sales",
+      "qty": "Qty",
+      "change": "Change",
+      "reason": "Reason",
+      "total": "Total",
+      "view": "View"
+    },
     "Reasons": {
       "restock": "Restock",
-      "manualAdjustment": "Manual Adjustment"
+      "manualAdjustment": "Manual Adjustment",
+      "sale": "Sale"
     },
     "Errors": {
       "missingFields": "Please fill in all fields.",
