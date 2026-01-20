@@ -6,7 +6,6 @@ Electron + Node.js based barcode and inventory system.
 
 - Electron
 - React + Vite
-- Prisma
 - SQLite
 - TypeScript
 
@@ -14,7 +13,5 @@ Electron + Node.js based barcode and inventory system.
 
 ```bash
 npm install
-npx prisma migrate dev
-npx prisma db seed
 npm run dev
 ```

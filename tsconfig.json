@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/types/*": ["src/renderer/src/types/*"],
+      "@/components/*": ["src/renderer/src/components/*"],
+      "@/hooks/*": ["src/renderer/src/hooks/*"],
+      "@/utils/*": ["src/renderer/src/utils/*"],
+      "@/translations/*": ["src/renderer/src/translations/*"],
+      "@/context/*": ["src/renderer/src/context/*"],
+      "@/pages/*": ["src/renderer/src/pages/*"],
+      "@/*": ["./*"]
+    }
+  }
+}

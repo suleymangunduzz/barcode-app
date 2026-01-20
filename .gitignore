@@ -12,6 +12,7 @@ node_modules/
 dist/
 out/
 build/
+dist_electron/
 
 # Logs
 npm-debug.log*

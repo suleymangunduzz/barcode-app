@@ -1,0 +1,71 @@
+{
+  "name": "barcode-app",
+  "version": "1.0.0",
+  "description": "An Electron application built with Vite and React for sale and inventory management.",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"npm:electron\"",
+    "electron": "tsc -p src/main && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "build": "vite build && tsc -p src/main",
+    "dist": "npm run build && electron-builder"
+  },
+  "keywords": [
+    "electron",
+    "vite",
+    "react",
+    "inventory",
+    "management"
+  ],
+  "author": "Süleyman GÜNDÜZ",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.0",
+    "better-sqlite3": "^12.6.2",
+    "date-fns": "^4.1.0",
+    "i18next": "^25.7.4",
+    "lucide-react": "^0.562.0",
+    "react": "^18.0.0",
+    "react-datepicker": "^9.1.0",
+    "react-dom": "^18.0.0",
+    "react-i18next": "^16.5.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^25.0.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^28.0.0",
+    "electron-builder": "^26.4.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "build": {
+    "appId": "com.example.barcode-app",
+    "productName": "BarcodeApp",
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.developer-tools",
+      "sign": false
+    },
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    },
+    "files": [
+      "dist/main/**",
+      "dist/renderer/**",
+      "node_modules/**/*",
+      "package.json",
+      "db/migrations/**"
+    ],
+    "asar": true
+  }
+}
