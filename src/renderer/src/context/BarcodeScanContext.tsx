@@ -38,6 +38,16 @@ export function BarcodeScanProvider({
 
   const toast = useToast();
   const { t } = useTranslation();
+  const lastToastRef = useRef<{ barcode: string; ts: number } | null>(null);
+
+  function sanitizeBarcode(input: string) {
+    if (!input) return "";
+    // remove non-printable/control characters, trim, and limit length
+    const cleaned = input.replace(/[^\x20-\x7E]/g, "").trim();
+    const max = 24;
+    if (cleaned.length <= max) return cleaned;
+    return cleaned.slice(0, 12) + "…" + cleaned.slice(-8);
+  }
 
   // global scanner
   useBarcodeScanner(async (barcode: string) => {
@@ -57,9 +67,22 @@ export function BarcodeScanProvider({
     try {
       const res = await addItemByBarcode(barcode);
       if (!res.success && res.reason === "no-item") {
+        const disp = sanitizeBarcode(barcode);
+
+        // suppress repeated identical toasts within short window
+        const now = Date.now();
+        if (
+          lastToastRef.current?.barcode === disp &&
+          now - lastToastRef.current.ts < 2500
+        ) {
+          return;
+        }
+        lastToastRef.current = { barcode: disp, ts: now };
+
         toast({
           type: "error",
-          message: t("ItemsPage.toast.notFound", { barcode }),
+          message: t("ItemsPage.toast.notFound", { barcode: disp }),
+          duration: 2500,
         });
       }
     } catch (err) {
