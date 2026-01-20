@@ -79,7 +79,9 @@ export default function ItemsTable({
                   <td className="px-3 py-2">{item.barcode}</td>
                   <td className="px-3 py-2 font-medium">{item.name}</td>
                   <td className="px-3 py-2">{item.brand ?? "-"}</td>
-                  <td className="px-3 py-2">{item.category?.name ?? "-"}</td>
+                  <td className="px-3 py-2">
+                    {item.category?.name ?? (item as any).categoryName ?? "-"}
+                  </td>
                   <td className="px-3 py-2 text-right">
                     ₺{item.currentPrice.toLocaleString("tr-TR")}
                   </td>

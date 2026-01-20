@@ -23,6 +23,7 @@ export type Item = {
   model?: string | null;
   categoryId?: number | null;
   category?: Category;
+  categoryName?: string | null;
   currentPrice: number;
   stockQuantity: number;
   minStockThreshold: number;
