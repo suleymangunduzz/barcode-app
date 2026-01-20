@@ -136,7 +136,8 @@
       "barcodeExistError": "Bu barkod sistemde kayıtlı, tekrar deneyin.",
       "barcodeNotGeneratedError": "Barkod oluşturulamadı, tekrar deneyin.",
       "scan": "Barkod okut ya da oluştur",
-      "generate": "Oluştur"
+      "generate": "Oluştur",
+      "clear": "Temizle"
     }
   },
   "CategoriesPage": {

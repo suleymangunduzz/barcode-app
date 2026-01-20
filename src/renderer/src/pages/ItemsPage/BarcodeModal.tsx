@@ -72,6 +72,12 @@ export default function BarcodeModal({
     }
   }
 
+  function handleClear() {
+    setValue("");
+    setError(null);
+    inputRef.current?.focus();
+  }
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
       <div className="bg-slate-900 p-6 rounded-lg w-[400px] space-y-4 border border-slate-700">
@@ -92,13 +98,23 @@ export default function BarcodeModal({
         {error && <p className="text-base text-red-400">{error}</p>}
 
         <div className="flex justify-between">
-          <button
-            type="button"
-            onClick={handleGenerate}
-            className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
-          >
-            {t("ItemsPage.BarcodeModal.generate")}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={handleGenerate}
+              className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+            >
+              {t("ItemsPage.BarcodeModal.generate")}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleClear}
+              className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+            >
+              {t("ItemsPage.BarcodeModal.clear")}
+            </button>
+          </div>
 
           <div className="flex gap-2">
             <button

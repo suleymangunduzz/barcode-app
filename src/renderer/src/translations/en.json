@@ -152,7 +152,8 @@
       "barcodeExistError": "Barcode exist in the system, try again.",
       "barcodeNotGeneratedError": "Couldn't generate the barcode, try again.",
       "scan": "Scan or generate barcode",
-      "generate": "Generate"
+      "generate": "Generate",
+      "clear": "Clear"
     }
   },
   "CategoriesPage": {
