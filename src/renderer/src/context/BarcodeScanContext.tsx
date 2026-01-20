@@ -17,8 +17,14 @@ const BarcodeScanContext = createContext<BarcodeScanContextType | undefined>(
 
 export function useBarcodeScannerRegister() {
   const ctx = useContext(BarcodeScanContext);
-  if (!ctx)
-    throw new Error("useBarcodeScannerRegister must be used within provider");
+  if (!ctx) {
+    // Gracefully return no-op handlers when provider is missing (prevents runtime crashes
+    // in environments like tests or if provider wasn't mounted).
+    return {
+      registerHandler: () => {},
+      unregisterHandler: () => {},
+    } as BarcodeScanContextType;
+  }
   return ctx;
 }
 
@@ -47,7 +53,7 @@ export function BarcodeScanProvider({
       }
     }
 
-    // default behavior: add item to cart
+    // default behavior: add item to cart; show toast if not found
     try {
       const res = await addItemByBarcode(barcode);
       if (!res.success && res.reason === "no-item") {
