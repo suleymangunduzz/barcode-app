@@ -45,7 +45,11 @@ export default function SelectedItemModal({ item, onClose }: Props) {
     <div className="fixed inset-0 bg-black/70 flex items-start justify-center z-50 pt-12">
       <div className="bg-slate-900 p-6 rounded-lg w-[1000px] max-h-[80vh] overflow-auto border border-slate-700">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-slate-100">{item.name}</h2>
+          <div>
+            <h2 className="text-xl font-semibold text-slate-100">
+              {item.name} - {t("ItemsPage.Details.modalTitle")}
+            </h2>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => setTab("price")}

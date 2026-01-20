@@ -111,6 +111,7 @@
       "selectReason": "Sebep seçin"
     },
     "Details": {
+      "modalTitle": "Ürün Detayları ve Geçmişi",
       "priceHistory": "Fiyat Geçmişi",
       "stockMovements": "Stok Hareketleri",
       "sales": "Satışlar",
@@ -123,6 +124,7 @@
     "Reasons": {
       "restock": "Stok Ekleme",
       "manualAdjustment": "Manuel Düzeltme",
+      "manual_adjustment": "Manuel Düzeltme",
       "sale": "Satış"
     },
     "Errors": {

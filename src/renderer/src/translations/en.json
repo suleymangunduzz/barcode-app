@@ -111,6 +111,7 @@
       "selectReason": "Select Reason"
     },
     "Details": {
+      "modalTitle": "Product Details & History",
       "priceHistory": "Price History",
       "stockMovements": "Stock Movements",
       "sales": "Sales",
@@ -123,6 +124,7 @@
     "Reasons": {
       "restock": "Restock",
       "manualAdjustment": "Manual Adjustment",
+      "manual_adjustment": "Manual Adjustment",
       "sale": "Sale"
     },
     "Errors": {
