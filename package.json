@@ -64,7 +64,7 @@
       "dist/renderer/**",
       "node_modules/**/*",
       "package.json",
-      "db/migrations/**"
+      "src/main/db/migrations/**"
     ],
     "asar": true
   }

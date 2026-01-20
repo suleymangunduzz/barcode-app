@@ -15,4 +15,6 @@ fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 // Open SQLite database
 export const db = new Database(dbPath);
-console.log(`[Database] SQLite DB initialized at: ${dbPath}`);
+console.log(
+  `[Database] ${isDev ? "Development" : "Production"} SQLite DB initialized at: ${dbPath}`,
+);

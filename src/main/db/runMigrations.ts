@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 import { db } from "./database";
+import { app } from "electron";
 
 export default function runMigrations() {
-  // 1️⃣ Create migrations table if not exists
   db.prepare(
     `
     CREATE TABLE IF NOT EXISTS migrations (
@@ -14,36 +14,46 @@ export default function runMigrations() {
   `,
   ).run();
 
-  // 2️⃣ Load applied migrations
   const applied = db
     .prepare("SELECT name FROM migrations")
     .all()
     .map((m: any) => m.name);
 
-  // 3️⃣ Determine migrations directory (works both dev & prod)
-  const migrationsDir = path.join(__dirname, "migrations");
+  // Determine migrations path
+  let migrationsDir: string;
+  if (!app.isPackaged) {
+    migrationsDir = path.join(process.cwd(), "src", "main", "db", "migrations"); // dev
+  } else {
+    migrationsDir = path.join(
+      process.resourcesPath,
+      "app.asar",
+      "src",
+      "main",
+      "db",
+      "migrations",
+    ); // prod inside asar
+  }
 
   if (!fs.existsSync(migrationsDir)) {
-    console.warn("⚠️ Migrations directory not found:", migrationsDir);
+    console.warn("⚠️ Migrations folder not found:", migrationsDir);
     return;
   }
 
-  // 4️⃣ Run pending migrations
   const files = fs
     .readdirSync(migrationsDir)
     .filter((f) => f.endsWith(".sql"))
     .sort();
+
   for (const file of files) {
     if (applied.includes(file)) continue;
 
-    console.log(`🛠 Running migration: ${file}`);
+    console.log(`🛠 Applying migration: ${file}`);
     const sql = fs.readFileSync(path.join(migrationsDir, file), "utf-8");
 
-    const transaction = db.transaction(() => {
+    db.transaction(() => {
       db.exec(sql);
       db.prepare("INSERT INTO migrations (name) VALUES (?)").run(file);
-    });
-    transaction();
+    })();
   }
 
   console.log("✅ Migrations complete");
