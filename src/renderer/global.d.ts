@@ -57,7 +57,11 @@ declare global {
         password: string,
       ) => Promise<{ success: boolean; error?: string; user?: User }>;
       logout: () => Promise<void>;
-      getSession: () => Promise<{ role: UserRole; email: string }>;
+      getSession: () => Promise<{
+        role: UserRole;
+        name?: string | null;
+        email?: string | null;
+      }>;
       signupFirstAdmin: (data: {
         name: string;
         email: string;

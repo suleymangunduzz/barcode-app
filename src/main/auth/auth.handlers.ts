@@ -16,6 +16,7 @@ export function registerAuthHandlers(db: SqliteDb) {
     const session = getSession();
     return {
       role: session?.role || null,
+      name: session?.name || null,
       email: session?.email || null,
     };
   });
@@ -35,9 +36,9 @@ export function registerAuthHandlers(db: SqliteDb) {
         return { success: false, error: "INVALID_CREDENTIALS" };
 
       if (user.role === "admin")
-        setAdminSession({ id: user.id, email: user.email });
+        setAdminSession({ id: user.id, email: user.email, name: user.name });
       else if (user.role === "staff")
-        setStaffSession({ id: user.id, email: user.email });
+        setStaffSession({ id: user.id, email: user.email, name: user.name });
 
       return { success: true, user };
     },

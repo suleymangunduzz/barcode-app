@@ -172,7 +172,7 @@ export function registerSaleHandlers(db: SqliteDb) {
       const sales = db
         .prepare(
           `
-        SELECT s.*, u.name as soldByName
+        SELECT s.*, u.name as soldByName, u.email as soldByEmail
         FROM Sale s
         LEFT JOIN User u ON s.soldById = u.id
         ORDER BY s.createdAt DESC
@@ -186,6 +186,13 @@ export function registerSaleHandlers(db: SqliteDb) {
         sale.saleItems = db
           .prepare("SELECT * FROM SaleItem WHERE saleId = ?")
           .all(sale.id) as SaleItem[];
+        // Populate nested soldBy object so renderer can read sale.soldBy.name
+        // Prefer the user's name, fall back to email when name is missing
+        (sale as any).soldBy = {
+          id: (sale as any).soldById || null,
+          name: (sale as any).soldByName || (sale as any).soldByEmail || null,
+          email: (sale as any).soldByEmail || null,
+        };
       }
 
       return sales;
