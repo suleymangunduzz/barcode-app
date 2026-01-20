@@ -33,8 +33,24 @@ export default function SalesPage() {
     const matchesSearch = search
       ? sale.totalAmount.toString().includes(search)
       : true;
-    const matchesFrom = fromDate ? new Date(sale.createdAt) >= fromDate : true;
-    const matchesTo = toDate ? new Date(sale.createdAt) <= toDate : true;
+
+    // Normalize from/to to full day ranges so selecting the same day includes
+    // all sales that occurred during that day.
+    const saleDate = new Date(sale.createdAt);
+
+    let fromStart: Date | null = null;
+    let toEnd: Date | null = null;
+    if (fromDate) {
+      fromStart = new Date(fromDate);
+      fromStart.setHours(0, 0, 0, 0);
+    }
+    if (toDate) {
+      toEnd = new Date(toDate);
+      toEnd.setHours(23, 59, 59, 999);
+    }
+
+    const matchesFrom = fromStart ? saleDate >= fromStart : true;
+    const matchesTo = toEnd ? saleDate <= toEnd : true;
 
     return matchesSearch && matchesFrom && matchesTo;
   });
