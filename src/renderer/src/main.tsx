@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App";
 import { ToastProvider } from "@/hooks/useToast";
 import { CartProvider } from "@/context/CartContext";
+import { BarcodeScanProvider } from "@/context/BarcodeScanContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ToastProvider>
     <CartProvider>
-      <App />
+      <BarcodeScanProvider>
+        <App />
+      </BarcodeScanProvider>
     </CartProvider>
-  </ToastProvider>
+  </ToastProvider>,
 );

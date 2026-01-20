@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Plus, Minus, Trash2 } from "lucide-react";
 
 import { calculateTotal } from "@/utils/cart";
-import useBarcodeScanner from "@/hooks/useBarcodeScanner";
+// barcode scanning handled globally by BarcodeScanProvider
 import { useCart } from "@/context/CartContext";
 
 export default function Dashboard() {
@@ -22,13 +22,10 @@ export default function Dashboard() {
 
   const totalAmount = calculateTotal(cartItems);
 
-  useBarcodeScanner(async (barcode) => {
-    if (!barcode) return;
-    await addItemByBarcode(barcode);
-  });
+  // scanning is handled globally by BarcodeScanProvider
 
   const handleBarcodeInputBlur = async (
-    event: React.FocusEvent<HTMLInputElement>
+    event: React.FocusEvent<HTMLInputElement>,
   ) => {
     const barcode = event.target.value.trim();
     if (!barcode) {
@@ -58,7 +55,7 @@ export default function Dashboard() {
         alert(t("Dashboard.saleSuccess"));
       } else if (response.error === "INSUFFICIENT_STOCK") {
         alert(
-          t("Dashboard.insufficientStock", { itemName: response.itemName })
+          t("Dashboard.insufficientStock", { itemName: response.itemName }),
         );
       } else {
         alert(t("Dashboard.saleError"));
@@ -165,7 +162,7 @@ export default function Dashboard() {
                         </button>
                       </td>
                     </tr>
-                  )
+                  ),
                 )}
               </tbody>
             </table>

@@ -97,7 +97,8 @@
     },
     "toast": {
       "addedToCart": "{{name}} added to cart!",
-      "insufficientStock": "❌ Not enough stock for {{name}}."
+      "insufficientStock": "❌ Not enough stock for {{name}}.",
+      "notFound": "❌ No product found with barcode {{barcode}}."
     },
     "Modal": {
       "title": "Update Stock",

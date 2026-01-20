@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { generateUniqueBarcode } from "@/utils/generateUniqueBarcode";
+import { useBarcodeScannerRegister } from "@/context/BarcodeScanContext";
 
 type BarcodeModalProps = {
   initialValue?: string;
@@ -16,12 +17,28 @@ export default function BarcodeModal({
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scanner = useBarcodeScannerRegister();
 
   const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    // register scanner handler while modal is open
+    const handler = (barcode: string) => {
+      setValue(barcode);
+      setError(null);
+      // focus input so user sees value
+      inputRef.current?.focus();
+    };
+
+    scanner.registerHandler(handler);
+    return () => {
+      scanner.unregisterHandler();
+    };
+  }, [scanner]);
 
   async function validateBarcode(barcode: string) {
     if (!barcode) return false;

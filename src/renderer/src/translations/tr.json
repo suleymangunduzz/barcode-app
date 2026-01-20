@@ -97,7 +97,8 @@
     },
     "toast": {
       "addedToCart": "{{name}} sepete eklendi!",
-      "insufficientStock": "❌ {{name}} için yeterli stok yok."
+      "insufficientStock": "❌ {{name}} için yeterli stok yok.",
+      "notFound": "❌ {{barcode}} barkodlu ürün bulunamadı."
     },
     "Modal": {
       "title": "Stok Güncelle",
