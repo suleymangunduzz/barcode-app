@@ -152,6 +152,7 @@
       "barcodeExistError": "Bu barkod sistemde kayıtlı, tekrar deneyin.",
       "barcodeExistToast": "❌ Bu barkod zaten sistemde kayıtlı.",
       "barcodeNotGeneratedError": "Barkod oluşturulamadı, tekrar deneyin.",
+      "invalidFormat": "Geçersiz barkod okutuldu.",
       "scan": "Barkod okut ya da oluştur",
       "generate": "Oluştur",
       "clear": "Temizle"

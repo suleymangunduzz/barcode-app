@@ -168,6 +168,7 @@
       "barcodeExistError": "Barcode exist in the system, try again.",
       "barcodeExistToast": "❌ This barcode is already saved in the system.",
       "barcodeNotGeneratedError": "Couldn't generate the barcode, try again.",
+      "invalidFormat": "Invalid barcode scanned.",
       "scan": "Scan or generate barcode",
       "generate": "Generate",
       "clear": "Clear"

@@ -30,8 +30,29 @@ export default function BarcodeModal({
   useEffect(() => {
     // register scanner handler while modal is open
     const handler = (barcode: string) => {
+      // sanitize scanned input: reject strings that look like emails, contain spaces
+      // or disallowed characters (likely not valid barcodes). This prevents
+      // accidental population with sensitive data (e.g., login credentials).
+      const cleaned = (barcode || "").trim();
+      // Basic checks: no whitespace, no @ (emails), allowed chars only
+      const allowed = /^[A-Za-z0-9\-\._]+$/;
+      if (
+        !cleaned ||
+        /\s/.test(cleaned) ||
+        cleaned.includes("@") ||
+        !allowed.test(cleaned) ||
+        cleaned.length > 128
+      ) {
+        // show a validation error instead of populating the field
+        toast({
+          type: "error",
+          message: t("ItemsPage.BarcodeModal.invalidFormat"),
+        });
+        return;
+      }
+
       // If barcode already exists, show toast and don't populate
-      window.api.getItemByBarcode(barcode).then((item) => {
+      window.api.getItemByBarcode(cleaned).then((item) => {
         if (item) {
           toast({
             type: "error",
@@ -40,7 +61,7 @@ export default function BarcodeModal({
           return;
         }
 
-        setValue(barcode);
+        setValue(cleaned);
         setError(null);
         // focus input so user sees value
         inputRef.current?.focus();

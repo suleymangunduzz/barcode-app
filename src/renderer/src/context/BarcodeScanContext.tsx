@@ -66,6 +66,16 @@ export function BarcodeScanProvider({
     // default behavior: add item to cart; show toast if not found
     try {
       const res = await addItemByBarcode(barcode);
+      if (res.success) {
+        // notify the app that an item was successfully added via scanner
+        try {
+          window.dispatchEvent(
+            new CustomEvent("barcode:itemAdded", { detail: { barcode } }),
+          );
+        } catch (e) {
+          // ignore environment where window.dispatchEvent may fail
+        }
+      }
       if (!res.success && res.reason === "no-item") {
         const disp = sanitizeBarcode(barcode);
 

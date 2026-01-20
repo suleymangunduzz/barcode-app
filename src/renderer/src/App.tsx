@@ -41,6 +41,20 @@ function App() {
       setIsLoading(false);
     }
     fetchSessionAndCheckAdmin();
+    // navigate to dashboard when an item is added via barcode scanner
+    function onBarcodeAdded() {
+      setPage("dashboard");
+    }
+    window.addEventListener(
+      "barcode:itemAdded",
+      onBarcodeAdded as EventListener,
+    );
+    return () => {
+      window.removeEventListener(
+        "barcode:itemAdded",
+        onBarcodeAdded as EventListener,
+      );
+    };
   }, []);
 
   const onLogout = async () => {
@@ -65,10 +79,24 @@ function App() {
   }
 
   if (role === null) {
+    async function handleLogin(user: any) {
+      // clear sensitive inputs and blur to avoid accidental scanner capture
+      try {
+        (document.activeElement as HTMLElement | null)?.blur();
+        document
+          .querySelectorAll('input[type="password"], input[type="email"]')
+          .forEach((el) => {
+            (el as HTMLInputElement).value = "";
+          });
+      } catch (e) {}
+
+      setRole(user.role);
+    }
+
     return (
       <div className="h-screen flex items-center justify-center bg-slate-900 text-slate-100">
         {t("LoginModal.shouldLoginText")}
-        <LoginModal onLogin={(user) => setRole(user.role)} />
+        <LoginModal onLogin={handleLogin} />
       </div>
     );
   }
