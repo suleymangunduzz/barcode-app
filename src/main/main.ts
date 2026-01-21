@@ -1,6 +1,13 @@
 import { app, BrowserWindow } from "electron";
 import path from "path";
 import fs from "fs";
+import dotenv from "dotenv";
+
+if (!app.isPackaged) {
+  dotenv.config({ path: path.join(process.cwd(), "src", "main", ".env") });
+}
+
+console.log("[Electron] SMTP_HOST:", process.env.SMTP_HOST ? "set" : "not set");
 
 import { db } from "./db/database";
 import runMigrations from "./db/runMigrations";
@@ -12,6 +19,7 @@ import { registerCategoryHandlers } from "./ipcHandlers/categories";
 import { registerAuthHandlers } from "./auth/auth.handlers";
 import { registerUserHandlers } from "./ipcHandlers/user";
 import { registerReportHandlers } from "./ipcHandlers/reports";
+import { env } from "process";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -33,7 +41,7 @@ async function createWindow() {
 
   if (isDev && process.env.VITE_DEV_SERVER_URL) {
     await mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
-    mainWindow.webContents.openDevTools({ mode: "detach" });
+    // mainWindow.webContents.openDevTools({ mode: "detach" });
     return;
   }
 

@@ -3,27 +3,17 @@ import path from "path";
 import fs from "fs";
 import Database from "better-sqlite3";
 import { format } from "date-fns";
+import sendTestEmail from "./send_test_email";
 
 type SqliteDb = ReturnType<typeof Database>;
 
-function ensureScheduleTable(db: SqliteDb) {
-  db.prepare(
-    `
-    CREATE TABLE IF NOT EXISTS ReportSchedule (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      type TEXT NOT NULL,
-      email TEXT NOT NULL,
-      enabled INTEGER NOT NULL DEFAULT 0,
-      subject TEXT,
-      lastRunAt DATETIME,
-      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `,
-  ).run();
-}
-
 export function registerReportHandlers(db: SqliteDb) {
-  ensureScheduleTable(db);
+  ipcMain.handle("sendTestEmail", () => {
+    sendTestEmail();
+
+    // Just a dummy handler to test email sending from renderer
+    return { success: true };
+  });
 
   ipcMain.handle("reports:getSchedules", () =>
     db.prepare("SELECT * FROM ReportSchedule ORDER BY id ASC").all(),

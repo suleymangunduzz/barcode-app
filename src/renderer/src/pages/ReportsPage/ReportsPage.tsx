@@ -143,6 +143,14 @@ export default function ReportsPage() {
         {t("ReportsPage.title")}
       </h2>
 
+      <button
+        onClick={() => {
+          window.api.sendTestEmail();
+        }}
+      >
+        Send test email
+      </button>
+
       <div className="mt-4 p-6 border border-slate-700 rounded-lg bg-slate-900">
         <h3 className="font-semibold text-xl md:text-2xl mb-3">
           {t("ReportsPage.generateTitle")}

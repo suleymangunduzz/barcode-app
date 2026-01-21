@@ -74,4 +74,5 @@ contextBridge.exposeInMainWorld("api", {
   }) => ipcRenderer.invoke("reports:saveSchedule", payload),
   toggleReportSchedule: (payload: { id: number; enabled: boolean }) =>
     ipcRenderer.invoke("reports:toggleSchedule", payload),
+  sendTestEmail: () => ipcRenderer.invoke("sendTestEmail"),
 });
