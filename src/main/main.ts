@@ -19,7 +19,6 @@ import { registerCategoryHandlers } from "./ipcHandlers/categories";
 import { registerAuthHandlers } from "./auth/auth.handlers";
 import { registerUserHandlers } from "./ipcHandlers/user";
 import { registerReportHandlers } from "./ipcHandlers/reports";
-import { env } from "process";
 
 let mainWindow: BrowserWindow | null = null;
 
