@@ -45,42 +45,47 @@ export type SendEmailOptions = {
   attachments?: EmailAttachment[];
 };
 
-export async function sendEmail(
+export async function smtpEmailClient(
   opts: SendEmailOptions,
-): Promise<{ messageId: string } | null> {
+): Promise<{ messageId: string | null; error?: boolean }> {
   const cfg = loadSmtpConfig();
   if (!cfg) {
     console.warn(
       "SMTP: missing configuration in environment variables; skipping send",
     );
-    return null;
+    return { error: true, messageId: null };
   }
 
-  const transporter = nodemailer.createTransport({
-    host: cfg.host,
-    port: cfg.port,
-    secure: cfg.secure,
-    auth: {
-      user: cfg.user,
-      pass: cfg.pass,
-    },
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      host: cfg.host,
+      port: cfg.port,
+      secure: cfg.secure,
+      auth: {
+        user: cfg.user,
+        pass: cfg.pass,
+      },
+    });
 
-  const from = cfg.from || cfg.user;
+    const from = cfg.from || cfg.user;
 
-  const mail = {
-    from,
-    to: opts.to,
-    subject: opts.subject,
-    text: opts.text,
-    html: opts.html,
-    attachments: opts.attachments?.map((a) => ({
-      filename: a.filename,
-      path: a.path,
-      content: a.content,
-    })),
-  } as any;
+    const mail = {
+      from,
+      to: opts.to,
+      subject: opts.subject,
+      text: opts.text,
+      html: opts.html,
+      attachments: opts.attachments?.map((a) => ({
+        filename: a.filename,
+        path: a.path,
+        content: a.content,
+      })),
+    } as any;
 
-  const info = await transporter.sendMail(mail);
-  return { messageId: info.messageId };
+    const info = await transporter.sendMail(mail);
+    return { messageId: info.messageId };
+  } catch (err) {
+    console.error("sendEmail failed:", err);
+    return { error: true, messageId: null };
+  }
 }

@@ -3,18 +3,10 @@ import path from "path";
 import fs from "fs";
 import Database from "better-sqlite3";
 import { format } from "date-fns";
-import sendTestEmail from "./send_test_email";
 
 type SqliteDb = ReturnType<typeof Database>;
 
 export function registerReportHandlers(db: SqliteDb) {
-  ipcMain.handle("sendTestEmail", () => {
-    sendTestEmail();
-
-    // Just a dummy handler to test email sending from renderer
-    return { success: true };
-  });
-
   ipcMain.handle("reports:getSchedules", () =>
     db.prepare("SELECT * FROM ReportSchedule ORDER BY id ASC").all(),
   );
