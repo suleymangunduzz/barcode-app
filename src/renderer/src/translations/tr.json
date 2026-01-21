@@ -254,6 +254,10 @@
       "emailRequired": "Lütfen bir e-posta adresi girin.",
       "emailInvalid": "Lütfen geçerli bir e-posta adresi girin.",
       "subjectRequired": "Lütfen e-posta konusu girin."
-    }
+    },
+    "generatedSubject": "Satış raporu {{from}} → {{to}}",
+    "generateSuccess": "Rapor oluşturuldu.",
+    "generateSuccessEmailed": "Rapor oluşturuldu ve e-posta ile gönderildi.",
+    "generateError": "Rapor oluşturulamadı."
   }
 }

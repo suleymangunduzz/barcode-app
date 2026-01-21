@@ -6,6 +6,7 @@ import { tr } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Schedule } from "@/types/DB";
+import useToast from "@/hooks/useToast";
 
 export default function ReportsPage() {
   const { t, i18n } = useTranslation();
@@ -23,6 +24,8 @@ export default function ReportsPage() {
     >
   >({});
   const [loading, setLoading] = useState(false);
+  const [generateEmail, setGenerateEmail] = useState<string>("");
+  const toast = useToast();
 
   useEffect(() => {
     window.api.getReportSchedules().then((rows) => {
@@ -50,12 +53,24 @@ export default function ReportsPage() {
     const res = await window.api.generateSalesReport({
       from: f.toISOString(),
       to: t2.toISOString(),
+      email: generateEmail || undefined,
+      subject: t("ReportsPage.generatedSubject", {
+        from: new Date(f).toLocaleDateString(),
+        to: new Date(t2).toLocaleDateString(),
+      }),
     });
     setLoading(false);
     if (res?.path) {
-      // open folder containing report
-      // in renderer we can't directly open native file manager; show path to user
-      alert(`Report generated: ${res.path}`);
+      if (res.emailed) {
+        toast({
+          type: "success",
+          message: t("ReportsPage.generateSuccessEmailed"),
+        });
+      } else {
+        toast({ type: "info", message: t("ReportsPage.generateSuccess") });
+      }
+    } else {
+      toast({ type: "error", message: t("ReportsPage.generateError") });
     }
   }
 
@@ -166,10 +181,16 @@ export default function ReportsPage() {
             locale={i18n.language === "tr" ? tr : enUS}
             className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
           />
+          <input
+            placeholder={t("ReportsPage.emailPlaceholder")}
+            value={generateEmail}
+            onChange={(e) => setGenerateEmail(e.target.value)}
+            className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
+          />
           <div className="mt-2 sm:mt-0">
             <button
               onClick={handleGenerate}
-              disabled={!from || !to || loading}
+              disabled={!from || !to || !generateEmail || loading}
               className="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-50"
             >
               {loading ? t("Common.loading") : t("ReportsPage.generate")}

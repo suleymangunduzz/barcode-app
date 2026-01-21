@@ -270,6 +270,10 @@
       "emailRequired": "Please enter an email address.",
       "emailInvalid": "Please enter a valid email address.",
       "subjectRequired": "Please enter an email subject."
-    }
+    },
+    "generatedSubject": "Sales report {{from}} → {{to}}",
+    "generateSuccess": "Report generated.",
+    "generateSuccessEmailed": "Report generated and emailed.",
+    "generateError": "Failed to generate report."
   }
 }

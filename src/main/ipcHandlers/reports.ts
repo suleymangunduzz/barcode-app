@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import Database from "better-sqlite3";
 import { format } from "date-fns";
+import { smtpEmailClient } from "../smtp";
 
 type SqliteDb = ReturnType<typeof Database>;
 
@@ -61,7 +62,15 @@ export function registerReportHandlers(db: SqliteDb) {
 
   ipcMain.handle(
     "reports:generateSalesReport",
-    async (_event, { from, to }: { from: string; to: string }) => {
+    async (
+      _event,
+      {
+        from,
+        to,
+        email,
+        subject,
+      }: { from: string; to: string; email?: string; subject?: string },
+    ) => {
       const sales = db
         .prepare(
           `SELECT s.*, u.name as soldByName FROM Sale s LEFT JOIN User u ON s.soldById = u.id WHERE s.createdAt >= ? AND s.createdAt <= ? ORDER BY s.createdAt ASC`,
@@ -133,7 +142,26 @@ export function registerReportHandlers(db: SqliteDb) {
       fs.writeFileSync(outPath, pdfData);
       win.destroy();
 
-      return { path: outPath };
+      let emailed = false;
+      let messageId: string | null = null;
+      if (email) {
+        try {
+          const sendRes = await smtpEmailClient({
+            to: email,
+            subject: subject || title,
+            text: `Please find attached the sales report for ${from} → ${to}`,
+            attachments: [{ filename: path.basename(outPath), path: outPath }],
+          });
+          if (!sendRes.error) {
+            emailed = true;
+            messageId = sendRes.messageId || null;
+          }
+        } catch (err) {
+          console.error("Error sending report email:", err);
+        }
+      }
+
+      return { path: outPath, emailed, messageId };
     },
   );
 }

@@ -62,8 +62,12 @@ contextBridge.exposeInMainWorld("api", {
   getLastSales: (limit?: number) =>
     ipcRenderer.invoke("sale:getLastSales", { limit }),
   // Reports
-  generateSalesReport: (payload: { from: string; to: string }) =>
-    ipcRenderer.invoke("reports:generateSalesReport", payload),
+  generateSalesReport: (payload: {
+    from: string;
+    to: string;
+    email?: string;
+    subject?: string;
+  }) => ipcRenderer.invoke("reports:generateSalesReport", payload),
   getReportSchedules: () => ipcRenderer.invoke("reports:getSchedules"),
   saveReportSchedule: (payload: {
     id?: number;

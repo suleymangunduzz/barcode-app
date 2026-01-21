@@ -105,7 +105,13 @@ declare global {
       generateSalesReport: (payload: {
         from: string;
         to: string;
-      }) => Promise<{ path: string }>;
+        email?: string;
+        subject?: string;
+      }) => Promise<{
+        path: string;
+        emailed?: boolean;
+        messageId?: string | null;
+      }>;
       getReportSchedules: () => Promise<any[]>;
       saveReportSchedule: (payload: {
         id?: number;
