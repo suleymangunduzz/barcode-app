@@ -11,6 +11,7 @@ import { registerSaleHandlers } from "./ipcHandlers/sales";
 import { registerCategoryHandlers } from "./ipcHandlers/categories";
 import { registerAuthHandlers } from "./auth/auth.handlers";
 import { registerUserHandlers } from "./ipcHandlers/user";
+import { registerReportHandlers } from "./ipcHandlers/reports";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -56,6 +57,7 @@ function registerHandlers() {
   registerCategoryHandlers(db);
   registerAuthHandlers(db);
   registerUserHandlers(db);
+  registerReportHandlers(db);
   console.log("[Electron] IPC handlers registered.");
 }
 

@@ -34,7 +34,7 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       key: "reports",
       label: t("SideBar.reports"),
       icon: BarChart,
-      roles: ["staff", "admin"],
+      roles: ["admin"],
     },
     {
       key: "sales",
