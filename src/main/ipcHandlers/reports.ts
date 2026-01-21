@@ -85,26 +85,26 @@ export function registerReportHandlers(db: SqliteDb) {
 
       const total = sales.reduce((sum, s) => sum + (s.totalAmount || 0), 0);
 
-      // build simple HTML
+      // build simple HTML (Turkish labels)
       const rowsHtml = sales
         .map((s) => {
           const itemsHtml = s.saleItems
             .map(
               (si: any) =>
-                `<tr><td>${si.itemName}</td><td>${si.quantity}</td><td>₺${si.totalPrice.toLocaleString("tr-TR")}</td></tr>`,
+                `<tr><td>${si.itemName}</td><td style="text-align:right">${si.quantity}</td><td style="text-align:right">₺${si.totalPrice.toLocaleString("tr-TR")}</td></tr>`,
             )
             .join("");
           return `
-            <h3>Sale #${s.id} - ${s.soldByName || "-"} - ${s.createdAt}</h3>
+            <h3>Satış #${s.id} - ${s.soldByName || "-"} - ${new Date(s.createdAt).toLocaleString("tr-TR")}</h3>
             <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
-              <thead><tr><th style="border:1px solid #ddd;padding:6px;text-align:left">Item</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Qty</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Total</th></tr></thead>
+              <thead><tr><th style="border:1px solid #ddd;padding:6px;text-align:left">Ürün</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Adet</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Toplam</th></tr></thead>
               <tbody>${itemsHtml}</tbody>
             </table>
           `;
         })
         .join("\n");
 
-      const title = `Sales Report ${format(new Date(from), "yyyy-MM-dd")} → ${format(new Date(to), "yyyy-MM-dd")}`;
+      const title = `Satış Raporu ${format(new Date(from), "yyyy-MM-dd")} → ${format(new Date(to), "yyyy-MM-dd")}`;
 
       const html = `
         <html>
@@ -119,9 +119,9 @@ export function registerReportHandlers(db: SqliteDb) {
         </head>
         <body>
           <h1>${title}</h1>
-          <div>Total: ₺${total.toLocaleString("tr-TR")}</div>
+          <div>Toplam: ₺${total.toLocaleString("tr-TR")}</div>
           <hr />
-          ${rowsHtml || "<p>No sales in the selected range.</p>"}
+          ${rowsHtml || "<p>Seçilen aralıkta satış yok.</p>"}
         </body>
         </html>
       `;

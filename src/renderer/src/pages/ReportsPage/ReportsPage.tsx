@@ -181,6 +181,8 @@ export default function ReportsPage() {
             locale={i18n.language === "tr" ? tr : enUS}
             className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
           />
+        </div>
+        <div className="flex gap-3 mb-4 justify-between">
           <input
             placeholder={t("ReportsPage.emailPlaceholder")}
             value={generateEmail}
