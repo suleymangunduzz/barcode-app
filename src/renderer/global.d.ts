@@ -98,6 +98,26 @@ declare global {
         to?: string;
       }) => Promise<Sale[]>;
       getPriceHistory: (itemId: number) => Promise<any[]>;
+
+      // ───────────────
+      // Reports
+      // ───────────────
+      generateSalesReport: (payload: {
+        from: string;
+        to: string;
+      }) => Promise<{ path: string }>;
+      getReportSchedules: () => Promise<any[]>;
+      saveReportSchedule: (payload: {
+        id?: number;
+        type: string;
+        email?: string | null;
+        enabled: boolean;
+        subject?: string;
+      }) => Promise<{ success: boolean }>;
+      toggleReportSchedule: (payload: {
+        id: number;
+        enabled: boolean;
+      }) => Promise<{ success: boolean }>;
     };
   }
 }

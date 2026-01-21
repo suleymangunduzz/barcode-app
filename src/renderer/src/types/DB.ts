@@ -75,3 +75,12 @@ export type SyncQueue = {
   synced: boolean;
   createdAt: string;
 };
+
+export type Schedule = {
+  id: number;
+  type: string;
+  email?: string | null;
+  enabled: number;
+  subject?: string | null;
+  lastRunAt?: string | null;
+};

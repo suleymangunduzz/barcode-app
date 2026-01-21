@@ -233,6 +233,27 @@
   },
   "ReportsPage": {
     "title": "Raporlar",
-    "empty": "Henüz rapor yok."
+    "empty": "Henüz rapor yok.",
+    "generateTitle": "Satış Raporu Oluştur",
+    "generate": "Oluştur",
+    "schedulingTitle": "Zamanlanmış Raporlar",
+    "schedulingDescription": "Satış raporlarının otomatik oluşturulmasını ve e-posta ile gönderilmesini yapılandırın.",
+    "schedulingEnable": "Etkinleştir",
+    "Presets": {
+      "daily": "Günlük",
+      "weekly": "Haftalık",
+      "monthly": "Aylık",
+      "yearly": "Yıllık"
+    },
+    "emailPlaceholder": "E-posta adresi girin",
+    "sendEmail": "Raporu e-posta ile gönder",
+    "activeTitle": "Aktif Zamanlamalar",
+    "disable": "Devre Dışı Bırak",
+    "subjectPlaceholder": "E-posta konusu",
+    "validation": {
+      "emailRequired": "Lütfen bir e-posta adresi girin.",
+      "emailInvalid": "Lütfen geçerli bir e-posta adresi girin.",
+      "subjectRequired": "Lütfen e-posta konusu girin."
+    }
   }
 }

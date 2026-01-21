@@ -61,4 +61,17 @@ contextBridge.exposeInMainWorld("api", {
   ) => ipcRenderer.invoke("sale:create", { items, soldById }),
   getLastSales: (limit?: number) =>
     ipcRenderer.invoke("sale:getLastSales", { limit }),
+  // Reports
+  generateSalesReport: (payload: { from: string; to: string }) =>
+    ipcRenderer.invoke("reports:generateSalesReport", payload),
+  getReportSchedules: () => ipcRenderer.invoke("reports:getSchedules"),
+  saveReportSchedule: (payload: {
+    id?: number;
+    type: string;
+    email?: string | null;
+    enabled: boolean;
+    subject?: string;
+  }) => ipcRenderer.invoke("reports:saveSchedule", payload),
+  toggleReportSchedule: (payload: { id: number; enabled: boolean }) =>
+    ipcRenderer.invoke("reports:toggleSchedule", payload),
 });

@@ -249,6 +249,27 @@
   },
   "ReportsPage": {
     "title": "Reports",
-    "empty": "No reports yet."
+    "empty": "No reports yet.",
+    "generateTitle": "Generate Sales Report",
+    "generate": "Generate",
+    "schedulingTitle": "Scheduled Reports",
+    "schedulingDescription": "Configure automatic sales reports to be generated and sent by email.",
+    "schedulingEnable": "Enable",
+    "Presets": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "emailPlaceholder": "Enter email address",
+    "sendEmail": "Send report by email",
+    "activeTitle": "Active Schedules",
+    "disable": "Disable",
+    "subjectPlaceholder": "Email subject",
+    "validation": {
+      "emailRequired": "Please enter an email address.",
+      "emailInvalid": "Please enter a valid email address.",
+      "subjectRequired": "Please enter an email subject."
+    }
   }
 }
