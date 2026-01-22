@@ -7,6 +7,105 @@ import { smtpEmailClient } from "../smtp";
 
 type SqliteDb = ReturnType<typeof Database>;
 
+export async function generateSalesReportForRange(
+  db: SqliteDb,
+  from: string,
+  to: string,
+  email?: string,
+  subject?: string,
+) {
+  const sales = db
+    .prepare(
+      `SELECT s.*, u.name as soldByName FROM Sale s LEFT JOIN User u ON s.soldById = u.id WHERE s.createdAt >= ? AND s.createdAt <= ? ORDER BY s.createdAt ASC`,
+    )
+    .all(from, to) as any[];
+
+  for (const sale of sales) {
+    sale.saleItems = db
+      .prepare("SELECT * FROM SaleItem WHERE saleId = ?")
+      .all(sale.id) as any[];
+  }
+
+  const total = sales.reduce((sum, s) => sum + (s.totalAmount || 0), 0);
+
+  // build simple HTML (Turkish labels)
+  const rowsHtml = sales
+    .map((s) => {
+      const itemsHtml = s.saleItems
+        .map(
+          (si: any) =>
+            `<tr><td>${si.itemName}</td><td style="text-align:right">${si.quantity}</td><td style="text-align:right">₺${si.totalPrice.toLocaleString("tr-TR")}</td></tr>`,
+        )
+        .join("");
+      return `
+            <h3>Satış #${s.id} - ${s.soldByName || "-"} - ${new Date(s.createdAt).toLocaleString("tr-TR")}</h3>
+            <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
+              <thead><tr><th style="border:1px solid #ddd;padding:6px;text-align:left">Ürün</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Adet</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Toplam</th></tr></thead>
+              <tbody>${itemsHtml}</tbody>
+            </table>
+          `;
+    })
+    .join("\n");
+
+  const title = `Satış Raporu ${format(new Date(from), "yyyy-MM-dd")} → ${format(new Date(to), "yyyy-MM-dd")}`;
+
+  const html = `
+        <html>
+        <head>
+          <meta charset="utf-8" />
+          <style>
+            body { font-family: Arial, Helvetica, sans-serif; padding: 20px; color: #222 }
+            h1 { font-size: 18px }
+            table { width: 100%; border-collapse: collapse }
+            th, td { border: 1px solid #ddd; padding: 6px }
+          </style>
+        </head>
+        <body>
+          <h1>${title}</h1>
+          <div>Toplam: ₺${total.toLocaleString("tr-TR")}</div>
+          <hr />
+          ${rowsHtml || "<p>Seçilen aralıkta satış yok.</p>"}
+        </body>
+        </html>
+      `;
+
+  // create a hidden BrowserWindow to render HTML and print to PDF
+  const win = new BrowserWindow({
+    show: false,
+    webPreferences: { offscreen: true },
+  });
+  const dataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(html);
+  await win.loadURL(dataUrl);
+  const pdfData = await win.webContents.printToPDF({});
+  const outPath = path.join(
+    app.getPath("temp"),
+    `sales-report-${Date.now()}.pdf`,
+  );
+  fs.writeFileSync(outPath, pdfData);
+  win.destroy();
+
+  let emailed = false;
+  let messageId: string | null = null;
+  if (email) {
+    try {
+      const sendRes = await smtpEmailClient({
+        to: email,
+        subject: subject || title,
+        text: `Please find attached the sales report for ${from} → ${to}`,
+        attachments: [{ filename: path.basename(outPath), path: outPath }],
+      });
+      if (!sendRes.error) {
+        emailed = true;
+        messageId = sendRes.messageId || null;
+      }
+    } catch (err) {
+      console.error("Error sending report email:", err);
+    }
+  }
+
+  return { path: outPath, emailed, messageId };
+}
+
 export function registerReportHandlers(db: SqliteDb) {
   ipcMain.handle("reports:getSchedules", () =>
     db.prepare("SELECT * FROM ReportSchedule ORDER BY id ASC").all(),
@@ -71,97 +170,7 @@ export function registerReportHandlers(db: SqliteDb) {
         subject,
       }: { from: string; to: string; email?: string; subject?: string },
     ) => {
-      const sales = db
-        .prepare(
-          `SELECT s.*, u.name as soldByName FROM Sale s LEFT JOIN User u ON s.soldById = u.id WHERE s.createdAt >= ? AND s.createdAt <= ? ORDER BY s.createdAt ASC`,
-        )
-        .all(from, to) as any[];
-
-      for (const sale of sales) {
-        sale.saleItems = db
-          .prepare("SELECT * FROM SaleItem WHERE saleId = ?")
-          .all(sale.id) as any[];
-      }
-
-      const total = sales.reduce((sum, s) => sum + (s.totalAmount || 0), 0);
-
-      // build simple HTML (Turkish labels)
-      const rowsHtml = sales
-        .map((s) => {
-          const itemsHtml = s.saleItems
-            .map(
-              (si: any) =>
-                `<tr><td>${si.itemName}</td><td style="text-align:right">${si.quantity}</td><td style="text-align:right">₺${si.totalPrice.toLocaleString("tr-TR")}</td></tr>`,
-            )
-            .join("");
-          return `
-            <h3>Satış #${s.id} - ${s.soldByName || "-"} - ${new Date(s.createdAt).toLocaleString("tr-TR")}</h3>
-            <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
-              <thead><tr><th style="border:1px solid #ddd;padding:6px;text-align:left">Ürün</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Adet</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Toplam</th></tr></thead>
-              <tbody>${itemsHtml}</tbody>
-            </table>
-          `;
-        })
-        .join("\n");
-
-      const title = `Satış Raporu ${format(new Date(from), "yyyy-MM-dd")} → ${format(new Date(to), "yyyy-MM-dd")}`;
-
-      const html = `
-        <html>
-        <head>
-          <meta charset="utf-8" />
-          <style>
-            body { font-family: Arial, Helvetica, sans-serif; padding: 20px; color: #222 }
-            h1 { font-size: 18px }
-            table { width: 100%; border-collapse: collapse }
-            th, td { border: 1px solid #ddd; padding: 6px }
-          </style>
-        </head>
-        <body>
-          <h1>${title}</h1>
-          <div>Toplam: ₺${total.toLocaleString("tr-TR")}</div>
-          <hr />
-          ${rowsHtml || "<p>Seçilen aralıkta satış yok.</p>"}
-        </body>
-        </html>
-      `;
-
-      // create a hidden BrowserWindow to render HTML and print to PDF
-      const win = new BrowserWindow({
-        show: false,
-        webPreferences: { offscreen: true },
-      });
-      const dataUrl =
-        "data:text/html;charset=utf-8," + encodeURIComponent(html);
-      await win.loadURL(dataUrl);
-      const pdfData = await win.webContents.printToPDF({});
-      const outPath = path.join(
-        app.getPath("temp"),
-        `sales-report-${Date.now()}.pdf`,
-      );
-      fs.writeFileSync(outPath, pdfData);
-      win.destroy();
-
-      let emailed = false;
-      let messageId: string | null = null;
-      if (email) {
-        try {
-          const sendRes = await smtpEmailClient({
-            to: email,
-            subject: subject || title,
-            text: `Please find attached the sales report for ${from} → ${to}`,
-            attachments: [{ filename: path.basename(outPath), path: outPath }],
-          });
-          if (!sendRes.error) {
-            emailed = true;
-            messageId = sendRes.messageId || null;
-          }
-        } catch (err) {
-          console.error("Error sending report email:", err);
-        }
-      }
-
-      return { path: outPath, emailed, messageId };
+      return await generateSalesReportForRange(db, from, to, email, subject);
     },
   );
 }

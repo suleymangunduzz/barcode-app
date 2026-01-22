@@ -19,6 +19,7 @@ import { registerCategoryHandlers } from "./ipcHandlers/categories";
 import { registerAuthHandlers } from "./auth/auth.handlers";
 import { registerUserHandlers } from "./ipcHandlers/user";
 import { registerReportHandlers } from "./ipcHandlers/reports";
+import { startReportScheduler } from "./reports/scheduler";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -79,6 +80,9 @@ app.whenReady().then(async () => {
 
   // Register IPC handlers immediately
   registerHandlers();
+
+  // Start scheduled report sender (runs every 5 minutes by default)
+  startReportScheduler(db);
 
   // Create main window
   await createWindow();
