@@ -303,7 +303,14 @@
       "missingNewPassword": "Please enter a new password.",
       "passwordMismatch": "New password and confirmation do not match.",
       "unknown": "An unknown error occurred.",
-      "missingFields": "Please fill in all required fields."
+      "missingFields": "Please fill in all required fields.",
+      "EMAIL_EXISTS": "A user with this email already exists.",
+      "INVALID_INPUT": "Invalid input provided.",
+      "UNAUTHORIZED": "You are not authorized to perform this action.",
+      "ADMIN_ALREADY_EXISTS": "An admin account already exists.",
+      "ADMIN_NOT_FOUND": "Admin account not found.",
+      "INVALID_ADMIN_PASSWORD": "Admin password is incorrect.",
+      "INVALID_NEW_PASSWORD": "New password is invalid (min 6 characters)."
     },
     "addModal": {
       "title": "Add New User",

@@ -286,7 +286,14 @@
       "missingNewPassword": "Lütfen yeni bir parola girin.",
       "passwordMismatch": "Yeni parola ile onay uyuşmuyor.",
       "unknown": "Bilinmeyen bir hata oluştu.",
-      "missingFields": "Lütfen gerekli tüm alanları doldurun."
+      "missingFields": "Lütfen gerekli tüm alanları doldurun.",
+      "EMAIL_EXISTS": "Bu e-posta adresiyle zaten bir kullanıcı mevcut.",
+      "INVALID_INPUT": "Geçersiz giriş sağlandı.",
+      "UNAUTHORIZED": "Bu işlemi gerçekleştirmek için yetkiniz yok.",
+      "ADMIN_ALREADY_EXISTS": "Bir yönetici hesabı zaten mevcut.",
+      "ADMIN_NOT_FOUND": "Yönetici hesabı bulunamadı.",
+      "INVALID_ADMIN_PASSWORD": "Yönetici parolası hatalı.",
+      "INVALID_NEW_PASSWORD": "Yeni parola geçersiz (en az 6 karakter)."
     },
     "addModal": {
       "title": "Yeni Kullanıcı Ekle",

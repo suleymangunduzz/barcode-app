@@ -31,7 +31,16 @@ export default function AddUserModal({
         role,
       });
       if (!res?.success) {
-        const msg = res?.error || t("UsersPage.Errors.unknown");
+        const rawErr = res?.error;
+        let msg = t("UsersPage.Errors.unknown");
+        if (typeof rawErr === "string") {
+          const key = `UsersPage.Errors.${rawErr}`;
+          const translated = t(key);
+          // if translation exists, use it, otherwise use raw error string
+          msg = translated === key ? rawErr : translated;
+        } else if (rawErr) {
+          msg = String(rawErr);
+        }
         setError(msg);
         toast({ type: "error", message: msg });
       } else {
