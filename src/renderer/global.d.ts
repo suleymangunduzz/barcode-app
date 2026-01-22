@@ -77,6 +77,11 @@ declare global {
       getUsersByRole: (
         role: string,
       ) => Promise<{ success: boolean; users: User[] }>;
+      changeUserPasswordByAdmin: (payload: {
+        adminPassword: string;
+        targetUserId: number;
+        newPassword: string;
+      }) => Promise<{ success: boolean; error?: string }>;
 
       // ───────────────
       // Sales

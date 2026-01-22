@@ -12,6 +12,7 @@ import CategoriesPage from "@/pages/CategoriesPage";
 import LowStockPage from "@/pages/LowStockPage";
 import SalesPage from "@/pages/SalesPage";
 import ReportsPage from "@/pages/ReportsPage";
+import UsersPage from "@/pages/UsersPage";
 
 function App() {
   const [role, setRole] = useState<UserRole | null>(null);
@@ -116,6 +117,7 @@ function App() {
           {page === "reports" && <ReportsPage />}
           {page === "lowStock" && <LowStockPage />}
           {page === "sales" && <SalesPage />}
+          {page === "users" && <UsersPage />}
         </main>
       </div>
     </div>

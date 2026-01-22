@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   DollarSign,
   BarChart,
+  Users,
 } from "lucide-react";
 import { PageType, UserRole } from "@/types/client";
 import { useTranslation } from "react-i18next";
@@ -59,6 +60,12 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
       label: t("SideBar.lowStock"),
       icon: AlertTriangle,
       roles: ["staff", "admin"],
+    },
+    {
+      key: "users",
+      label: t("SideBar.users"),
+      icon: Users,
+      roles: ["admin"],
     },
   ];
 

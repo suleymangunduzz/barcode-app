@@ -40,6 +40,7 @@
   "SideBar": {
     "title": "Menü",
     "dashboard": "Satış Paneli",
+    "users": "Kullanıcılar",
     "products": "Ürünler",
     "reports": "Raporlar",
     "categories": "Kategoriler",
@@ -259,5 +260,32 @@
     "generateSuccess": "Rapor oluşturuldu.",
     "generateSuccessEmailed": "Rapor oluşturuldu ve e-posta ile gönderildi.",
     "generateError": "Rapor oluşturulamadı."
+  },
+  "UsersPage": {
+    "title": "Kullanıcılar",
+    "adminsTitle": "Yöneticiler",
+    "staffTitle": "Personel",
+    "table": {
+      "name": "İsim",
+      "email": "E-posta",
+      "actions": "İşlemler"
+    },
+    "actions": {
+      "changePassword": "Parolayı Değiştir"
+    },
+    "changePasswordFor": "{{name}} için parolayı değiştir",
+    "modalDescriptionStaff": "Bir personel kullanıcısının parolasını değiştiriyorsunuz. Kimliğinizi doğrulamak için yönetici parolanızı girin ve personelin yeni parolasını aşağıda sağlayın.",
+    "modalDescriptionAdmin": "Bir yönetici kullanıcısının parolasını değiştiriyorsunuz. Kimliğinizi doğrulamak için yönetici parolanızı girin ve yeni parolayı aşağıda sağlayın.",
+    "adminCurrentPassword": "Yönetici parolanız (değişiklikleri doğrulamak için)",
+    "newPassword": "Yeni parola",
+    "newPasswordForStaff": "Personel için yeni parola",
+    "confirmPassword": "Yeni parolayı onayla",
+    "confirmPasswordForStaff": "Personel için yeni parolayı onayla",
+    "Errors": {
+      "missingAdminPassword": "Lütfen mevcut parolanızı girin.",
+      "missingNewPassword": "Lütfen yeni bir parola girin.",
+      "passwordMismatch": "Yeni parola ile onay uyuşmuyor.",
+      "unknown": "Bilinmeyen bir hata oluştu."
+    }
   }
 }

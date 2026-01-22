@@ -40,6 +40,7 @@
   "SideBar": {
     "title": "Menu",
     "dashboard": "Dashboard",
+    "users": "Users",
     "products": "Products",
     "reports": "Reports",
     "categories": "Categories",
@@ -275,5 +276,33 @@
     "generateSuccess": "Report generated.",
     "generateSuccessEmailed": "Report generated and emailed.",
     "generateError": "Failed to generate report."
+  },
+
+  "UsersPage": {
+    "title": "Users",
+    "adminsTitle": "Administrators",
+    "staffTitle": "Staff",
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "actions": "Actions"
+    },
+    "actions": {
+      "changePassword": "Change Password"
+    },
+    "changePasswordFor": "Change password for {{name}}",
+    "modalDescriptionStaff": "You're changing a staff user's password. Provide your admin password to confirm and the staff's new password below.",
+    "modalDescriptionAdmin": "You're changing an admin user's password. Provide your admin password to confirm and the new password below.",
+    "adminCurrentPassword": "Your admin password (used to confirm changes)",
+    "newPassword": "New password",
+    "newPasswordForStaff": "New password for staff",
+    "confirmPassword": "Confirm new password",
+    "confirmPasswordForStaff": "Confirm new password for staff",
+    "Errors": {
+      "missingAdminPassword": "Please enter your current password.",
+      "missingNewPassword": "Please enter a new password.",
+      "passwordMismatch": "New password and confirmation do not match.",
+      "unknown": "An unknown error occurred."
+    }
   }
 }

@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import Database from "better-sqlite3";
 import bcrypt from "bcryptjs";
 import { User } from "../types";
+import { getSession } from "../auth/session";
 
 type SqliteDb = ReturnType<typeof Database>;
 
@@ -134,6 +135,62 @@ export function registerUserHandlers(db: SqliteDb) {
 
       const user = transaction();
       return { success: true, user };
+    },
+  );
+
+  // Change another user's password (admin must validate with current password)
+  ipcMain.handle(
+    "user:changePasswordByAdmin",
+    async (
+      _event,
+      {
+        adminPassword,
+        targetUserId,
+        newPassword,
+      }: { adminPassword: string; targetUserId: number; newPassword: string },
+    ) => {
+      const session = getSession();
+      if (session.role !== "admin")
+        return { success: false, error: "UNAUTHORIZED" };
+
+      const adminId = session.userId;
+      if (!adminId) return { success: false, error: "UNAUTHORIZED" };
+
+      const adminUser = db
+        .prepare("SELECT * FROM User WHERE id = ?")
+        .get(adminId) as User | undefined;
+      if (!adminUser) return { success: false, error: "ADMIN_NOT_FOUND" };
+
+      const valid = bcrypt.compareSync(adminPassword, adminUser.passwordHash);
+      if (!valid) return { success: false, error: "INVALID_ADMIN_PASSWORD" };
+
+      if (!newPassword || newPassword.length < 6)
+        return { success: false, error: "INVALID_NEW_PASSWORD" };
+
+      const newHash = await bcrypt.hash(newPassword, 10);
+      db.prepare("UPDATE User SET passwordHash = ? WHERE id = ?").run(
+        newHash,
+        targetUserId,
+      );
+
+      // Optionally, insert into SyncQueue if exists
+      try {
+        const updated = db
+          .prepare(
+            "SELECT id, name, email, role, createdAt FROM User WHERE id = ?",
+          )
+          .get(targetUserId) as User | undefined;
+        if (updated) {
+          db.prepare(
+            `
+            INSERT INTO SyncQueue (tableName, action, recordId, payload)
+            VALUES (?, ?, ?, ?)
+          `,
+          ).run("User", "update", updated.id, JSON.stringify(updated));
+        }
+      } catch (e) {}
+
+      return { success: true };
     },
   );
 }

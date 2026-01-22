@@ -4,7 +4,8 @@ export type PageType =
   | "products"
   | "reports"
   | "categories"
-  | "lowStock";
+  | "lowStock"
+  | "users";
 export type UserRole = "admin" | "staff";
 
 export type CartItem = {
