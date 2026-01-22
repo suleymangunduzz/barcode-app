@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import useToast from "@/hooks/useToast";
 
 export default function AddUserModal({
   onClose,
@@ -15,6 +16,7 @@ export default function AddUserModal({
   const [role, setRole] = useState<"staff" | "admin">("staff");
   const [error, setError] = useState<string | null>(null);
   const [loadingLocal, setLoadingLocal] = useState(false);
+  const toast = useToast();
 
   async function handleCreate() {
     setError(null);
@@ -28,13 +30,20 @@ export default function AddUserModal({
         password,
         role,
       });
-      if (!res?.success) setError(res?.error || t("UsersPage.Errors.unknown"));
-      else {
+      if (!res?.success) {
+        const msg = res?.error || t("UsersPage.Errors.unknown");
+        setError(msg);
+        toast({ type: "error", message: msg });
+      } else {
+        const successMsg = t("UsersPage.toast.addSuccess");
+        toast({ type: "success", message: successMsg });
         onSaved();
         onClose();
       }
     } catch (e) {
-      setError(t("UsersPage.Errors.unknown"));
+      const msg = t("UsersPage.Errors.unknown");
+      setError(msg);
+      toast({ type: "error", message: msg });
     }
     setLoadingLocal(false);
   }

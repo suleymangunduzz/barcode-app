@@ -312,6 +312,10 @@
       "password": "Password",
       "role": "Role"
     },
+    "toast": {
+      "addSuccess": "✅ User created successfully!",
+      "addFailed": "❌ Failed to create user."
+    },
     "addUserButton": "Add User"
   }
 }

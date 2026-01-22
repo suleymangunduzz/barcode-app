@@ -295,6 +295,10 @@
       "password": "Parola",
       "role": "Rol"
     },
+    "toast": {
+      "addSuccess": "✅ Kullanıcı başarıyla oluşturuldu!",
+      "addFailed": "❌ Kullanıcı oluşturulamadı."
+    },
     "addUserButton": "Kullanıcı Ekle"
   }
 }

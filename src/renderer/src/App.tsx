@@ -61,6 +61,7 @@ function App() {
   const onLogout = async () => {
     window.api.logout();
     setRole(null);
+    setPage("dashboard");
   };
 
   if (isLoading) {
