@@ -65,10 +65,16 @@
     "files": [
       "dist/main/**",
       "dist/renderer/**",
-      "node_modules/**/*",
+      "node_modules/better-sqlite3/**",
+      "node_modules/bcryptjs/**",
+      "node_modules/nodemailer/**",
+      "node_modules/date-fns/**",
       "package.json",
       "src/main/db/migrations/**"
     ],
-    "asar": true
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**"
+    ]
   }
 }
