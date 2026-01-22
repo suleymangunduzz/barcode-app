@@ -10,6 +10,20 @@ export default function useBarcodeScanner(onScan: BarcodeHandler) {
       // Ignore modifier keys
       if (e.ctrlKey || e.altKey || e.metaKey) return;
 
+      // Ignore keystrokes that originate from form controls or editable elements
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const tag = target.tagName;
+        if (
+          tag === "INPUT" ||
+          tag === "TEXTAREA" ||
+          tag === "SELECT" ||
+          (target as HTMLElement).isContentEditable
+        ) {
+          return;
+        }
+      }
+
       // Enter = end of barcode
       if (e.key === "Enter") {
         if (bufferRef.current.length > 0) {
