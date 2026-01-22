@@ -153,7 +153,7 @@ export default function ReportsPage() {
   const activeSchedules = schedules.filter((s) => !!s.enabled);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto text-lg leading-relaxed">
+    <div className="max-w-4xl mx-auto text-lg leading-relaxed">
       <h2 className="text-3xl md:text-4xl font-semibold mb-4">
         {t("ReportsPage.title")}
       </h2>
@@ -162,38 +162,42 @@ export default function ReportsPage() {
         <h3 className="font-semibold text-xl md:text-2xl mb-3">
           {t("ReportsPage.generateTitle")}
         </h3>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-          <label className="text-base text-slate-300 min-w-[56px]">
-            {t("Common.from")}
-          </label>
-          <DatePicker
-            selected={from}
-            onChange={(d: Date | null) => setFrom(d)}
-            locale={i18n.language === "tr" ? tr : enUS}
-            className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
-          />
-          <label className="text-base text-slate-300 min-w-[36px]">
-            {t("Common.to")}
-          </label>
-          <DatePicker
-            selected={to}
-            onChange={(d: Date | null) => setTo(d)}
-            locale={i18n.language === "tr" ? tr : enUS}
-            className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
-          />
+        <div className="flex flex-col sm:flex-row mb-4 gap-3">
+          <div className="flex gap-3 items-center">
+            <label className="text-base text-slate-300 min-w-[56px]">
+              {t("Common.from")}
+            </label>
+            <DatePicker
+              selected={from}
+              onChange={(d: Date | null) => setFrom(d)}
+              locale={i18n.language === "tr" ? tr : enUS}
+              className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
+            />
+          </div>
+          <div className="flex gap-3 items-center">
+            <label className="text-base text-slate-300 min-w-[36px]">
+              {t("Common.to")}
+            </label>
+            <DatePicker
+              selected={to}
+              onChange={(d: Date | null) => setTo(d)}
+              locale={i18n.language === "tr" ? tr : enUS}
+              className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
+            />
+          </div>
         </div>
         <div className="flex gap-3 mb-4 justify-between">
           <input
             placeholder={t("ReportsPage.emailPlaceholder")}
             value={generateEmail}
             onChange={(e) => setGenerateEmail(e.target.value)}
-            className="px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
+            className="w-full px-3 py-2 rounded bg-slate-800 text-base text-white border border-slate-700"
           />
           <div className="mt-2 sm:mt-0">
             <button
               onClick={handleGenerate}
               disabled={!from || !to || !generateEmail || loading}
-              className="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-50"
+              className="min-w-[200px] px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium disabled:opacity-50"
             >
               {loading ? t("Common.loading") : t("ReportsPage.generate")}
             </button>
