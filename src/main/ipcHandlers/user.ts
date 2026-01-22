@@ -193,4 +193,67 @@ export function registerUserHandlers(db: SqliteDb) {
       return { success: true };
     },
   );
+
+  // Admin can create a new user (staff or admin)
+  ipcMain.handle(
+    "user:createByAdmin",
+    async (
+      _event,
+      {
+        name,
+        email,
+        password,
+        role,
+      }: {
+        name: string;
+        email: string;
+        password: string;
+        role: "admin" | "staff";
+      },
+    ) => {
+      const session = getSession();
+      if (session.role !== "admin")
+        return { success: false, error: "UNAUTHORIZED" };
+
+      if (!name?.trim() || !email?.trim() || !password)
+        return { success: false, error: "MISSING_FIELDS" };
+
+      const existing = db
+        .prepare("SELECT * FROM User WHERE email = ?")
+        .get(email.trim());
+      if (existing) return { success: false, error: "EMAIL_EXISTS" };
+
+      const passwordHash = await bcrypt.hash(password, 10);
+
+      const transaction = db.transaction(() => {
+        const result = db
+          .prepare(
+            "INSERT INTO User (name, email, passwordHash, role) VALUES (?, ?, ?, ?)",
+          )
+          .run(name.trim(), email.trim(), passwordHash, role);
+
+        const userId = result.lastInsertRowid as number;
+
+        const newUser = db
+          .prepare(
+            "SELECT id, name, email, role, createdAt FROM User WHERE id = ?",
+          )
+          .get(userId) as User;
+
+        try {
+          db.prepare(
+            `
+            INSERT INTO SyncQueue (tableName, action, recordId, payload)
+            VALUES (?, ?, ?, ?)
+          `,
+          ).run("User", "create", newUser.id, JSON.stringify(newUser));
+        } catch (e) {}
+
+        return newUser;
+      });
+
+      const created = transaction();
+      return { success: true, user: created };
+    },
+  );
 }

@@ -302,7 +302,16 @@
       "missingAdminPassword": "Please enter your current password.",
       "missingNewPassword": "Please enter a new password.",
       "passwordMismatch": "New password and confirmation do not match.",
-      "unknown": "An unknown error occurred."
-    }
+      "unknown": "An unknown error occurred.",
+      "missingFields": "Please fill in all required fields."
+    },
+    "addModal": {
+      "title": "Add New User",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role"
+    },
+    "addUserButton": "Add User"
   }
 }

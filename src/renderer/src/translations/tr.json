@@ -285,7 +285,16 @@
       "missingAdminPassword": "Lütfen mevcut parolanızı girin.",
       "missingNewPassword": "Lütfen yeni bir parola girin.",
       "passwordMismatch": "Yeni parola ile onay uyuşmuyor.",
-      "unknown": "Bilinmeyen bir hata oluştu."
-    }
+      "unknown": "Bilinmeyen bir hata oluştu.",
+      "missingFields": "Lütfen gerekli tüm alanları doldurun."
+    },
+    "addModal": {
+      "title": "Yeni Kullanıcı Ekle",
+      "name": "İsim",
+      "email": "E-posta",
+      "password": "Parola",
+      "role": "Rol"
+    },
+    "addUserButton": "Kullanıcı Ekle"
   }
 }

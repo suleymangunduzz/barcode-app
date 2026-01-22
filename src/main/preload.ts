@@ -46,6 +46,12 @@ contextBridge.exposeInMainWorld("api", {
   getUserCount: () => ipcRenderer.invoke("user:getUserCount"),
   getUsersByRole: (role: string) =>
     ipcRenderer.invoke("user:getByRole", { role }),
+  createUserByAdmin: (payload: {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+  }) => ipcRenderer.invoke("user:createByAdmin", payload),
   changeUserPasswordByAdmin: (payload: {
     adminPassword: string;
     targetUserId: number;
