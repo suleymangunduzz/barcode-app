@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import Database from "better-sqlite3";
 import { format } from "date-fns";
+import { tr } from "date-fns/locale";
 import { smtpEmailClient } from "../smtp";
 
 type SqliteDb = ReturnType<typeof Database>;
@@ -47,7 +48,13 @@ export async function generateSalesReportForRange(
     })
     .join("\n");
 
-  const title = `Satış Raporu ${format(new Date(from), "yyyy-MM-dd")} → ${format(new Date(to), "yyyy-MM-dd")}`;
+  const formattedFrom = format(new Date(from), "d MMMM yyyy", { locale: tr });
+  const formattedTo = format(new Date(to), "d MMMM yyyy", { locale: tr });
+  const defaultSubject =
+    formattedFrom === formattedTo
+      ? formattedFrom
+      : `${formattedFrom} → ${formattedTo}`;
+  const title = `Satış Raporu ${defaultSubject}`;
 
   const html = `
         <html>
@@ -90,8 +97,8 @@ export async function generateSalesReportForRange(
     try {
       const sendRes = await smtpEmailClient({
         to: email,
-        subject: subject || title,
-        text: `Please find attached the sales report for ${from} → ${to}`,
+        subject: subject || defaultSubject,
+        text: `Lütfen ekteki satış raporuna bakınız: ${formattedFrom} → ${formattedTo}`,
         attachments: [{ filename: path.basename(outPath), path: outPath }],
       });
       if (!sendRes.error) {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import DatePicker from "react-datepicker";
 import { enUS } from "date-fns/locale";
 import { tr } from "date-fns/locale";
+import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Schedule } from "@/types/DB";
@@ -55,8 +56,8 @@ export default function ReportsPage() {
       to: t2.toISOString(),
       email: generateEmail || undefined,
       subject: t("ReportsPage.generatedSubject", {
-        from: new Date(f).toLocaleDateString(),
-        to: new Date(t2).toLocaleDateString(),
+        from: format(new Date(f), "d MMMM yyyy", { locale: tr }),
+        to: format(new Date(t2), "d MMMM yyyy", { locale: tr }),
       }),
     });
     setLoading(false);
