@@ -39,7 +39,7 @@ export async function generateSalesReportForRange(
         )
         .join("");
       return `
-            <h3>Satış #${s.id} - ${s.soldByName || "-"} - ${new Date(s.createdAt).toLocaleString("tr-TR")}</h3>
+            <h3>Satış #${s.id} - ${s.soldByName || "-"} - ${format(new Date(s.createdAt), "d MMMM yyyy", { locale: tr })}</h3>
             <table style="width:100%;border-collapse:collapse;margin-bottom:12px;">
               <thead><tr><th style="border:1px solid #ddd;padding:6px;text-align:left">Ürün</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Adet</th><th style="border:1px solid #ddd;padding:6px;text-align:right">Toplam</th></tr></thead>
               <tbody>${itemsHtml}</tbody>
@@ -95,9 +95,14 @@ export async function generateSalesReportForRange(
   let messageId: string | null = null;
   if (email) {
     try {
+      const emailSubject =
+        subject && subject.trim()
+          ? `${subject} - ${defaultSubject}`
+          : defaultSubject;
+
       const sendRes = await smtpEmailClient({
         to: email,
-        subject: subject || defaultSubject,
+        subject: emailSubject,
         text: `Lütfen ekteki satış raporuna bakınız: ${formattedFrom} → ${formattedTo}`,
         attachments: [{ filename: path.basename(outPath), path: outPath }],
       });
