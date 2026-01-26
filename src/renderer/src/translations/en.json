@@ -173,7 +173,11 @@
       "invalidFormat": "Invalid barcode scanned.",
       "scan": "Scan or generate barcode",
       "generate": "Generate",
-      "clear": "Clear"
+      "clear": "Clear",
+      "download": "Download PNG",
+      "noBarcode": "No barcode to download.",
+      "downloadError": "Unable to download barcode.",
+      "renderError": "Unable to render barcode."
     }
   },
   "CategoriesPage": {

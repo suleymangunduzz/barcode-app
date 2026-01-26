@@ -157,7 +157,11 @@
       "invalidFormat": "Geçersiz barkod okutuldu.",
       "scan": "Barkod okut ya da oluştur",
       "generate": "Oluştur",
-      "clear": "Temizle"
+      "clear": "Temizle",
+      "download": "PNG İndir",
+      "noBarcode": "İndirilecek barkod yok.",
+      "downloadError": "Barkod indirilemedi.",
+      "renderError": "Barkod görüntülenemedi."
     }
   },
   "CategoriesPage": {
