@@ -6,6 +6,7 @@ import { tr } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Sale } from "@/types/DB";
+import { formatDate } from "@/utils/formatDate";
 import SaleDetailsModal from "@/pages/SalesPage/SaleDetailsModal";
 
 export default function SalesPage() {
@@ -122,7 +123,7 @@ export default function SalesPage() {
                   className="border-t border-slate-700 hover:bg-slate-800"
                 >
                   <td className="px-3 py-2">
-                    {new Date(sale.createdAt).toLocaleString()}
+                    {formatDate(sale.createdAt, i18n.language)}
                   </td>
                   <td className="px-3 py-2">{sale.soldBy?.name ?? "-"}</td>
                   <td className="px-3 py-2 text-right font-medium">

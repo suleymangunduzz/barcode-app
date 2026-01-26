@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Item, StockMovement } from "@/types/DB";
 import { useTranslation } from "react-i18next";
+import { formatDate } from "@/utils/formatDate";
 
 type Props = {
   item: Item;
@@ -17,25 +18,6 @@ export default function SelectedItemModal({ item, onClose }: Props) {
 
   const [from, setFrom] = useState<string | undefined>(undefined);
   const [to, setTo] = useState<string | undefined>(undefined);
-
-  const formatDate = (d?: string | number | Date) => {
-    if (!d) return "";
-    const date = new Date(d);
-    const locale =
-      i18n?.language ||
-      (typeof navigator !== "undefined" ? navigator.language : "en-US");
-    const datePart = date.toLocaleDateString(locale, {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    const timePart = date.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
-    return `${datePart}, ${timePart}`;
-  };
 
   async function fetchPriceHistory() {
     const data = await window.api.getPriceHistory(item.id);
