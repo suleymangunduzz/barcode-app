@@ -32,10 +32,16 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
         let to: Date = endOfDay(now);
 
         if (type === "daily") {
+          // daily: full today
+          from = startOfDay(now);
+          to = endOfDay(now);
           // avoid multiple sends in same day
           if (lastRun && lastRun >= startOfDay(now)) shouldRun = false;
           else shouldRun = true;
         } else if (type === "weekly") {
+          // weekly: full week up to today
+          from = startOfWeek(now);
+          to = endOfDay(now);
           // send only on Sunday (0)
           if (now.getDay() !== 0) {
             shouldRun = false;
@@ -51,6 +57,8 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
           if (!isLastDay) {
             shouldRun = false;
           } else {
+            from = startOfMonth(now);
+            to = endOfDay(now);
             if (lastRun && lastRun >= startOfMonth(now)) shouldRun = false;
             else shouldRun = true;
           }
@@ -60,6 +68,8 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
           if (!isLastDayOfYear) {
             shouldRun = false;
           } else {
+            from = startOfYear(now);
+            to = endOfDay(now);
             if (lastRun && lastRun >= startOfYear(now)) shouldRun = false;
             else shouldRun = true;
           }
