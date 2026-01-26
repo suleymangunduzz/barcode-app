@@ -79,7 +79,28 @@ export default function BarcodeModal({
     let mounted = true;
     (async () => {
       if (!value) {
-        if (svgRef.current) svgRef.current.innerHTML = "";
+        if (svgRef.current) {
+          svgRef.current.innerHTML = "";
+          try {
+            // provide a centered instructional placeholder inside the SVG
+            svgRef.current.setAttribute("viewBox", "0 0 400 80");
+            svgRef.current.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            const txt = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "text",
+            );
+            txt.setAttribute("x", "50%");
+            txt.setAttribute("y", "50%");
+            txt.setAttribute("text-anchor", "middle");
+            txt.setAttribute("dominant-baseline", "middle");
+            txt.setAttribute("fill", "#94a3b8");
+            txt.setAttribute("font-size", "13");
+            txt.textContent = t("ItemsPage.BarcodeModal.placeholderText");
+            svgRef.current.appendChild(txt);
+          } catch (e) {
+            // ignore DOM exceptions
+          }
+        }
         return;
       }
 

@@ -177,7 +177,8 @@
       "download": "Download PNG",
       "noBarcode": "No barcode to download.",
       "downloadError": "Unable to download barcode.",
-      "renderError": "Unable to render barcode."
+      "renderError": "Unable to render barcode.",
+      "placeholderText": "Click the Generate button to create a barcode manually."
     }
   },
   "CategoriesPage": {

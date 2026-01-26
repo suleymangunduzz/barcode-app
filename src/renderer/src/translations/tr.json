@@ -161,7 +161,8 @@
       "download": "PNG İndir",
       "noBarcode": "İndirilecek barkod yok.",
       "downloadError": "Barkod indirilemedi.",
-      "renderError": "Barkod görüntülenemedi."
+      "renderError": "Barkod görüntülenemedi.",
+      "placeholderText": "Barkod oluşturmak için Oluştur düğmesine tıklayın."
     }
   },
   "CategoriesPage": {
