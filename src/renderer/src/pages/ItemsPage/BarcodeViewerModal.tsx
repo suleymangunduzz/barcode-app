@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import useToast from "@/hooks/useToast";
+import { toEAN13 } from "@/utils/ean13";
+import JsBarcode from "jsbarcode";
 
 type Props = {
   value: string;
@@ -16,8 +18,6 @@ export default function BarcodeViewerModal({ value, onClose }: Props) {
     let mounted = true;
     (async () => {
       try {
-        const mod = await import("jsbarcode");
-        const JsBarcode = (mod as any).default ?? mod;
         if (!mounted) return;
         if (svgRef.current) {
           // choose format: try EAN-13 when appropriate, otherwise use CODE128
@@ -25,25 +25,13 @@ export default function BarcodeViewerModal({ value, onClose }: Props) {
           let renderValue = value;
           let format: string = "code128";
 
-          function computeEAN13CheckDigit(code12: string) {
-            if (!/^[0-9]{12}$/.test(code12)) return null;
-            let sum = 0;
-            for (let i = 0; i < 12; i++) {
-              const digit = parseInt(code12[i], 10);
-              // positions are 0-based here; odd index => even position
-              sum += i % 2 === 0 ? digit : digit * 3;
-            }
-            const check = (10 - (sum % 10)) % 10;
-            return String(check);
-          }
-
           if (isNumeric) {
             if (value.length === 13) {
               format = "ean13";
             } else if (value.length === 12) {
-              const cd = computeEAN13CheckDigit(value);
-              if (cd != null) {
-                renderValue = value + cd;
+              const ean = toEAN13(value);
+              if (ean) {
+                renderValue = ean;
                 format = "ean13";
               }
             }
