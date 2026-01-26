@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function SelectedItemModal({ item, onClose }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [tab, setTab] = useState<"price" | "stock" | "sales">("price");
 
   const [priceHistory, setPriceHistory] = useState<any[]>([]);
@@ -17,6 +17,25 @@ export default function SelectedItemModal({ item, onClose }: Props) {
 
   const [from, setFrom] = useState<string | undefined>(undefined);
   const [to, setTo] = useState<string | undefined>(undefined);
+
+  const formatDate = (d?: string | number | Date) => {
+    if (!d) return "";
+    const date = new Date(d);
+    const locale =
+      i18n?.language ||
+      (typeof navigator !== "undefined" ? navigator.language : "en-US");
+    const datePart = date.toLocaleDateString(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+    const timePart = date.toLocaleTimeString(locale, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return `${datePart}, ${timePart}`;
+  };
 
   async function fetchPriceHistory() {
     const data = await window.api.getPriceHistory(item.id);
@@ -96,9 +115,7 @@ export default function SelectedItemModal({ item, onClose }: Props) {
                       key={i}
                       className={i % 2 === 0 ? "bg-slate-800" : "bg-slate-700"}
                     >
-                      <td className="px-3 py-2">
-                        {new Date(r.date).toLocaleString()}
-                      </td>
+                      <td className="px-3 py-2">{formatDate(r.date)}</td>
                       <td className="px-3 py-2 text-right">
                         ₺{r.unitPrice.toLocaleString("tr-TR")}
                       </td>
@@ -137,9 +154,7 @@ export default function SelectedItemModal({ item, onClose }: Props) {
                     });
                     return (
                       <tr key={m.id} className="bg-slate-800 odd:bg-slate-700">
-                        <td className="px-3 py-2">
-                          {new Date(m.createdAt).toLocaleString()}
-                        </td>
+                        <td className="px-3 py-2">{formatDate(m.createdAt)}</td>
                         <td className="px-3 py-2 text-right">
                           {m.changeQuantity}
                         </td>
@@ -203,9 +218,7 @@ export default function SelectedItemModal({ item, onClose }: Props) {
                 <tbody>
                   {sales.map((s) => (
                     <tr key={s.id} className="bg-slate-800 odd:bg-slate-700">
-                      <td className="px-3 py-2">
-                        {new Date(s.createdAt).toLocaleString()}
-                      </td>
+                      <td className="px-3 py-2">{formatDate(s.createdAt)}</td>
                       <td className="px-3 py-2 text-right">
                         ₺{s.saleItems[0]?.unitPrice?.toLocaleString("tr-TR")}
                       </td>
