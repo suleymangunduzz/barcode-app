@@ -239,6 +239,7 @@ export function registerItemHandlers(db: SqliteDb) {
     const session = getSession();
     if (session.role !== "admin") throw new Error("UNAUTHORIZED");
 
+    // Basic server-side validation
     const {
       barcode,
       name,
@@ -248,7 +249,27 @@ export function registerItemHandlers(db: SqliteDb) {
       currentPrice,
       stockQuantity,
       minStockThreshold,
-    } = data;
+    } = data || {};
+
+    if (!barcode || typeof barcode !== "string" || !barcode.trim()) {
+      throw new Error("MISSING_BARCODE");
+    }
+
+    if (!name || typeof name !== "string" || !name.trim()) {
+      throw new Error("MISSING_NAME");
+    }
+
+    if (typeof currentPrice !== "number" || currentPrice <= 0) {
+      throw new Error("INVALID_PRICE");
+    }
+
+    // Check duplicate barcode
+    const existing = db
+      .prepare("SELECT id FROM Item WHERE barcode = ?")
+      .get(barcode);
+    if (existing) {
+      throw new Error("DUPLICATE_BARCODE");
+    }
 
     const transaction = db.transaction(() => {
       // Insert new item
