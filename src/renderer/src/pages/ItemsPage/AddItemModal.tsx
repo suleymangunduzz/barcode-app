@@ -13,6 +13,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [barcode, setBarcode] = useState<string>("");
   const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [form, setForm] = useState({
     barcode: "",
@@ -35,6 +36,29 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Client-side validation
+    if (!barcode) {
+      setError(
+        t("ItemsPage.AddModal.errors.noBarcode") || "Barcode is required",
+      );
+      return;
+    }
+
+    if (!form.name) {
+      setError(t("ItemsPage.AddModal.errors.noName") || "Name is required");
+      return;
+    }
+
+    const price = Number(form.currentPrice);
+    if (!form.currentPrice || Number.isNaN(price) || price <= 0) {
+      setError(
+        t("ItemsPage.AddModal.errors.invalidPrice") ||
+          "Price must be greater than 0",
+      );
+      return;
+    }
+
+    setError(null);
 
     await window.api.addNewItem({
       barcode,
@@ -162,6 +186,11 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
         </div>
 
         <div className="flex justify-end gap-2 pt-3 border-t border-slate-700">
+          {error && (
+            <div className="self-start text-sm text-red-400 mr-auto">
+              {error}
+            </div>
+          )}
           <button
             type="button"
             onClick={onClose}
@@ -171,7 +200,13 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-500 transition font-semibold shadow-sm"
+            disabled={
+              !barcode ||
+              !form.name ||
+              !form.currentPrice ||
+              Number(form.currentPrice) <= 0
+            }
+            className={`px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-500 transition font-semibold shadow-sm ${!barcode || !form.name || !form.currentPrice || Number(form.currentPrice) <= 0 ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {t("Common.save")}
           </button>

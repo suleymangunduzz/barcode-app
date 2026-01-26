@@ -163,7 +163,9 @@
         "missingFields": "Please fill in all required fields.",
         "duplicateBarcode": "A product with this barcode already exists.",
         "invalidPrice": "Please enter a valid price.",
-        "invalidStock": "Please enter a valid stock quantity."
+        "invalidStock": "Please enter a valid stock quantity.",
+        "noBarcode": "Please add a barcode.",
+        "noName": "Please enter a product name."
       }
     },
     "BarcodeModal": {

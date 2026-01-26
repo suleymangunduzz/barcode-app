@@ -148,6 +148,14 @@
         "noCategory": "Kategori Yok",
         "stockLabel": "Stok",
         "minStockLabel": "Minimum Stok"
+      },
+      "errors": {
+        "missingFields": "Lütfen tüm gerekli alanları doldurun.",
+        "duplicateBarcode": "Bu barkodla kayıtlı bir ürün zaten mevcut.",
+        "invalidPrice": "Lütfen geçerli bir fiyat girin.",
+        "invalidStock": "Lütfen geçerli bir stok miktarı girin.",
+        "noBarcode": "Lütfen bir barkod ekleyin.",
+        "noName": "Lütfen ürün adını girin."
       }
     },
     "BarcodeModal": {
