@@ -93,7 +93,8 @@
     "Actions": {
       "updateStock": "Stok Güncelle",
       "updatePrice": "Fiyat Güncelle",
-      "addToCart": "Satışa Ekle"
+      "addToCart": "Satışa Ekle",
+      "viewBarcode": "Barkodu Göster"
     },
     "UpdatePrice": {
       "price": "Satış Fiyatı",

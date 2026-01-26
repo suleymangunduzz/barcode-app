@@ -93,7 +93,8 @@
     "Actions": {
       "updateStock": "Update Stock",
       "updatePrice": "Update Price",
-      "addToCart": "Add To Cart"
+      "addToCart": "Add To Cart",
+      "viewBarcode": "View Barcode"
     },
     "UpdatePrice": {
       "price": "Price",

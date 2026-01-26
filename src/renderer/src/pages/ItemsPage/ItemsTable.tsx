@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
+import BarcodeViewerModal from "@/pages/ItemsPage/BarcodeViewerModal";
 import { Item } from "@/types/DB";
 import { useCart } from "@/context/CartContext";
 
@@ -19,6 +21,7 @@ export default function ItemsTable({
   onViewDetails,
 }: Props) {
   const { t } = useTranslation();
+  const [barcodeToView, setBarcodeToView] = useState<string | null>(null);
 
   const { addItem } = useCart();
   const handleAddToCart = async (item: Item) => {
@@ -108,6 +111,17 @@ export default function ItemsTable({
                     >
                       {t("ItemsPage.Actions.addToCart")}
                     </button>
+                    <button
+                      onClick={() => setBarcodeToView(item.barcode)}
+                      className="
+                        px-3 py-1 text-base rounded
+                        bg-emerald-600 text-white
+                        hover:bg-emerald-500 transition font-medium
+                      "
+                    >
+                      {t("ItemsPage.Actions.viewBarcode") || "Barcode"}
+                    </button>
+
                     {isAdmin && (
                       <>
                         <button
@@ -148,6 +162,14 @@ export default function ItemsTable({
             </tbody>
           </table>
         </div>
+      )}
+      {barcodeToView && (
+        // lazy import viewer modal to avoid increasing bundle size unnecessarily
+        // eslint-disable-next-line react/jsx-no-bind
+        <BarcodeViewerModal
+          value={barcodeToView}
+          onClose={() => setBarcodeToView(null)}
+        />
       )}
       {/* audio handled by CartProvider */}
     </div>
