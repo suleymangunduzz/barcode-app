@@ -9,7 +9,9 @@ import { Item } from "@/types/DB";
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [selectedDetailsItem, setSelectedDetailsItem] = useState<Item | null>(null);
+  const [selectedDetailsItem, setSelectedDetailsItem] = useState<Item | null>(
+    null,
+  );
   const [priceModalItem, setPriceModalItem] = useState<Item | null>(null);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -44,7 +46,9 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
       const lower = value.toLowerCase();
       setFilteredItems(
         items.filter(
-          (i) => i.name.toLowerCase().includes(lower) || i.brand.toLowerCase().includes(lower),
+          (i) =>
+            i.name.toLowerCase().includes(lower) ||
+            i.brand?.toLowerCase().includes(lower),
         ),
       );
     }
