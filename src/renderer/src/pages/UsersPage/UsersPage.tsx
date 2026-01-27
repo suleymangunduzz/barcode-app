@@ -33,12 +33,14 @@ export default function UsersPage() {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold">{t("UsersPage.title")}</h2>
+        <h2 className="text-3xl md:text-4xl font-bold">
+          {t("UsersPage.title")}
+        </h2>
         <div>
           <button
-            className="px-3 py-1 bg-emerald-600 rounded"
+            className="px-4 py-2 bg-emerald-600 rounded text-white font-medium hover:bg-emerald-500 transition"
             onClick={() => setShowAddModal(true)}
           >
             {t("UsersPage.addUserButton")}
@@ -47,24 +49,24 @@ export default function UsersPage() {
       </div>
 
       <div className="mb-6">
-        <h3 className="font-medium">{t("UsersPage.adminsTitle")}</h3>
-        <div className="mt-2 bg-slate-800 rounded">
-          <table className="w-full">
+        <h3 className="text-lg font-semibold">{t("UsersPage.adminsTitle")}</h3>
+        <div className="mt-3 bg-slate-800 rounded">
+          <table className="w-full text-lg">
             <thead>
-              <tr className="text-left text-slate-400 text-sm">
-                <th className="p-2">{t("UsersPage.table.name")}</th>
-                <th>{t("UsersPage.table.email")}</th>
-                <th>{t("UsersPage.table.actions")}</th>
+              <tr className="text-left text-slate-300 text-base">
+                <th className="px-4 py-3">{t("UsersPage.table.name")}</th>
+                <th className="px-4 py-3">{t("UsersPage.table.email")}</th>
+                <th className="px-4 py-3">{t("UsersPage.table.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {(admins || []).map((u) => (
                 <tr key={u.id} className="border-t border-slate-700">
-                  <td className="p-2">{u.name}</td>
-                  <td>{u.email}</td>
-                  <td>
+                  <td className="px-4 py-3">{u.name}</td>
+                  <td className="px-4 py-3">{u.email}</td>
+                  <td className="px-4 py-3">
                     <button
-                      className="px-2 py-1 bg-slate-600 rounded"
+                      className="px-4 py-2 bg-slate-600 rounded text-lg font-medium hover:bg-slate-500 transition"
                       onClick={() => setSelectedUser(u)}
                     >
                       {t("UsersPage.actions.changePassword")}
@@ -78,24 +80,24 @@ export default function UsersPage() {
       </div>
 
       <div>
-        <h3 className="font-medium">{t("UsersPage.staffTitle")}</h3>
-        <div className="mt-2 bg-slate-800 rounded">
-          <table className="w-full">
+        <h3 className="text-lg font-semibold">{t("UsersPage.staffTitle")}</h3>
+        <div className="mt-3 bg-slate-800 rounded">
+          <table className="w-full text-lg">
             <thead>
-              <tr className="text-left text-slate-400 text-sm">
-                <th className="p-2">{t("UsersPage.table.name")}</th>
-                <th>{t("UsersPage.table.email")}</th>
-                <th>{t("UsersPage.table.actions")}</th>
+              <tr className="text-left text-slate-300 text-base">
+                <th className="px-4 py-3">{t("UsersPage.table.name")}</th>
+                <th className="px-4 py-3">{t("UsersPage.table.email")}</th>
+                <th className="px-4 py-3">{t("UsersPage.table.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {(staff || []).map((u) => (
                 <tr key={u.id} className="border-t border-slate-700">
-                  <td className="p-2">{u.name}</td>
-                  <td>{u.email}</td>
-                  <td>
+                  <td className="px-4 py-3">{u.name}</td>
+                  <td className="px-4 py-3">{u.email}</td>
+                  <td className="px-4 py-3">
                     <button
-                      className="px-2 py-1 bg-slate-600 rounded"
+                      className="px-4 py-2 bg-slate-600 rounded text-lg font-medium hover:bg-slate-500 transition"
                       onClick={() => setSelectedUser(u)}
                     >
                       {t("UsersPage.actions.changePassword")}
