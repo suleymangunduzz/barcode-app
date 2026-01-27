@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 
 import ItemsToolbar from "@/pages/ItemsPage/ItemsToolbar";
 import ItemsTable from "@/pages/ItemsPage/ItemsTable";
-import UpdateStockModal from "@/pages/ItemsPage/UpdateStockModal";
-import UpdatePriceModal from "@/pages/ItemsPage/UpdatePriceModal";
+import LazyModal from "@/components/LazyModal";
 import { useTranslation } from "react-i18next";
 import { Item } from "@/types/DB";
-import AddItemModal from "@/pages/ItemsPage/AddItemModal";
 
 export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
   const [items, setItems] = useState<Item[]>([]);
@@ -82,40 +80,44 @@ export default function ItemsPage({ isAdmin }: { isAdmin: boolean }) {
         openPriceModal={(item) => setPriceModalItem(item)}
       />
 
-      {selectedItem && (
-        <UpdateStockModal
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
-          onSuccess={async () => {
-            const data = await window.api.getAllItems();
-            setItems(data);
-            setFilteredItems(data);
-          }}
-        />
-      )}
-      {priceModalItem && (
-        <UpdatePriceModal
-          item={priceModalItem}
-          onClose={() => setPriceModalItem(null)}
-          onSuccess={async () => {
-            const data = await window.api.getAllItems();
-            setItems(data);
-            setFilteredItems(data);
-          }}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/ItemsPage/UpdateStockModal")}
+        open={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+        fallback={null}
+        item={selectedItem}
+        onSuccess={async () => {
+          const data = await window.api.getAllItems();
+          setItems(data);
+          setFilteredItems(data);
+        }}
+      />
 
-      {showAddModal && (
-        <AddItemModal
-          onClose={() => setShowAddModal(false)}
-          onSuccess={async () => {
-            const data = await window.api.getAllItems();
-            setItems(data);
-            setFilteredItems(data);
-            setShowAddModal(false);
-          }}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/ItemsPage/UpdatePriceModal")}
+        open={!!priceModalItem}
+        onClose={() => setPriceModalItem(null)}
+        fallback={null}
+        item={priceModalItem}
+        onSuccess={async () => {
+          const data = await window.api.getAllItems();
+          setItems(data);
+          setFilteredItems(data);
+        }}
+      />
+
+      <LazyModal
+        loader={() => import("@/pages/ItemsPage/AddItemModal")}
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        fallback={null}
+        onSuccess={async () => {
+          const data = await window.api.getAllItems();
+          setItems(data);
+          setFilteredItems(data);
+          setShowAddModal(false);
+        }}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Category } from "@/types/DB";
-import BarcodeModal from "@/pages/ItemsPage/BarcodeModal";
+import LazyModal from "@/components/LazyModal";
 
 type Props = {
   onClose: () => void;
@@ -79,12 +79,13 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      {isBarcodeModalOpen && (
-        <BarcodeModal
-          onClose={() => setIsBarcodeModalOpen(false)}
-          onConfirm={setBarcode}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/ItemsPage/BarcodeModal")}
+        open={isBarcodeModalOpen}
+        onClose={() => setIsBarcodeModalOpen(false)}
+        fallback={null}
+        onConfirm={setBarcode}
+      />
       <form
         onSubmit={handleSubmit}
         className="bg-slate-900 p-6 rounded-lg w-[420px] space-y-4 border border-slate-700 shadow-xl"

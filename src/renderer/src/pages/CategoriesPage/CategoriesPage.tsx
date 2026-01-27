@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import AddCategoryModal from "@/pages/CategoriesPage/AddCategoryModal";
-import EditCategoryModal from "@/pages/CategoriesPage/EditCategoryModal";
-import CategoryItemsModal from "@/pages/CategoriesPage/CategoryItemsModal";
+import LazyModal from "@/components/LazyModal";
 import { Category } from "@/types/DB";
 
 export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
@@ -117,33 +114,36 @@ export default function CategoriesPage({ isAdmin }: { isAdmin?: boolean }) {
       )}
 
       {/* Modals */}
-      {showAdd && (
-        <AddCategoryModal
-          onClose={() => setShowAdd(false)}
-          onSuccess={() => {
-            setShowAdd(false);
-            fetchCategories();
-          }}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/CategoriesPage/AddCategoryModal")}
+        open={showAdd}
+        onClose={() => setShowAdd(false)}
+        fallback={null}
+        onSuccess={() => {
+          setShowAdd(false);
+          fetchCategories();
+        }}
+      />
 
-      {editCategory && (
-        <EditCategoryModal
-          category={editCategory}
-          onClose={() => setEditCategory(null)}
-          onSuccess={() => {
-            setEditCategory(null);
-            fetchCategories();
-          }}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/CategoriesPage/EditCategoryModal")}
+        open={!!editCategory}
+        onClose={() => setEditCategory(null)}
+        fallback={null}
+        category={editCategory}
+        onSuccess={() => {
+          setEditCategory(null);
+          fetchCategories();
+        }}
+      />
 
-      {viewItemsCategory && (
-        <CategoryItemsModal
-          category={viewItemsCategory}
-          onClose={() => setViewItemsCategory(null)}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/CategoriesPage/CategoryItemsModal")}
+        open={!!viewItemsCategory}
+        onClose={() => setViewItemsCategory(null)}
+        fallback={null}
+        category={viewItemsCategory}
+      />
     </div>
   );
 }

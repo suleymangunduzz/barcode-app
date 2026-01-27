@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { Sale } from "@/types/DB";
 import { formatDate } from "@/utils/formatDate";
-import SaleDetailsModal from "@/pages/SalesPage/SaleDetailsModal";
+import LazyModal from "@/components/LazyModal";
 
 export default function SalesPage() {
   const { t, i18n } = useTranslation();
@@ -146,12 +146,13 @@ export default function SalesPage() {
         </div>
       )}
 
-      {selectedSale && (
-        <SaleDetailsModal
-          sale={selectedSale}
-          onClose={() => setSelectedSale(null)}
-        />
-      )}
+      <LazyModal
+        loader={() => import("@/pages/SalesPage/SaleDetailsModal")}
+        open={!!selectedSale}
+        onClose={() => setSelectedSale(null)}
+        fallback={null}
+        sale={selectedSale}
+      />
     </div>
   );
 }

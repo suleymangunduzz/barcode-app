@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
+import LazyModal from "@/components/LazyModal";
 import { Item } from "@/types/DB";
 import { useCart } from "@/context/CartContext";
 
-const BarcodeViewerModal = lazy(
-  () => import("@/pages/ItemsPage/BarcodeViewerModal"),
-);
 
 type Props = {
   items?: Item[]; // make optional to be defensive
@@ -161,14 +159,15 @@ export default function ItemsTable({
           </table>
         </div>
       )}
-      {barcodeToView && (
-        <Suspense fallback={null}>
-          <BarcodeViewerModal
-            value={barcodeToView}
-            onClose={() => setBarcodeToView(null)}
-          />
-        </Suspense>
-      )}
+      {
+        <LazyModal
+          loader={() => import("@/pages/ItemsPage/BarcodeViewerModal")}
+          open={!!barcodeToView}
+          onClose={() => setBarcodeToView(null)}
+          fallback={null}
+          value={barcodeToView}
+        />
+      }
     </div>
   );
 }
