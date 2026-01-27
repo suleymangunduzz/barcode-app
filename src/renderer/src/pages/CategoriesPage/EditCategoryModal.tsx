@@ -54,10 +54,10 @@ export default function EditCategoryModal({
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit}
-        className="bg-slate-900 w-full max-w-sm rounded-lg p-5 space-y-4 shadow-xl"
+        className="bg-slate-900 w-full max-w-md rounded-lg p-6 space-y-5 shadow-xl"
       >
         {/* Title */}
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-xl md:text-2xl font-bold text-white">
           {t("CategoriesPage.editModal.title")}
         </h2>
 
@@ -67,7 +67,7 @@ export default function EditCategoryModal({
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="
-            w-full px-3 py-2 rounded
+            w-full px-4 py-3 rounded text-lg
             bg-slate-800 text-slate-100
             border border-slate-700
             focus:outline-none focus:ring-2 focus:ring-blue-500
@@ -76,18 +76,18 @@ export default function EditCategoryModal({
 
         {/* Error */}
         {error && (
-          <div className="text-red-400 text-base bg-red-900/30 px-3 py-2 rounded">
+          <div className="text-red-400 text-lg bg-red-900/30 px-3 py-2 rounded">
             {error}
           </div>
         )}
 
         {/* Actions */}
-        <div className="flex justify-end gap-2 pt-3 border-t border-slate-700">
+        <div className="flex justify-end gap-3 pt-3 border-t border-slate-700">
           <button
             type="button"
             onClick={onClose}
             className="
-              px-4 py-2 rounded
+              px-5 py-2.5 rounded text-lg
               bg-slate-700 text-slate-200
               hover:bg-slate-600
               transition
@@ -100,7 +100,7 @@ export default function EditCategoryModal({
             type="submit"
             disabled={loading}
             className="
-              px-4 py-2 rounded
+              px-5 py-2.5 rounded text-lg
               bg-emerald-600 text-white
               hover:bg-emerald-500
               transition

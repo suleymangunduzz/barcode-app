@@ -11,40 +11,56 @@ export default function SaleDetailsModal({ sale, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      <div className="bg-slate-900 w-full max-w-md rounded-lg p-5 space-y-4 shadow-lg">
+      <div className="bg-slate-900 w-full max-w-lg rounded-lg p-6 space-y-6 shadow-lg">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-xl md:text-2xl font-bold text-white">
             {t("SalesPage.details.title")}
           </h2>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white font-bold"
+            className="text-slate-300 hover:text-white font-bold text-lg"
+            aria-label="close"
           >
             ✕
           </button>
         </div>
 
-        <div className="space-y-2 text-base text-slate-200">
+        <div className="space-y-3 text-lg text-slate-200">
           <div>
-            <strong>{t("SalesPage.details.date")}:</strong>{" "}
-            {new Date(sale.createdAt).toLocaleString()}
+            <strong className="font-semibold">
+              {t("SalesPage.details.date")}:
+            </strong>{" "}
+            <span className="ml-1">
+              {new Date(sale.createdAt).toLocaleString()}
+            </span>
           </div>
           <div>
-            <strong>{t("SalesPage.details.soldBy")}:</strong>{" "}
-            {sale.soldBy?.name ?? "-"}
+            <strong className="font-semibold">
+              {t("SalesPage.details.soldBy")}:
+            </strong>{" "}
+            <span className="ml-1">{sale.soldBy?.name ?? "-"}</span>
           </div>
           <div>
-            <strong>{t("SalesPage.details.total")}:</strong> ₺
-            {sale.totalAmount.toLocaleString("tr-TR")}
+            <strong className="font-semibold">
+              {t("SalesPage.details.total")}:
+            </strong>{" "}
+            <span className="ml-1 text-2xl md:text-3xl font-bold">
+              ₺{sale.totalAmount.toLocaleString("tr-TR")}
+            </span>
           </div>
 
-          <div className="mt-3 border-t border-slate-700 pt-2">
-            <strong>{t("SalesPage.details.items")}:</strong>
-            <ul className="list-disc list-inside">
+          <div className="mt-4 border-t border-slate-700 pt-3">
+            <strong className="font-semibold">
+              {t("SalesPage.details.items")}:
+            </strong>
+            <ul className="list-disc list-inside mt-2 space-y-1 text-lg">
               {sale.saleItems.map((si) => (
-                <li key={si.id}>
-                  {si.itemName} × {si.quantity} = ₺
-                  {si.totalPrice.toLocaleString("tr-TR")}
+                <li key={si.id} className="py-0.5">
+                  <span className="font-medium">{si.itemName}</span>
+                  <span className="ml-2 text-slate-300">× {si.quantity}</span>
+                  <span className="ml-3 font-semibold">
+                    = ₺{si.totalPrice.toLocaleString("tr-TR")}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -54,7 +70,7 @@ export default function SaleDetailsModal({ sale, onClose }: Props) {
         <div className="flex justify-end pt-2 border-t border-slate-700">
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 font-medium"
+            className="px-5 py-2.5 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 font-semibold text-lg"
           >
             {t("Common.close")}
           </button>

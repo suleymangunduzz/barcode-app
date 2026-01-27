@@ -58,7 +58,9 @@ export default function SalesPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{t("SalesPage.title")}</h1>
+      <h1 className="text-3xl md:text-4xl font-bold mb-4">
+        {t("SalesPage.title")}
+      </h1>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-4 items-start sm:items-center">
@@ -67,30 +69,30 @@ export default function SalesPage() {
           placeholder={t("SalesPage.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary w-full sm:w-64"
+          className="px-4 py-3 rounded bg-slate-800 text-white text-lg focus:outline-none focus:ring-2 focus:ring-primary w-full sm:w-72"
         />
 
         <div className="flex gap-2 items-center">
-          <label className="text-base text-slate-300">
+          <label className="text-lg text-slate-300 font-medium">
             {t("SalesPage.from")}:
           </label>
           <DatePicker
             selected={fromDate}
             onChange={(date: Date | null) => setFromDate(date)}
             locale={i18n.language === "tr" ? tr : enUS}
-            className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-4 py-3 rounded bg-slate-800 text-white text-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         <div className="flex gap-2 items-center">
-          <label className="text-base text-slate-300">
+          <label className="text-lg text-slate-300 font-medium">
             {t("SalesPage.to")}:
           </label>
           <DatePicker
             selected={toDate}
             locale={i18n.language === "tr" ? tr : enUS}
             onChange={(date: Date | null) => setToDate(date)}
-            className="px-3 py-2 rounded bg-slate-800 text-white focus:outline-none focus:ring-2 focus:ring-primary"
+            className="px-4 py-3 rounded bg-slate-800 text-white text-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
       </div>
@@ -99,7 +101,7 @@ export default function SalesPage() {
         <div className="text-slate-400">{t("SalesPage.noSales")}</div>
       ) : (
         <div className="overflow-auto border border-slate-700 rounded">
-          <table className="w-full text-base">
+          <table className="w-full text-lg">
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="px-3 py-2 text-left">
@@ -122,16 +124,16 @@ export default function SalesPage() {
                   key={sale.id}
                   className="border-t border-slate-700 hover:bg-slate-800"
                 >
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-3">
                     {formatDate(sale.createdAt, i18n.language)}
                   </td>
-                  <td className="px-3 py-2">{sale.soldBy?.name ?? "-"}</td>
-                  <td className="px-3 py-2 text-right font-medium">
+                  <td className="px-3 py-3">{sale.soldBy?.name ?? "-"}</td>
+                  <td className="px-3 py-3 text-right font-semibold text-xl">
                     ₺{sale.totalAmount.toLocaleString("tr-TR")}
                   </td>
-                  <td className="px-3 py-2 text-center">
+                  <td className="px-3 py-3 text-center">
                     <button
-                      className="px-3 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-500 text-base font-medium transition"
+                      className="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-500 text-lg font-semibold transition"
                       onClick={() => setSelectedSale(sale)}
                     >
                       {t("SalesPage.actions.view")}

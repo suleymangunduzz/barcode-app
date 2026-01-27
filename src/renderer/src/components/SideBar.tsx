@@ -70,10 +70,12 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-56 border-r border-slate-700 bg-slate-900 text-slate-100">
-      <div className="p-4 text-lg font-semibold">{t("SideBar.title")}</div>
+    <aside className="w-64 border-r border-slate-700 bg-slate-900 text-slate-100">
+      <div className="p-4 text-xl md:text-2xl font-bold">
+        {t("SideBar.title")}
+      </div>
 
-      <nav className="flex flex-col gap-1 px-2">
+      <nav className="flex flex-col gap-2 px-3">
         {navItems
           .filter((item) => item.roles.includes(role))
           .map((item) => {
@@ -85,16 +87,18 @@ export default function Sidebar({ role, page, setPage }: SidebarProps) {
                 key={item.key}
                 onClick={() => setPage(item.key)}
                 className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md text-sm cursor-pointer transition-colors
+                  flex items-center gap-4 px-4 py-3 rounded-lg text-base md:text-lg cursor-pointer transition-colors
                   ${
                     isActive
                       ? "bg-emerald-600 text-white font-medium"
-                      : "text-slate-400 hover:bg-slate-700 hover:text-white"
+                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
                   }
                 `}
               >
-                <Icon size={18} />
-                {item.label}
+                <Icon size={24} />
+                <span className="text-base md:text-lg font-medium">
+                  {item.label}
+                </span>
               </button>
             );
           })}
