@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Sale } from "@/types/DB";
+import { formatDate } from "@/utils/formatDate";
 
 type Props = {
   sale: Sale;
@@ -7,7 +8,7 @@ type Props = {
 };
 
 export default function SaleDetailsModal({ sale, onClose }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
@@ -31,7 +32,7 @@ export default function SaleDetailsModal({ sale, onClose }: Props) {
               {t("SalesPage.details.date")}:
             </strong>{" "}
             <span className="ml-1">
-              {new Date(sale.createdAt).toLocaleString()}
+              {formatDate(sale.createdAt, i18n.language)}
             </span>
           </div>
           <div>
