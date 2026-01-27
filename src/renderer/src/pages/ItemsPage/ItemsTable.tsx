@@ -1,9 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import StockBadge from "@/pages/ItemsPage/StockBadge";
-import BarcodeViewerModal from "@/pages/ItemsPage/BarcodeViewerModal";
 import { Item } from "@/types/DB";
 import { useCart } from "@/context/CartContext";
+
+const BarcodeViewerModal = lazy(
+  () => import("@/pages/ItemsPage/BarcodeViewerModal"),
+);
 
 type Props = {
   items?: Item[]; // make optional to be defensive
@@ -33,7 +36,6 @@ export default function ItemsTable({
 
   return (
     <div>
-      {/* Toast is now handled globally by ToastProvider */}
       {isEmpty ? (
         <div className="text-center text-slate-400 mt-10">
           {t("ItemsPage.noItems")}
@@ -160,14 +162,13 @@ export default function ItemsTable({
         </div>
       )}
       {barcodeToView && (
-        // lazy import viewer modal to avoid increasing bundle size unnecessarily
-        // eslint-disable-next-line react/jsx-no-bind
-        <BarcodeViewerModal
-          value={barcodeToView}
-          onClose={() => setBarcodeToView(null)}
-        />
+        <Suspense fallback={null}>
+          <BarcodeViewerModal
+            value={barcodeToView}
+            onClose={() => setBarcodeToView(null)}
+          />
+        </Suspense>
       )}
-      {/* audio handled by CartProvider */}
     </div>
   );
 }
