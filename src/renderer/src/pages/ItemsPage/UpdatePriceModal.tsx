@@ -42,16 +42,16 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
         className="bg-slate-900 w-full max-w-sm rounded-lg p-6 space-y-4 shadow-xl"
       >
         {/* Title */}
-        <h2 className="text-lg font-bold text-white">
+        <h2 className="text-2xl font-bold text-white">
           {t("ItemsPage.UpdatePrice.title")}
         </h2>
 
         {/* Item name */}
-        <div className="text-base text-slate-300">{item.name}</div>
+        <div className="text-lg text-slate-300">{item.name}</div>
 
         {/* Price input */}
         <div>
-          <label className="block text-base mb-1 text-slate-200">
+          <label className="block text-lg mb-1 text-slate-200">
             {t("ItemsPage.UpdatePrice.price")}
           </label>
           <input
@@ -60,8 +60,8 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
             className="
-              w-full px-3 py-2 rounded
-              bg-slate-700 text-white
+              w-full px-4 py-3 rounded
+              bg-slate-700 text-white text-lg
               border border-slate-600
               focus:outline-none focus:ring-2 focus:ring-blue-500
             "
@@ -75,7 +75,7 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
             onClick={onClose}
             className="
               px-4 py-2 rounded
-              bg-slate-600 text-white
+              bg-slate-600 text-white text-lg
               hover:bg-slate-500
               transition
             "
@@ -88,7 +88,7 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
             disabled={loading}
             className="
               px-4 py-2 rounded
-              bg-blue-600 text-white
+              bg-blue-600 text-white text-lg
               hover:bg-blue-500
               transition
               font-semibold
