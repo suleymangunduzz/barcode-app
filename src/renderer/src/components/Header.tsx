@@ -35,11 +35,11 @@ export default function Header({ role, onLogout, setPage }: HeaderProps) {
           aria-label={t("Header.cart", {
             count: cartItems.reduce((s, i) => s + i.quantity, 0),
           })}
-          className="relative overflow-visible flex items-center gap-3 px-3 py-2 rounded hover:bg-muted cursor-pointer"
+          className="relative overflow-visible flex items-center gap-3 px-2 py-1 rounded hover:bg-muted cursor-pointer"
         >
           <ShoppingCart size={30} className="text-foreground" />
           {cartItems.length > 0 && (
-            <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-6 min-w-[2rem] px-1.5 text-sm rounded-full bg-destructive text-white font-medium whitespace-nowrap">
+            <span className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-6 w-6 text-sm rounded-full bg-red-600 text-white font-medium">
               {cartItems.reduce((sum, i) => sum + i.quantity, 0)}
             </span>
           )}
