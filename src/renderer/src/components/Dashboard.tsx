@@ -71,7 +71,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-4 text-slate-100">
-      <h2 className="text-2xl font-bold">{t("Dashboard.title")}</h2>
+      <h2 className="text-3xl md:text-4xl font-bold">{t("Dashboard.title")}</h2>
 
       {/* Barcode input */}
       <input
@@ -91,7 +91,7 @@ export default function Dashboard() {
       {/* Sale cart */}
       <div className="flex-1 border border-slate-700 rounded bg-slate-900 flex flex-col">
         {/* Cart header */}
-        <div className="border-b border-slate-700 px-4 py-2 font-medium bg-slate-800">
+        <div className="border-b border-slate-700 px-4 py-3 font-semibold text-lg bg-slate-800">
           {t("Dashboard.cart")}
         </div>
 
@@ -173,7 +173,7 @@ export default function Dashboard() {
 
         {/* Cart footer */}
         <div className="border-t border-slate-700 p-4 flex items-center justify-between gap-2 flex-wrap">
-          <div className="text-lg font-semibold">
+          <div className="text-2xl md:text-3xl font-bold">
             {t("Dashboard.total")}: ₺{totalAmount.toLocaleString("tr-TR")}
           </div>
 
