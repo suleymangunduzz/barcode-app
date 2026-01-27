@@ -166,7 +166,8 @@ export default function BarcodeViewerModal({ value, onClose }: Props) {
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-2 rounded bg-slate-700"
+              aria-label={t("Common.close")}
+              className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600 font-semibold"
             >
               {t("Common.close")}
             </button>
