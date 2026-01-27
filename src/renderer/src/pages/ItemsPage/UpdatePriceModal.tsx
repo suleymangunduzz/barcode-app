@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Item } from "@/types/DB";
+import useToast from "@/hooks/useToast";
 
 type Props = {
   item: Item;
@@ -10,6 +11,7 @@ type Props = {
 
 export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
   const { t } = useTranslation();
+  const toast = useToast();
   const [price, setPrice] = useState(item.currentPrice);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +27,7 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
     setLoading(false);
 
     if (!res.success) {
-      alert(t(`Errors.${res.error}`));
+      toast({ type: "error", message: t(`Errors.${res.error}`) });
       return;
     }
 

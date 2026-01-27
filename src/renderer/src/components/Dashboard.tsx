@@ -5,6 +5,7 @@ import { Plus, Minus, Trash2 } from "lucide-react";
 import { calculateTotal } from "@/utils/cart";
 // barcode scanning handled globally by BarcodeScanProvider
 import { useCart } from "@/context/CartContext";
+import useToast from "@/hooks/useToast";
 
 export default function Dashboard() {
   const {
@@ -19,6 +20,7 @@ export default function Dashboard() {
 
   const barcodeInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
+  const toast = useToast();
 
   const totalAmount = calculateTotal(cartItems);
 
@@ -52,16 +54,19 @@ export default function Dashboard() {
 
       if (response.success) {
         handleClearCart();
-        alert(t("Dashboard.saleSuccess"));
+        toast({ type: "success", message: t("Dashboard.saleSuccess") });
       } else if (response.error === "INSUFFICIENT_STOCK") {
-        alert(
-          t("Dashboard.insufficientStock", { itemName: response.itemName }),
-        );
+        toast({
+          type: "error",
+          message: t("Dashboard.insufficientStock", {
+            itemName: response.itemName,
+          }),
+        });
       } else {
-        alert(t("Dashboard.saleError"));
+        toast({ type: "error", message: t("Dashboard.saleError") });
       }
     } catch {
-      alert(t("Dashboard.saleError"));
+      toast({ type: "error", message: t("Dashboard.saleError") });
     } finally {
       setIsSaleInProgress(false);
     }

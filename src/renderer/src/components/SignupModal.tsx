@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "@/types/DB";
+import useToast from "@/hooks/useToast";
 
 type Props = {
   role: User["role"];
@@ -16,6 +17,8 @@ export default function SignupModal({ role, onSuccess }: Props) {
       formRef.current.reset();
     }
   }, [role]);
+
+  const toast = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,11 +42,17 @@ export default function SignupModal({ role, onSuccess }: Props) {
       if (success) {
         onSuccess();
       } else {
-        alert("Bir hata olustu, lutfen tekrar deneyin.");
+        toast({
+          type: "error",
+          message: "Bir hata olustu, lutfen tekrar deneyin.",
+        });
       }
     } catch (error) {
       console.error("Signup failed:", error);
-      alert("Bir hata olustu, lutfen tekrar deneyin.");
+      toast({
+        type: "error",
+        message: "Bir hata olustu, lutfen tekrar deneyin.",
+      });
     }
   };
 
