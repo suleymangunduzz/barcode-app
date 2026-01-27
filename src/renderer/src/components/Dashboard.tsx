@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Plus, Minus, Trash2 } from "lucide-react";
 
 import { calculateTotal } from "@/utils/cart";
-// barcode scanning handled globally by BarcodeScanProvider
 import { useCart } from "@/context/CartContext";
 import useToast from "@/hooks/useToast";
 
@@ -23,8 +22,6 @@ export default function Dashboard() {
   const toast = useToast();
 
   const totalAmount = calculateTotal(cartItems);
-
-  // scanning is handled globally by BarcodeScanProvider
 
   const handleBarcodeInputBlur = async (
     event: React.FocusEvent<HTMLInputElement>,
