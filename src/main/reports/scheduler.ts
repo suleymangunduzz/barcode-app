@@ -92,7 +92,7 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
             s.subject,
           );
           console.log(
-            `[ReportsScheduler] Report result for id=${s.id}: emailed=${res.emailed} path=${res.path}`,
+            `[ReportsScheduler] Report result for id=${s.id}: emailed=${res.emailed}`,
           );
 
           // update lastRunAt

@@ -61,15 +61,11 @@ export default function ReportsPage() {
       }),
     });
     setLoading(false);
-    if (res?.path) {
-      if (res.emailed) {
-        toast({
-          type: "success",
-          message: t("ReportsPage.generateSuccessEmailed"),
-        });
-      } else {
-        toast({ type: "info", message: t("ReportsPage.generateSuccess") });
-      }
+    if (res?.emailed) {
+      toast({
+        type: "success",
+        message: t("ReportsPage.generateSuccessEmailed"),
+      });
     } else {
       toast({ type: "error", message: t("ReportsPage.generateError") });
     }

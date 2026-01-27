@@ -128,7 +128,6 @@ declare global {
         email?: string;
         subject?: string;
       }) => Promise<{
-        path: string;
         emailed?: boolean;
         messageId?: string | null;
       }>;

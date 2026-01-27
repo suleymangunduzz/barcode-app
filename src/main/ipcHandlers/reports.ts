@@ -109,13 +109,18 @@ export async function generateSalesReportForRange(
       if (!sendRes.error) {
         emailed = true;
         messageId = sendRes.messageId || null;
+        try {
+          fs.unlinkSync(outPath);
+        } catch (err) {
+          console.error("Error deleting report file:", err);
+        }
       }
     } catch (err) {
       console.error("Error sending report email:", err);
     }
   }
 
-  return { path: outPath, emailed, messageId };
+  return { emailed, messageId };
 }
 
 export function registerReportHandlers(db: SqliteDb) {
