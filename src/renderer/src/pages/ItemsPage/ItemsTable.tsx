@@ -44,9 +44,6 @@ export default function ItemsTable({
             <thead className="bg-slate-800 text-slate-300">
               <tr>
                 <th className="px-3 py-2 text-left">
-                  {t("ItemsPage.Table.headerBarcode")}
-                </th>
-                <th className="px-3 py-2 text-left">
                   {t("ItemsPage.Table.headerName")}
                 </th>
                 <th className="px-3 py-2 text-left">
@@ -79,7 +76,6 @@ export default function ItemsTable({
                     text-slate-100
                   `}
                 >
-                  <td className="px-3 py-2">{item.barcode}</td>
                   <td className="px-3 py-2 font-medium">{item.name}</td>
                   <td className="px-3 py-2">{item.brand ?? "-"}</td>
                   <td className="px-3 py-2">
