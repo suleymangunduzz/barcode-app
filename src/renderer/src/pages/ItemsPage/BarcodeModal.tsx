@@ -317,7 +317,7 @@ export default function BarcodeModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-3 py-2 rounded bg-slate-700"
+              className="px-3 py-2 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
             >
               {t("Common.cancel")}
             </button>
