@@ -58,6 +58,7 @@
     "productName": "BarcodeApp",
     "npmRebuild": false,
     "buildDependenciesFromSource": false,
+    "publish": null,
     "mac": {
       "target": "dmg",
       "category": "public.app-category.developer-tools",
