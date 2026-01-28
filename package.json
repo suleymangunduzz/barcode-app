@@ -7,7 +7,9 @@
     "dev": "concurrently \"vite\" \"npm:electron\"",
     "electron": "tsc -p src/main && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
     "build": "vite build && tsc -p src/main",
-    "dist": "npm run build && electron-builder"
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:mac": "npm run build && electron-builder --mac"
   },
   "keywords": [
     "electron",
@@ -54,10 +56,38 @@
   "build": {
     "appId": "com.example.barcode-app",
     "productName": "BarcodeApp",
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
     "mac": {
       "target": "dmg",
       "category": "public.app-category.developer-tools",
       "sign": false
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.exe"
     },
     "directories": {
       "buildResources": "assets",
