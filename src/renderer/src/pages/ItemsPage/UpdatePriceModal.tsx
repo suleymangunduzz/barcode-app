@@ -58,6 +58,8 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
             type="number"
             step="1"
             value={price}
+            min={1}
+            max={100_000}
             onChange={(e) => setPrice(Number(e.target.value))}
             className="
               w-full px-4 py-3 rounded

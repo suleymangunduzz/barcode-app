@@ -116,6 +116,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
         <input
           required
           placeholder={t("ItemsPage.AddModal.fields.name")}
+          maxLength={100}
           value={form.name}
           onChange={(e) => updateField("name", e.target.value)}
           className={inputClass}
@@ -126,6 +127,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           value={form.brand}
           onChange={(e) => updateField("brand", e.target.value)}
           className={inputClass}
+          maxLength={50}
         />
 
         <input
@@ -133,6 +135,7 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           value={form.model}
           onChange={(e) => updateField("model", e.target.value)}
           className={inputClass}
+          maxLength={50}
         />
 
         <select
@@ -156,6 +159,8 @@ export default function AddItemModal({ onClose, onSuccess }: Props) {
           value={form.currentPrice}
           onChange={(e) => updateField("currentPrice", e.target.value)}
           className={inputClass}
+          min={1}
+          max={100_000}
         />
 
         <div>

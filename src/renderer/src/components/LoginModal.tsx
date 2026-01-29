@@ -46,12 +46,14 @@ export default function LoginModal({ onLogin }: LoginModalProps) {
             placeholder={t("LoginModal.emailPlaceholder")}
             name="email"
             type="email"
+            maxLength={50}
           />
           <input
             className="w-full border p-2 mb-2 text-black"
             placeholder={t("LoginModal.passwordPlaceholder")}
             name="password"
             type="password"
+            maxLength={50}
           />
           {error && <p className="text-red-500 mb-2">{error}</p>}
           <button
