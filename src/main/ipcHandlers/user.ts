@@ -57,6 +57,11 @@ export function registerUserHandlers(db: SqliteDb) {
       if (!name?.trim() || !email?.trim() || !password)
         return { success: false, error: "MISSING_FIELDS" };
 
+      const emailTrim = email.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailTrim))
+        return { success: false, error: "INVALID_EMAIL" };
+
       const passwordHash = await bcrypt.hash(password, 10);
 
       const transaction = db.transaction(() => {
@@ -65,7 +70,7 @@ export function registerUserHandlers(db: SqliteDb) {
           .prepare(
             "INSERT INTO User (name, email, passwordHash, role) VALUES (?, ?, ?, ?)",
           )
-          .run(name.trim(), email.trim(), passwordHash, "admin");
+          .run(name.trim(), emailTrim, passwordHash, "admin");
 
         const userId = result.lastInsertRowid as number;
 
@@ -103,9 +108,14 @@ export function registerUserHandlers(db: SqliteDb) {
       if (!name?.trim() || !email?.trim() || !password)
         return { success: false, error: "INVALID_INPUT" };
 
+      const emailTrim = email.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailTrim))
+        return { success: false, error: "INVALID_EMAIL" };
+
       const existing = db
         .prepare("SELECT * FROM User WHERE email = ?")
-        .get(email.trim());
+        .get(emailTrim);
       if (existing) return { success: false, error: "EMAIL_EXISTS" };
 
       const passwordHash = await bcrypt.hash(password, 10);
@@ -115,7 +125,7 @@ export function registerUserHandlers(db: SqliteDb) {
           .prepare(
             "INSERT INTO User (name, email, passwordHash, role) VALUES (?, ?, ?, ?)",
           )
-          .run(name.trim(), email.trim(), passwordHash, "staff");
+          .run(name.trim(), emailTrim, passwordHash, "staff");
 
         const userId = result.lastInsertRowid as number;
 
@@ -218,9 +228,14 @@ export function registerUserHandlers(db: SqliteDb) {
       if (!name?.trim() || !email?.trim() || !password)
         return { success: false, error: "MISSING_FIELDS" };
 
+      const emailTrim = email.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailTrim))
+        return { success: false, error: "INVALID_EMAIL" };
+
       const existing = db
         .prepare("SELECT * FROM User WHERE email = ?")
-        .get(email.trim());
+        .get(emailTrim);
       if (existing) return { success: false, error: "EMAIL_EXISTS" };
 
       const passwordHash = await bcrypt.hash(password, 10);
@@ -230,7 +245,7 @@ export function registerUserHandlers(db: SqliteDb) {
           .prepare(
             "INSERT INTO User (name, email, passwordHash, role) VALUES (?, ?, ?, ?)",
           )
-          .run(name.trim(), email.trim(), passwordHash, role);
+          .run(name.trim(), emailTrim, passwordHash, role);
 
         const userId = result.lastInsertRowid as number;
 

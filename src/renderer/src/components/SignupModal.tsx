@@ -68,12 +68,15 @@ export default function SignupModal({ role, onSuccess }: Props) {
           <input
             required
             name="name"
+            maxLength={50}
             className="w-full p-2 mb-2 rounded bg-slate-700"
             placeholder={t("SignupModal.namePlaceholder")}
           />
           <input
             required
             name="email"
+            type="email"
+            maxLength={50}
             className="w-full p-2 mb-2 rounded bg-slate-700"
             placeholder={t("SignupModal.emailPlaceholder")}
           />
@@ -82,6 +85,7 @@ export default function SignupModal({ role, onSuccess }: Props) {
             name="password"
             className="w-full p-2 mb-4 rounded bg-slate-700"
             type="password"
+            maxLength={50}
             placeholder={t("SignupModal.passwordPlaceholder")}
           />
           <div className="flex justify-end space-x-2">
