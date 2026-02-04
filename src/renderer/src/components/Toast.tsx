@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react";
+import ReactDOM from "react-dom";
 
 export type ToastProps = {
   message: ReactNode;
@@ -27,10 +28,10 @@ export default function Toast({
   if (type === "success") color = "bg-green-600";
   if (type === "error") color = "bg-red-600";
 
-  return (
+  const toastEl = (
     <div
-      className={`fixed z-50 right-4 bottom-4 min-w-[320px] max-w-lg px-4 py-3 rounded shadow-lg text-white ${color} animate-fade-in-up`}
-      style={{ pointerEvents: "auto" }}
+      className={`fixed right-4 bottom-4 min-w-[320px] max-w-lg px-4 py-3 rounded shadow-lg text-white ${color} animate-fade-in-up`}
+      style={{ pointerEvents: "auto", zIndex: 99999 }}
       role="alert"
     >
       <div className="flex items-start justify-between w-full">
@@ -45,6 +46,9 @@ export default function Toast({
       </div>
     </div>
   );
+
+  if (typeof document === "undefined") return toastEl;
+  return ReactDOM.createPortal(toastEl, document.body);
 }
 
 // Tailwind animation (add to your global CSS if not present):

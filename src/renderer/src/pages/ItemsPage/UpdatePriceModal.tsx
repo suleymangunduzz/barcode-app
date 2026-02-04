@@ -31,6 +31,7 @@ export default function UpdatePriceModal({ item, onClose, onSuccess }: Props) {
       return;
     }
 
+    toast({ type: "success", message: t("ItemsPage.UpdatePrice.success") });
     onSuccess();
     onClose();
   }

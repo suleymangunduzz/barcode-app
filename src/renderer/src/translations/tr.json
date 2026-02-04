@@ -98,7 +98,9 @@
     },
     "UpdatePrice": {
       "price": "Satış Fiyatı",
-      "title": "Satış Fiyatını Güncelle"
+      "title": "Satış Fiyatını Güncelle",
+      "success": "✅ Fiyat başarıyla güncellendi!",
+      "error": "❌ Fiyat güncellenemedi. Lütfen tekrar deneyin."
     },
     "toast": {
       "addedToCart": "{{name}} sepete eklendi!",

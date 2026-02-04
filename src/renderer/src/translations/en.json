@@ -98,7 +98,9 @@
     },
     "UpdatePrice": {
       "price": "Price",
-      "title": "Update Selling Price"
+      "title": "Update Selling Price",
+      "success": "✅ Price updated successfully!",
+      "error": "❌ Failed to update price. Please try again."
     },
     "toast": {
       "addedToCart": "{{name}} added to cart!",

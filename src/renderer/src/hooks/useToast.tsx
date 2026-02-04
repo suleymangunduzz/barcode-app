@@ -59,6 +59,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
 export default function useToast() {
   const ctx = useContext(ToastContext);
-  if (!ctx) throw new Error("useToast must be used within a ToastProvider");
+  if (!ctx) {
+    console.warn(
+      "useToast must be used within a ToastProvider — falling back to noop",
+    );
+    return (_opts: { type?: ToastProps["type"]; message: ReactNode; duration?: number }) => {
+      /* noop */
+    };
+  }
   return ctx.toast;
 }
