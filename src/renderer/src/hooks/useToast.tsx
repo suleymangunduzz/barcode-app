@@ -38,7 +38,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       setDuration(duration);
       setShow(true);
     },
-    []
+    [],
   );
 
   const handleClose = useCallback(() => setShow(false), []);
@@ -63,7 +63,11 @@ export default function useToast() {
     console.warn(
       "useToast must be used within a ToastProvider — falling back to noop",
     );
-    return (_opts: { type?: ToastProps["type"]; message: ReactNode; duration?: number }) => {
+    return (_opts: {
+      type?: ToastProps["type"];
+      message: ReactNode;
+      duration?: number;
+    }) => {
       /* noop */
     };
   }

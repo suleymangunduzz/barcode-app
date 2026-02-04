@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Item } from "@/types/DB";
+import useToast from "@/hooks/useToast";
 
 type Props = {
   item: Item;
@@ -14,6 +15,7 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const toast = useToast();
 
   async function handleSubmit() {
     if (!quantity || !reason) {
@@ -31,10 +33,12 @@ export default function UpdateStockModal({ item, onClose, onSuccess }: Props) {
     );
 
     if (response.success) {
+      toast({ type: "success", message: t("ItemsPage.UpdateStock.success") });
       onSuccess();
       onClose();
     } else {
       setError(t("ItemsPage.Errors.updateFailed"));
+      toast({ type: "error", message: t("ItemsPage.UpdateStock.error") });
     }
 
     setLoading(false);

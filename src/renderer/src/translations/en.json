@@ -102,6 +102,10 @@
       "success": "✅ Price updated successfully!",
       "error": "❌ Failed to update price. Please try again."
     },
+    "UpdateStock": {
+      "success": "✅ Stock updated successfully!",
+      "error": "❌ Failed to update stock. Please try again."
+    },
     "toast": {
       "addedToCart": "{{name}} added to cart!",
       "insufficientStock": "❌ Not enough stock for {{name}}.",

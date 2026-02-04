@@ -102,6 +102,10 @@
       "success": "✅ Fiyat başarıyla güncellendi!",
       "error": "❌ Fiyat güncellenemedi. Lütfen tekrar deneyin."
     },
+    "UpdateStock": {
+      "success": "✅ Stok başarıyla güncellendi!",
+      "error": "❌ Stok güncellenemedi. Lütfen tekrar deneyin."
+    },
     "toast": {
       "addedToCart": "{{name}} sepete eklendi!",
       "insufficientStock": "❌ {{name}} için yeterli stok yok.",
