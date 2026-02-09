@@ -1,13 +1,6 @@
 import Database from "better-sqlite3";
-import {
-  startOfDay,
-  startOfWeek,
-  startOfMonth,
-  startOfYear,
-  endOfDay,
-  endOfMonth,
-} from "date-fns";
 import { generateSalesReportForRange } from "../ipcHandlers/reports";
+import { computeReportDateRange } from "./dateRanges";
 
 type SqliteDb = ReturnType<typeof Database>;
 
@@ -22,63 +15,12 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
       const now = new Date();
 
       for (const s of schedules) {
-        const type = (s.type || "").toLowerCase();
         const lastRun = s.lastRunAt ? new Date(s.lastRunAt) : null;
-
-        const inLastTwoHours = now.getHours() >= 24 - 2; // >=22
-        if (!inLastTwoHours) continue; // only run in last 2 hours of day
-
-        let shouldRun = false;
-        let from: Date = startOfDay(now);
-        let to: Date = endOfDay(now);
-
-        if (type === "daily") {
-          // daily: full today
-          from = startOfDay(now);
-          to = endOfDay(now);
-          // avoid multiple sends in same day
-          if (lastRun && lastRun >= startOfDay(now)) shouldRun = false;
-          else shouldRun = true;
-        } else if (type === "weekly") {
-          // weekly: full week (Monday -> Sunday) up to today (send on Sunday)
-          const weekStart = startOfWeek(now, { weekStartsOn: 1 });
-          from = weekStart;
-          to = endOfDay(now);
-          // send only on Sunday (0)
-          if (now.getDay() !== 0) {
-            shouldRun = false;
-          } else {
-            if (lastRun && lastRun >= weekStart) shouldRun = false;
-            else shouldRun = true;
-          }
-        } else if (type === "monthly") {
-          // monthly: full month (1st -> last day), run on last day of month
-          const monthStart = startOfMonth(now);
-          const monthEnd = endOfMonth(now);
-          const isLastDay = now.getDate() === monthEnd.getDate();
-          if (!isLastDay) {
-            shouldRun = false;
-          } else {
-            from = monthStart;
-            to = monthEnd;
-            if (lastRun && lastRun >= monthStart) shouldRun = false;
-            else shouldRun = true;
-          }
-        } else if (type === "yearly") {
-          // last day of year
-          const isLastDayOfYear = now.getMonth() === 11 && now.getDate() === 31;
-          if (!isLastDayOfYear) {
-            shouldRun = false;
-          } else {
-            from = startOfYear(now);
-            to = endOfDay(now);
-            if (lastRun && lastRun >= startOfYear(now)) shouldRun = false;
-            else shouldRun = true;
-          }
-        } else {
-          // unknown type -> skip
-          shouldRun = false;
-        }
+        const { from, to, shouldRun } = computeReportDateRange(
+          s.type,
+          now,
+          lastRun,
+        );
 
         if (!shouldRun) continue;
 
