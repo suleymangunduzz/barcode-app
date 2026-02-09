@@ -5,6 +5,7 @@ import {
   startOfMonth,
   startOfYear,
   endOfDay,
+  endOfMonth,
 } from "date-fns";
 import { generateSalesReportForRange } from "../ipcHandlers/reports";
 
@@ -39,27 +40,28 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
           if (lastRun && lastRun >= startOfDay(now)) shouldRun = false;
           else shouldRun = true;
         } else if (type === "weekly") {
-          // weekly: full week up to today
-          from = startOfWeek(now);
+          // weekly: full week (Monday -> Sunday) up to today (send on Sunday)
+          const weekStart = startOfWeek(now, { weekStartsOn: 1 });
+          from = weekStart;
           to = endOfDay(now);
           // send only on Sunday (0)
           if (now.getDay() !== 0) {
             shouldRun = false;
           } else {
-            if (lastRun && lastRun >= startOfWeek(now)) shouldRun = false;
+            if (lastRun && lastRun >= weekStart) shouldRun = false;
             else shouldRun = true;
           }
         } else if (type === "monthly") {
-          // last day of month
-          const tomorrow = new Date(now);
-          tomorrow.setDate(now.getDate() + 1);
-          const isLastDay = tomorrow.getDate() === 1;
+          // monthly: full month (1st -> last day), run on last day of month
+          const monthStart = startOfMonth(now);
+          const monthEnd = endOfMonth(now);
+          const isLastDay = now.getDate() === monthEnd.getDate();
           if (!isLastDay) {
             shouldRun = false;
           } else {
-            from = startOfMonth(now);
-            to = endOfDay(now);
-            if (lastRun && lastRun >= startOfMonth(now)) shouldRun = false;
+            from = monthStart;
+            to = monthEnd;
+            if (lastRun && lastRun >= monthStart) shouldRun = false;
             else shouldRun = true;
           }
         } else if (type === "yearly") {
