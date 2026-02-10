@@ -109,14 +109,15 @@ export async function generateSalesReportForRange(
       if (!sendRes.error) {
         emailed = true;
         messageId = sendRes.messageId || null;
-        try {
-          fs.unlinkSync(outPath);
-        } catch (err) {
-          console.error("Error deleting report file:", err);
-        }
       }
     } catch (err) {
       console.error("Error sending report email:", err);
+    } finally {
+      try {
+        fs.unlinkSync(outPath);
+      } catch {
+        // file already removed or inaccessible
+      }
     }
   }
 

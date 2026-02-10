@@ -65,6 +65,9 @@ export async function smtpEmailClient(
         user: cfg.user,
         pass: cfg.pass,
       },
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 30_000,
     });
 
     const from = cfg.from || cfg.user;

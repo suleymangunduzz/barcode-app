@@ -39,10 +39,12 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
             `[ReportsScheduler] Report result for id=${s.id}: emailed=${res.emailed}`,
           );
 
-          // update lastRunAt
-          db.prepare(
-            "UPDATE ReportSchedule SET lastRunAt = ? WHERE id = ?",
-          ).run(new Date().toISOString(), s.id);
+          // only mark as run if the email was actually sent
+          if (res.emailed) {
+            db.prepare(
+              "UPDATE ReportSchedule SET lastRunAt = ? WHERE id = ?",
+            ).run(new Date().toISOString(), s.id);
+          }
         } catch (err) {
           console.error(
             "[ReportsScheduler] Error sending report for schedule",
