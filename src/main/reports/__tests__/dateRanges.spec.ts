@@ -72,9 +72,14 @@ describe("computeReportDateRange – weekly", () => {
     expect(result.to).toEqual(endOfWeek(d(2026, 2, 8), { weekStartsOn: 1 }));
   });
 
-  it("should NOT run on other weekdays", () => {
+  it("should also run on other weekdays for the same previous week", () => {
     const result = computeReportDateRange("weekly", tuesday, null);
-    expect(result.shouldRun).toBe(false);
+    expect(result.shouldRun).toBe(true);
+    // Same previous week (Mon Feb 2 – Sun Feb 8)
+    expect(result.from).toEqual(
+      startOfWeek(d(2026, 2, 2), { weekStartsOn: 1 }),
+    );
+    expect(result.to).toEqual(endOfWeek(d(2026, 2, 8), { weekStartsOn: 1 }));
   });
 
   it("should NOT run if already ran for previous week", () => {
@@ -97,10 +102,13 @@ describe("computeReportDateRange – monthly", () => {
     expect(result.to).toEqual(endOfMonth(d(2026, 2, 1)));
   });
 
-  it("should NOT run on a non-1st day", () => {
+  it("should also run mid-month if previous month is unreported", () => {
     const now = d(2026, 2, 15, 10, 0);
     const result = computeReportDateRange("monthly", now, null);
-    expect(result.shouldRun).toBe(false);
+    expect(result.shouldRun).toBe(true);
+    // Reports for January
+    expect(result.from).toEqual(startOfMonth(d(2026, 1, 1)));
+    expect(result.to).toEqual(endOfMonth(d(2026, 1, 1)));
   });
 
   it("should NOT run if already ran for previous month", () => {
@@ -124,10 +132,12 @@ describe("computeReportDateRange – yearly", () => {
     expect(result.to).toEqual(endOfYear(d(2025, 12, 31)));
   });
 
-  it("should NOT run on any other day", () => {
+  it("should also run mid-year if previous year is unreported", () => {
     const now = d(2026, 6, 15, 10, 0);
     const result = computeReportDateRange("yearly", now, null);
-    expect(result.shouldRun).toBe(false);
+    expect(result.shouldRun).toBe(true);
+    expect(result.from).toEqual(startOfYear(d(2025, 1, 1)));
+    expect(result.to).toEqual(endOfYear(d(2025, 12, 31)));
   });
 
   it("should NOT run if already ran for previous year", () => {

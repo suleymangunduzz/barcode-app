@@ -77,9 +77,12 @@ export async function generateSalesReportForRange(
       `;
 
   // create a hidden BrowserWindow to render HTML and print to PDF
+  // offscreen: true causes SIGSEGV on macOS (CVDisplayLink / GPU issue)
   const win = new BrowserWindow({
     show: false,
-    webPreferences: { offscreen: true },
+    ...(process.platform !== "darwin" && {
+      webPreferences: { offscreen: true },
+    }),
   });
   const dataUrl = "data:text/html;charset=utf-8," + encodeURIComponent(html);
   await win.loadURL(dataUrl);
