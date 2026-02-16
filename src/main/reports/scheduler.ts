@@ -40,10 +40,11 @@ export function startReportScheduler(db: SqliteDb, intervalMs = 5 * 60 * 1000) {
           );
 
           // only mark as run if the email was actually sent
+          // store the period end (e.g., yesterday/week/month/year end)
           if (res.emailed) {
             db.prepare(
               "UPDATE ReportSchedule SET lastRunAt = ? WHERE id = ?",
-            ).run(new Date().toISOString(), s.id);
+            ).run(to.toISOString(), s.id);
           }
         } catch (err) {
           console.error(

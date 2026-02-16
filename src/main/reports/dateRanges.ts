@@ -7,6 +7,10 @@ import {
   endOfWeek,
   endOfMonth,
   endOfYear,
+  subDays,
+  subWeeks,
+  subMonths,
+  subYears,
 } from "date-fns";
 
 export interface ReportDateRange {
@@ -21,11 +25,11 @@ export interface ReportDateRange {
  *
  * Rules
  * ─────
- * • Reports only trigger during the last 2 hours of the relevant day (≥ 22:00).
- * • Daily   — every day; range = start-of-day → end-of-day.
- * • Weekly  — every Sunday; range = Monday 00:00 → Sunday 23:59:59.
- * • Monthly — last day of the month; range = 1st 00:00 → last-day 23:59:59.
- * • Yearly  — December 31; range = Jan 1 00:00 → Dec 31 23:59:59.
+ * • No time-of-day gate. Scheduler can run any time.
+ * • Daily   — send the next day for the previous day.
+ * • Weekly  — send on Monday for the previous week (Mon–Sun).
+ * • Monthly — send on the 1st for the previous month.
+ * • Yearly  — send on Jan 1 for the previous year.
  *
  * If the report was already sent during the current period (`lastRunAt`
  * falls inside or after the period start) it will NOT run again.
@@ -40,9 +44,6 @@ export function computeReportDateRange(
     to: endOfDay(now),
     shouldRun: false,
   };
-
-  // Only run in the last 2 hours of the day (22:00–23:59)
-  if (now.getHours() < 22) return NO_RUN;
 
   const normalizedType = (type || "").toLowerCase().trim();
 
@@ -62,55 +63,53 @@ export function computeReportDateRange(
 
 /* ── helpers ─────────────────────────────────────────────────────── */
 
-function alreadyRanInPeriod(
-  lastRunAt: Date | null,
-  periodStart: Date,
-): boolean {
-  return lastRunAt !== null && lastRunAt >= periodStart;
+function alreadyRanForPeriod(lastRunAt: Date | null, periodEnd: Date): boolean {
+  return lastRunAt !== null && lastRunAt >= periodEnd;
 }
 
 function computeDaily(now: Date, lastRunAt: Date | null): ReportDateRange {
-  const from = startOfDay(now);
-  const to = endOfDay(now);
-  const shouldRun = !alreadyRanInPeriod(lastRunAt, from);
+  const targetDay = subDays(now, 1);
+  const from = startOfDay(targetDay);
+  const to = endOfDay(targetDay);
+  const shouldRun = !alreadyRanForPeriod(lastRunAt, to);
   return { from, to, shouldRun };
 }
 
 function computeWeekly(now: Date, lastRunAt: Date | null): ReportDateRange {
-  // Send on Sunday (getDay() === 0)
-  if (now.getDay() !== 0) {
+  // Send on Monday (getDay() === 1) for previous week
+  if (now.getDay() !== 1) {
     return { from: startOfDay(now), to: endOfDay(now), shouldRun: false };
   }
 
-  // Week runs Monday → Sunday
-  const from = startOfWeek(now, { weekStartsOn: 1 }); // Monday 00:00
-  const to = endOfWeek(now, { weekStartsOn: 1 }); // Sunday 23:59:59
-  const shouldRun = !alreadyRanInPeriod(lastRunAt, from);
+  const prevWeek = subWeeks(now, 1);
+  const from = startOfWeek(prevWeek, { weekStartsOn: 1 }); // Monday 00:00
+  const to = endOfWeek(prevWeek, { weekStartsOn: 1 }); // Sunday 23:59:59
+  const shouldRun = !alreadyRanForPeriod(lastRunAt, to);
   return { from, to, shouldRun };
 }
 
 function computeMonthly(now: Date, lastRunAt: Date | null): ReportDateRange {
-  const monthEnd = endOfMonth(now);
-
-  // Only run on the last day of the month
-  if (now.getDate() !== monthEnd.getDate()) {
+  // Send on the 1st for previous month
+  if (now.getDate() !== 1) {
     return { from: startOfDay(now), to: endOfDay(now), shouldRun: false };
   }
 
-  const from = startOfMonth(now);
-  const to = monthEnd;
-  const shouldRun = !alreadyRanInPeriod(lastRunAt, from);
+  const prevMonth = subMonths(now, 1);
+  const from = startOfMonth(prevMonth);
+  const to = endOfMonth(prevMonth);
+  const shouldRun = !alreadyRanForPeriod(lastRunAt, to);
   return { from, to, shouldRun };
 }
 
 function computeYearly(now: Date, lastRunAt: Date | null): ReportDateRange {
-  // Only run on December 31
-  if (now.getMonth() !== 11 || now.getDate() !== 31) {
+  // Send on Jan 1 for previous year
+  if (now.getMonth() !== 0 || now.getDate() !== 1) {
     return { from: startOfDay(now), to: endOfDay(now), shouldRun: false };
   }
 
-  const from = startOfYear(now);
-  const to = endOfYear(now);
-  const shouldRun = !alreadyRanInPeriod(lastRunAt, from);
+  const prevYear = subYears(now, 1);
+  const from = startOfYear(prevYear);
+  const to = endOfYear(prevYear);
+  const shouldRun = !alreadyRanForPeriod(lastRunAt, to);
   return { from, to, shouldRun };
 }
