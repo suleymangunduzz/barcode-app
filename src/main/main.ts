@@ -58,7 +58,6 @@ async function createWindow() {
  * Register all IPC handlers
  */
 function registerHandlers() {
-  console.log("[Electron] Registering IPC handlers...");
   registerItemHandlers(db);
   registerStockHandlers(db);
   registerSaleHandlers(db);

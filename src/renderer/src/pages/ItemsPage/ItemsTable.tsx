@@ -5,7 +5,6 @@ import LazyModal from "@/components/LazyModal";
 import { Item } from "@/types/DB";
 import { useCart } from "@/context/CartContext";
 
-
 type Props = {
   items?: Item[]; // make optional to be defensive
   isAdmin: boolean;
@@ -23,6 +22,7 @@ export default function ItemsTable({
 }: Props) {
   const { t } = useTranslation();
   const [barcodeToView, setBarcodeToView] = useState<string | null>(null);
+  const [itemNameForBarcode, setItemNameForBarcode] = useState<string>("");
 
   const { addItem } = useCart();
   const handleAddToCart = async (item: Item) => {
@@ -108,7 +108,10 @@ export default function ItemsTable({
                       {t("ItemsPage.Actions.addToCart")}
                     </button>
                     <button
-                      onClick={() => setBarcodeToView(item.barcode)}
+                      onClick={() => {
+                        setBarcodeToView(item.barcode);
+                        setItemNameForBarcode(item.name);
+                      }}
                       className="
                         px-3 py-1 text-base rounded
                         bg-emerald-600 text-white
@@ -166,6 +169,7 @@ export default function ItemsTable({
           onClose={() => setBarcodeToView(null)}
           fallback={null}
           value={barcodeToView}
+          itemName={itemNameForBarcode}
         />
       }
     </div>

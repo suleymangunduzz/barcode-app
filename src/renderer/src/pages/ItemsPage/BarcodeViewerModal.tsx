@@ -6,10 +6,15 @@ import JsBarcode from "jsbarcode";
 
 type Props = {
   value: string;
+  itemName: string;
   onClose: () => void;
 };
 
-export default function BarcodeViewerModal({ value, onClose }: Props) {
+export default function BarcodeViewerModal({
+  value,
+  onClose,
+  itemName,
+}: Props) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const toast = useToast();
   const { t } = useTranslation();
@@ -119,7 +124,7 @@ export default function BarcodeViewerModal({ value, onClose }: Props) {
 
       const a = document.createElement("a");
       a.href = pngData;
-      a.download = `${value}.png`;
+      a.download = `${itemName.replace(/ /g, "_")}_barkod.png`;
       document.body.appendChild(a);
       a.click();
       a.remove();
